@@ -185,6 +185,56 @@ document.addEventListener("DOMContentLoaded", () => {
 })();
 
 /* ---------------------------------------------------------------------- */
+/* MASK REVEAL — headings wipe up from behind a clipped mask on scroll-in.
+   Wraps the element's existing content in a mask/inner span pair, so no
+   HTML file needs to be touched for this to apply. Skips .hero-title,
+   which already runs its own word-by-word intro animation. */
+function initMaskReveal() {
+  const targets = document.querySelectorAll(
+    "h2:not(.hero-title), .page-head h1, .proj-header h1, .about-quote"
+  );
+  targets.forEach((el) => {
+    if (el.dataset.masked) return;
+    el.innerHTML = `<span class="mask-line"><span class="mask-inner">${el.innerHTML}</span></span>`;
+    el.dataset.masked = "1";
+  });
+  if (!targets.length) return;
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.querySelector(".mask-line")?.classList.add("is-visible");
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.35 });
+  targets.forEach((el) => io.observe(el));
+}
+document.addEventListener("DOMContentLoaded", initMaskReveal);
+
+/* ---------------------------------------------------------------------- */
+/* CURTAIN IMAGE REVEAL — a solid panel slides away to uncover an image.
+   Exposed globally so render-home.js / render-projects.js can call it
+   again after they inject project cards / collage items dynamically. */
+function enhanceReveal(container) {
+  const root = container || document;
+  const els = root.querySelectorAll(
+    ".sp-frame:not(.img-reveal), .about-photo:not(.img-reveal), .c-item .c-img:not(.img-reveal)"
+  );
+  if (!els.length) return;
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("is-visible");
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.2 });
+  els.forEach((el) => { el.classList.add("img-reveal"); io.observe(el); });
+}
+window.enhanceReveal = enhanceReveal;
+document.addEventListener("DOMContentLoaded", () => enhanceReveal());
+
+/* ---------------------------------------------------------------------- */
 /* NAVBAR — hide on scroll down, show on scroll up */
 (function navbar() {
   const nav = document.getElementById("navbar");
@@ -245,58 +295,81 @@ let lenis;
 })();
 
 /* ---------------------------------------------------------------------- */
-/* AMBIENT BACKGROUND FIELD (34) — soft moving grain/shapes on a canvas.
-   Static-by-default: it drifts gently and never competes with imagery. */
+/* AMBIENT BACKGROUND FIELD (34, iteration 2) — soft, irregular organic
+   shapes (not circular "blobs") that drift and breathe extremely slowly,
+   plus a faint grain layer (#bg-grain, static in the DOM, styled in CSS)
+   for an editorial paper-like texture. Reacts a little to the cursor.
+   Static-by-default: motion is slow enough that the field just feels
+   "alive" rather than "animated". */
 (function backgroundField() {
   const canvas = document.getElementById("bg-field");
   if (!canvas || prefersReduced) return;
   const ctx = canvas.getContext("2d");
-  let w, h, blobs;
+  let w, h, shapes;
+  let px = 0.5, py = 0.5; // pointer, normalized
+
+  addEventListener("mousemove", (e) => {
+    px = e.clientX / innerWidth; py = e.clientY / innerHeight;
+  });
 
   function resize() {
     w = canvas.width = innerWidth;
     h = canvas.height = innerHeight;
   }
-  function makeBlobs() {
-    const colors = ["--cobalt", "--lime", "--coral"];
-    blobs = colors.map((c, i) => ({
-      color: getComputedStyle(document.documentElement).getPropertyValue(c).trim(),
-      x: (0.2 + i * 0.3) * w,
-      y: (0.25 + (i % 2) * 0.4) * h,
-      r: Math.min(w, h) * (0.16 + i * 0.03),
-      vx: 0.06 + i * 0.02,
-      vy: 0.045 + i * 0.015,
-      t: i * 120
-    }));
-  }
-  resize(); makeBlobs();
-  addEventListener("resize", () => { resize(); makeBlobs(); });
 
-  function draw() {
-    ctx.clearRect(0, 0, w, h);
-    ctx.globalCompositeOperation = "lighter";
-    blobs.forEach((b) => {
-      b.t += 1;
-      const x = b.x + Math.sin(b.t * 0.002 * b.vx) * w * 0.12;
-      const y = b.y + Math.cos(b.t * 0.0016 * b.vy) * h * 0.12;
-      const grad = ctx.createRadialGradient(x, y, 0, x, y, b.r);
-      grad.addColorStop(0, hexAlpha(b.color, 0.16));
-      grad.addColorStop(1, hexAlpha(b.color, 0));
-      ctx.fillStyle = grad;
-      ctx.beginPath();
-      ctx.arc(x, y, b.r, 0, Math.PI * 2);
-      ctx.fill();
-    });
-    ctx.globalCompositeOperation = "source-over";
-    requestAnimationFrame(draw);
+  // Each shape is an irregular polygon (a wobbled circle) so the field
+  // reads as "organic composition" rather than perfect gradient circles.
+  function makeShape(colorVar, cx, cy, radius, points, wobble, seed) {
+    return { colorVar, cx, cy, radius, points, wobble, seed, t: seed * 90 };
   }
+  function makeShapes() {
+    shapes = [
+      makeShape("--rose",     0.22, 0.28, Math.min(w, h) * 0.32, 9, 0.22, 0),
+      makeShape("--lavender", 0.78, 0.22, Math.min(w, h) * 0.26, 8, 0.26, 1),
+      makeShape("--peach",    0.55, 0.72, Math.min(w, h) * 0.30, 10, 0.2, 2),
+      makeShape("--coral",    0.85, 0.78, Math.min(w, h) * 0.18, 7, 0.3, 3)
+    ];
+  }
+  resize(); makeShapes();
+  addEventListener("resize", () => { resize(); makeShapes(); });
+
+  function pathFor(shape) {
+    const cx = shape.cx * w + (px - 0.5) * 40;
+    const cy = shape.cy * h + (py - 0.5) * 40;
+    const path = new Path2D();
+    for (let i = 0; i <= shape.points; i++) {
+      const a = (i / shape.points) * Math.PI * 2;
+      const wob = 1 + Math.sin(a * 3 + shape.t * 0.01) * shape.wobble;
+      const r = shape.radius * wob;
+      const x = cx + Math.cos(a) * r;
+      const y = cy + Math.sin(a) * r * 0.9;
+      if (i === 0) path.moveTo(x, y); else path.lineTo(x, y);
+    }
+    path.closePath();
+    return path;
+  }
+
   function hexAlpha(hex, a) {
-    if (hex.startsWith("#")) {
+    if (hex && hex.startsWith("#")) {
       const n = parseInt(hex.slice(1), 16);
       const r = (n >> 16) & 255, g = (n >> 8) & 255, b = n & 255;
       return `rgba(${r},${g},${b},${a})`;
     }
     return hex;
   }
+
+  function draw() {
+    ctx.clearRect(0, 0, w, h);
+    ctx.filter = "blur(38px)";
+    shapes.forEach((s) => {
+      s.t += 0.35;
+      const color = getComputedStyle(document.documentElement).getPropertyValue(s.colorVar).trim();
+      ctx.fillStyle = hexAlpha(color, 0.5);
+      ctx.fill(pathFor(s));
+    });
+    ctx.filter = "none";
+    requestAnimationFrame(draw);
+  }
   requestAnimationFrame(draw);
 })();
+

@@ -7,6 +7,10 @@
 document.addEventListener("DOMContentLoaded", () => {
 
   /* ---- HERO INTRO ------------------------------------------------- */
+  // Fallback path if GSAP/motion.js isn't available: just add "in" so the
+  // CSS word-reveal still plays. When GSAP *is* loaded, js/motion.js's
+  // own "loaderdone" listener drives a fuller timeline (role/tagline/
+  // stickers) and also adds this same class — harmless if both fire.
   const heroTitle = document.querySelector(".hero-title");
   function playHero() { if (heroTitle) heroTitle.classList.add("in"); }
   if (document.getElementById("loader")) {

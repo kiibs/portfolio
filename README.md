@@ -90,6 +90,23 @@ properties at the top of `css/style.css` (`:root` for light mode,
 `html[data-theme="dark"]` for dark mode). Fonts are loaded via
 `@import` at the very top of the same file.
 
+**Software colors** → each tool in `TOOLS` (`js/data.js`) has a `color`.
+Project thumbnails show up to 3 small colored dots (one per tool used) —
+see `toolDotsHTML()` in `js/render-home.js`.
+
+**Project "worlds" (filter-driven layouts)** → a category can define a
+`mode` in `CATEGORIES` (`js/data.js`): `"posters"`, `"editorial"`,
+`"branding"` or `"3d"`. When that category is the only active filter on
+`projects.html`, the collage transforms into that visual metaphor (poster
+wall / editorial shelf / brand wall / floating gallery) — see PROJECT
+WORLDS in `css/style.css` and `js/render-projects.js`. Leave `mode`
+off a category to keep it in the normal grid.
+
+**Stickers** → the small decorative objects in the Hero (`.sticker`
+elements in `index.html`) are a deliberately small, reused set — add
+more sparingly by copying an existing one, not by inventing new shapes
+per page. Their motion lives in `js/motion.js` (STICKER SYSTEM).
+
 ## Notes
 
 - Images use `picsum.photos` placeholders so the demo works out of the
@@ -98,3 +115,12 @@ properties at the top of `css/style.css` (`:root` for light mode,
 - The preloader only appears once per browser session (and again after
   a language switch, which reloads the page).
 - Dark/light mode and language both persist via `localStorage`.
+- GSAP + ScrollTrigger are loaded from CDN and drive the hero
+  choreography, scroll parallax, project-world transitions and the
+  count-up numbers (`js/motion.js`). The site still works if that CDN
+  is blocked — `js/main.js` covers the base reveal/cursor/theme system
+  on its own — you'd just lose the extra motion layer.
+- The "3D" filter world currently only has one demo project (**Cáscara**,
+  recategorized from Packaging to 3D since it already uses Blender
+  renders). Add more 3D-tagged projects to see the floating gallery mode
+  with a fuller set.

@@ -39,28 +39,41 @@ const SITE = {
   photo: "assets/images/profile.jpg"
 };
 
-// Software chips shown in the Skills section. Add / remove freely.
+// Software chips shown in the Skills section. "color" powers the
+// SOFTWARE COLOR SYSTEM — project thumbnails show a small colored dot per
+// tool used (see render-home.js / render-projects.js), and the Skills
+// chips tint on hover with their own tool color. Inspired by each app's
+// brand color, not copied exactly.
 const TOOLS = [
-  { name: "Photoshop", icon: "https://cdn.simpleicons.org/adobephotoshop" },
-  { name: "Illustrator", icon: "https://cdn.simpleicons.org/adobeillustrator" },
-  { name: "InDesign", icon: "https://cdn.simpleicons.org/adobeindesign" },
-  { name: "After Effects", icon: "https://cdn.simpleicons.org/adobeaftereffects" },
-  { name: "Figma", icon: "https://cdn.simpleicons.org/figma" },
-  { name: "Blender", icon: "https://cdn.simpleicons.org/blender" },
-  { name: "Procreate", icon: "https://cdn.simpleicons.org/procreate" },
-  { name: "Lightroom", icon: "https://cdn.simpleicons.org/adobelightroom" }
+  { name: "Photoshop", icon: "https://cdn.simpleicons.org/adobephotoshop", color: "#2FA3FF" },
+  { name: "Illustrator", icon: "https://cdn.simpleicons.org/adobeillustrator", color: "#FF9A3C" },
+  { name: "InDesign", icon: "https://cdn.simpleicons.org/adobeindesign", color: "#FF4FA0" },
+  { name: "After Effects", icon: "https://cdn.simpleicons.org/adobeaftereffects", color: "#B26BFF" },
+  { name: "Figma", icon: "https://cdn.simpleicons.org/figma", color: "#5ED6A8" },
+  { name: "Blender", icon: "https://cdn.simpleicons.org/blender", color: "#FF8A3D" },
+  { name: "Procreate", icon: "https://cdn.simpleicons.org/procreate", color: "#FF6161" },
+  { name: "Lightroom", icon: "https://cdn.simpleicons.org/adobelightroom", color: "#3FCBFF" }
 ];
+function toolColor(name) {
+  const t = TOOLS.find((t) => t.name === name);
+  return t ? t.color : "#9C8D8F";
+}
+window.toolColor = toolColor;
 
-// Category list — used to build the filter chips on projects.html
+// Category list — used to build the filter chips on projects.html.
+// "mode" (optional) names a PROJECT WORLD from js/render-projects.js —
+// when exactly one category with a "mode" is the active filter, the
+// catalogue transforms into that visual metaphor instead of the default
+// grid (see PROJECT SYSTEM comment block in render-projects.js).
 const CATEGORIES = [
-  { key: "branding", es: "Branding / Identidad", en: "Branding / Identity" },
-  { key: "editorial", es: "Editorial", en: "Editorial" },
-  { key: "posters", es: "Carteles / Campañas", en: "Posters / Campaigns" },
-  { key: "packaging", es: "Packaging", en: "Packaging" },
-  { key: "digital", es: "Diseño Digital", en: "Digital Design" },
-  { key: "illustration", es: "Ilustración", en: "Illustration" },
-  { key: "photography", es: "Fotografía", en: "Photography" },
-  { key: "3d", es: "3D", en: "3D" }
+  { key: "branding", es: "Branding / Identidad", en: "Branding / Identity", accent: "coral", mode: "branding" },
+  { key: "editorial", es: "Editorial", en: "Editorial", accent: "lavender", mode: "editorial" },
+  { key: "posters", es: "Carteles / Campañas", en: "Posters / Campaigns", accent: "rose", mode: "posters" },
+  { key: "packaging", es: "Packaging", en: "Packaging", accent: "peach" },
+  { key: "digital", es: "Diseño Digital", en: "Digital Design", accent: "sage" },
+  { key: "illustration", es: "Ilustración", en: "Illustration", accent: "rose" },
+  { key: "photography", es: "Fotografía", en: "Photography", accent: "coral" },
+  { key: "3d", es: "3D", en: "3D", accent: "lavender", mode: "3d" }
 ];
 
 const I18N = {
@@ -97,6 +110,10 @@ const I18N = {
     filter_tool: "Herramienta",
     filter_reset: "Restablecer filtros",
     no_results: "No hay proyectos con esta combinación de filtros.",
+    mode_posters: "Modo pared de carteles",
+    mode_editorial: "Modo estantería editorial",
+    mode_branding: "Modo muro de marca",
+    mode_3d: "Modo galería flotante",
     type_individual: "Individual",
     type_group: "Grupal",
     meta_year: "Año",
@@ -144,6 +161,10 @@ const I18N = {
     filter_tool: "Tool",
     filter_reset: "Reset filters",
     no_results: "No projects match this filter combination.",
+    mode_posters: "Poster wall mode",
+    mode_editorial: "Editorial shelf mode",
+    mode_branding: "Brand wall mode",
+    mode_3d: "Floating gallery mode",
     type_individual: "Individual",
     type_group: "Group",
     meta_year: "Year",
@@ -254,7 +275,7 @@ const PROJECTS = [
   {
     slug: "cascara",
     year: 2024,
-    category: "packaging",
+    category: "3d",
     tools: ["Illustrator", "Blender"],
     type: "individual",
     featured: true,
