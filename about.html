@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About — Emma Agatiello</title>
+    <meta
+      name="description"
+      content="Sobre Emma Agatiello, diseñadora gráfica y directora de arte. Biografía, formación y disciplinas."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <header class="navbar">
+      <div class="nav-container">
+        <a href="index.html" class="brand-logo">Emma Agatiello</a>
+        <nav class="nav-links">
+          <a href="index.html" class="nav-link" data-i18n="nav_work"
+            >Trabajos</a
+          >
+          <a href="about.html" class="nav-link active" data-i18n="nav_about"
+            >Sobre mí</a
+          >
+          <a href="contact.html" class="nav-link" data-i18n="nav_contact"
+            >Contacto</a
+          >
+          <div class="lang-switch">
+            <button class="lang-btn active" data-lang="es">ES</button>
+            <span>/</span>
+            <button class="lang-btn" data-lang="en">EN</button>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="about-grid">
+        <div class="about-portrait-wrapper">
+          <!-- Reemplazar src por tu fotografía real -->
+          <img
+            src="assets/images/about-portrait.jpg"
+            alt="Emma Agatiello Portrait"
+            class="about-portrait"
+            loading="lazy"
+          />
+        </div>
+
+        <div class="about-content">
+          <h1 class="about-bio" data-i18n="about_bio_1">
+            Soy Emma Agatiello, diseñadora gráfica recién graduada apasionada
+            por el diseño editorial, la dirección de arte y las identidades de
+            marca con carácter contemporáneo.
+          </h1>
+
+          <p
+            style="color: var(--color-text-muted); line-height: 1.8"
+            data-i18n="about_bio_2"
+          >
+            Mi enfoque combina la simplicidad estructural con una rica
+            sensibilidad táctil y cromática, buscando soluciones visuales que
+            sean memorables, funcionales y atemporales.
+          </p>
+
+          <!-- FORMACIÓN -->
+          <div class="about-section-block">
+            <h2 class="about-block-title" data-i18n="about_edu_title">
+              Formación
+            </h2>
+            <div class="about-list">
+              <p class="about-list-item" data-i18n="about_edu_1">
+                Grado en Diseño Gráfico — Escuela Superior de Diseño (2022 -
+                2026)
+              </p>
+              <p class="about-list-item" data-i18n="about_edu_2">
+                Taller de Tipografía Editorial & Print — Studio Session (2025)
+              </p>
+            </div>
+          </div>
+
+          <!-- DISCIPLINAS -->
+          <div class="about-section-block">
+            <h2 class="about-block-title" data-i18n="about_skills_title">
+              Disciplinas
+            </h2>
+            <p class="about-list-item" data-i18n="about_skills_1">
+              Dirección de Arte / Branding & Identidad / Diseño Editorial /
+              Packaging / Tipografía / Estrategia Visual
+            </p>
+          </div>
+
+          <!-- HERRAMIENTAS -->
+          <div class="about-section-block">
+            <h2 class="about-block-title" data-i18n="about_tools_title">
+              Herramientas
+            </h2>
+            <p class="about-list-item" data-i18n="about_tools_1">
+              Adobe Creative Cloud (InDesign, Illustrator, Photoshop, Figma,
+              Lightroom)
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-container">
+        <span data-i18n="footer_rights"
+          >© 2026 Emma Agatiello. Todos los derechos reservados.</span
+        >
+        <span data-i18n="footer_location">Madrid / Remoto</span>
+      </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+  </body>
+</html>
