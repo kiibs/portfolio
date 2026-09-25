@@ -1,205 +1,110 @@
 /**
- * EMMA AGATIELLO — EDITORIAL PORTFOLIO ENGINE
- * Vanilla JS implementation for Loader, Cursor Preview, i18n & Navigation
+ * EMMA AGATIELLO — PORTFOLIO ENGINE
  */
 
 document.addEventListener("DOMContentLoaded", () => {
-  initLoader();
   initI18n();
-  initHoverPreview();
+  initRightSidePreview();
 });
 
 /* ========================================
-     1. EDITORIAL LOADER
-  ======================================== */
-function initLoader() {
-  const loader = document.getElementById("loader");
-  if (!loader) return;
-
-  // Oculta el loader de forma suave una vez completada la carga inicial
-  window.addEventListener("load", () => {
-    setTimeout(() => {
-      loader.classList.add("is-hidden");
-    }, 1200);
-  });
-
-  // Fallback por si la carga tarda demasiado
-  setTimeout(() => {
-    if (!loader.classList.contains("is-hidden")) {
-      loader.classList.add("is-hidden");
-    }
-  }, 3000);
-}
-
-/* ========================================
-     2. TRADUCTOR MULTIIDIOMA (ES / EN)
+     TRADUCTOR MULTIIDIOMA (ES / EN)
   ======================================== */
 const translations = {
   es: {
     nav_work: "Trabajos",
     nav_about: "Sobre mí",
     nav_contact: "Contacto",
-    hero_statement:
-      "Diseño gráfico & dirección de arte enfocado en identidades visuales contemporáneas, publicaciones y sensibilidad editorial.",
-    hero_meta:
-      "Emma Agatiello — Graduada en Diseño Gráfico. Creando proyectos con rigor visual, tipografía sofisticada y atención al detalle.",
-    section_projects: "Proyectos Seleccionados (06)",
-    footer_rights: "© 2026 Emma Agatiello. Todos los derechos reservados.",
-    footer_location: "Madrid / Remoto",
-    about_title: "Diseñadora Gráfica & Directora de Arte",
-    about_bio_1:
-      "Soy Emma Agatiello, diseñadora gráfica recién graduada apasionada por el diseño editorial, la dirección de arte y las identidades de marca con carácter contemporáneo.",
-    about_bio_2:
-      "Mi enfoque combina la simplicidad estructural con una rica sensibilidad táctil y cromática, buscando soluciones visuales que sean memorables, funcionales y atemporales.",
-    about_edu_title: "Formación",
-    about_edu_1:
-      "Grado en Diseño Gráfico — Escuela Superior de Diseño (2022 - 2026)",
-    about_edu_2:
-      "Taller de Tipografía Editorial & Print — Studio Session (2025)",
-    about_skills_title: "Disciplinas",
-    about_skills_1:
-      "Dirección de Arte / Branding & Identidad / Diseño Editorial / Packaging / Tipografía / Estrategia Visual",
-    about_tools_title: "Herramientas",
-    about_tools_1:
-      "Adobe Creative Cloud (InDesign, Illustrator, Photoshop, Figma, Lightroom)",
-    contact_title: "Creemos algo con personalidad y elegancia.",
-    contact_email_label: "Correo Electrónico",
-    contact_social_label: "Redes Profesionales",
-    next_project: "Siguiente Proyecto",
-    view_project: "Ver Proyecto",
-    role_label: "Rol",
-    year_label: "Año",
-    tools_label: "Herramientas",
+    hero_title:
+      "Diseño gráfico & dirección de arte enfocados en identidad visual y sensibilidad editorial.",
+    hero_sub:
+      "Emma Agatiello — Proyectos desarrollados con rigor tipográfico, equilibrio y composiciones contemporáneas.",
+    hover_hint: "Pasa el ratón sobre un proyecto para ver la previsualización",
+    about_intro:
+      "Hola, soy Emma Agatiello. Diseñadora gráfica graduada con enfoque en dirección de arte, branding y publicaciones editoriales.",
+    tools_label: "Herramientas & Software",
+    contact_title: "Hablemos de tu próximo proyecto.",
     category_label: "Categoría",
-    overview_label: "Visión General",
+    year_label: "Año",
+    role_label: "Rol",
+    next_project_label: "Siguiente Proyecto",
+    footer_location: "Madrid / Remoto",
   },
   en: {
     nav_work: "Work",
     nav_about: "About",
     nav_contact: "Contact",
-    hero_statement:
-      "Graphic design & art direction focused on contemporary visual identities, publications and editorial sensibility.",
-    hero_meta:
-      "Emma Agatiello — Graphic Design Graduate. Crafting thoughtful projects through typographic rigor, sophisticated color, and detail.",
-    section_projects: "Selected Projects (06)",
-    footer_rights: "© 2026 Emma Agatiello. All rights reserved.",
-    footer_location: "Madrid / Remote",
-    about_title: "Graphic Designer & Art Director",
-    about_bio_1:
-      "I am Emma Agatiello, a recent Graphic Design graduate passionate about editorial design, art direction, and brand identities with contemporary character.",
-    about_bio_2:
-      "My approach merges structural simplicity with a rich tactile and chromatic sensibility, aiming for visual solutions that feel memorable, functional, and timeless.",
-    about_edu_title: "Education",
-    about_edu_1:
-      "Bachelor's Degree in Graphic Design — Higher School of Design (2022 - 2026)",
-    about_edu_2:
-      "Editorial Typography & Print Workshop — Studio Session (2025)",
-    about_skills_title: "Disciplines",
-    about_skills_1:
-      "Art Direction / Branding & Identity / Editorial Design / Packaging / Typography / Visual Strategy",
-    about_tools_title: "Tools",
-    about_tools_1:
-      "Adobe Creative Cloud (InDesign, Illustrator, Photoshop, Figma, Lightroom)",
-    contact_title: "Let's create something with personality and elegance.",
-    contact_email_label: "Email Address",
-    contact_social_label: "Professional Networks",
-    next_project: "Next Project",
-    view_project: "View Project",
-    role_label: "Role",
-    year_label: "Year",
-    tools_label: "Tools",
+    hero_title:
+      "Graphic design & art direction focused on visual identity and editorial sensibility.",
+    hero_sub:
+      "Emma Agatiello — Projects developed with typographic rigor, balance, and contemporary layouts.",
+    hover_hint: "Hover over a project to reveal preview",
+    about_intro:
+      "Hi, I'm Emma Agatiello. Graphic design graduate focused on art direction, branding, and editorial publications.",
+    tools_label: "Tools & Software",
+    contact_title: "Let's talk about your next project.",
     category_label: "Category",
-    overview_label: "Overview",
+    year_label: "Year",
+    role_label: "Role",
+    next_project_label: "Next Project",
+    footer_location: "Madrid / Remote",
   },
 };
 
 function initI18n() {
-  const currentLang = localStorage.getItem("ea_portfolio_lang") || "es";
+  const currentLang = localStorage.getItem("ea_lang") || "es";
   setLanguage(currentLang);
 
-  const langButtons = document.querySelectorAll(".lang-btn");
-  langButtons.forEach((btn) => {
+  document.querySelectorAll(".lang-btn").forEach((btn) => {
     btn.addEventListener("click", () => {
-      const lang = btn.getAttribute("data-lang");
-      setLanguage(lang);
+      setLanguage(btn.getAttribute("data-lang"));
     });
   });
 }
 
 function setLanguage(lang) {
   if (!translations[lang]) return;
-
-  localStorage.setItem("ea_portfolio_lang", lang);
+  localStorage.setItem("ea_lang", lang);
   document.documentElement.lang = lang;
 
-  // Actualizar textos marcados con data-i18n
-  const elements = document.querySelectorAll("[data-i18n]");
-  elements.forEach((el) => {
+  document.querySelectorAll("[data-i18n]").forEach((el) => {
     const key = el.getAttribute("data-i18n");
     if (translations[lang][key]) {
       el.textContent = translations[lang][key];
     }
   });
 
-  // Actualizar estado de los botones
-  const langButtons = document.querySelectorAll(".lang-btn");
-  langButtons.forEach((btn) => {
-    if (btn.getAttribute("data-lang") === lang) {
-      btn.classList.add("active");
-      btn.setAttribute("aria-current", "true");
-    } else {
-      btn.classList.remove("active");
-      btn.removeAttribute("aria-current");
-    }
+  document.querySelectorAll(".lang-btn").forEach((btn) => {
+    btn.classList.toggle("active", btn.getAttribute("data-lang") === lang);
   });
 }
 
 /* ========================================
-     3. CURSOR HOVER PREVIEW (PROYECTOS)
+     HOVER PREVIEW EN COLUMNA DERECHA
   ======================================== */
-function initHoverPreview() {
-  const previewContainer = document.getElementById("cursor-preview");
-  const previewImg = document.getElementById("cursor-preview-img");
-  const projectItems = document.querySelectorAll(".project-item[data-preview]");
+function initRightSidePreview() {
+  const previewImg = document.getElementById("sticky-preview-img");
+  const placeholderText = document.getElementById("preview-placeholder");
+  const items = document.querySelectorAll(".project-item[data-image]");
 
-  if (!previewContainer || !previewImg || projectItems.length === 0) return;
+  if (!previewImg || items.length === 0) return;
 
-  // Solo activar en pantallas desktop
-  if (window.innerWidth < 769) return;
-
-  let mouseX = 0;
-  let mouseY = 0;
-  let currentX = 0;
-  let currentY = 0;
-
-  document.addEventListener("mousemove", (e) => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-  });
-
-  // Movimiento fluido mediante requestAnimationFrame
-  function render() {
-    currentX += (mouseX - currentX) * 0.12;
-    currentY += (mouseY - currentY) * 0.12;
-
-    previewContainer.style.left = `${currentX}px`;
-    previewContainer.style.top = `${currentY}px`;
-
-    requestAnimationFrame(render);
-  }
-  render();
-
-  projectItems.forEach((item) => {
+  items.forEach((item) => {
     item.addEventListener("mouseenter", () => {
-      const imgSrc = item.getAttribute("data-preview");
+      const imgSrc = item.getAttribute("data-image");
       if (imgSrc) {
         previewImg.src = imgSrc;
-        previewContainer.classList.add("is-active");
+        previewImg.classList.add("is-visible");
+        if (placeholderText) placeholderText.style.opacity = "0";
       }
     });
-
-    item.addEventListener("mouseleave", () => {
-      previewContainer.classList.remove("is-active");
-    });
   });
+
+  const projectContainer = document.querySelector(".projects-editorial");
+  if (projectContainer) {
+    projectContainer.addEventListener("mouseleave", () => {
+      previewImg.classList.remove("is-visible");
+      if (placeholderText) placeholderText.style.opacity = "1";
+    });
+  }
 }

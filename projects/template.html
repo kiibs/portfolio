@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>[PROJECT TITLE] — Emma Agatiello</title>
+    <meta
+      name="description"
+      content="Proyecto de diseño gráfico por Emma Agatiello."
+    />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..600;1,6..96,400&family=Plus+Jakarta+Sans:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Estilos apuntando a la raíz -->
+    <link rel="stylesheet" href="../style.css" />
+  </head>
+  <body>
+    <!-- NAVEGACIÓN -->
+    <header class="navbar">
+      <div class="nav-container">
+        <a href="../index.html" class="brand-logo">Emma Agatiello</a>
+        <nav class="nav-links">
+          <a href="../index.html" class="nav-link active" data-i18n="nav_work"
+            >Trabajos</a
+          >
+          <a href="../about.html" class="nav-link" data-i18n="nav_about"
+            >Sobre mí</a
+          >
+          <a href="../contact.html" class="nav-link" data-i18n="nav_contact"
+            >Contacto</a
+          >
+          <div class="lang-switch">
+            <button class="lang-btn active" data-lang="es">ES</button>
+            <span>/</span>
+            <button class="lang-btn" data-lang="en">EN</button>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      <!-- HEADER EDITORIAL DEL PROYECTO -->
+      <header class="project-header">
+        <span class="project-number-badge">Project 01 / 06</span>
+        <h1 class="project-main-title">[PROJECT TITLE]</h1>
+      </header>
+
+      <!-- FICHA TÉCNICA / METADATOS -->
+      <div class="project-meta-grid">
+        <div>
+          <span class="meta-label" data-i18n="category_label">Categoría</span>
+          <p class="meta-value">[Category / Identity / Editorial]</p>
+        </div>
+        <div>
+          <span class="meta-label" data-i18n="year_label">Año</span>
+          <p class="meta-value">2026</p>
+        </div>
+        <div>
+          <span class="meta-label" data-i18n="role_label">Rol</span>
+          <p class="meta-value">Graphic Designer & Art Director</p>
+        </div>
+        <div>
+          <span class="meta-label" data-i18n="tools_label">Herramientas</span>
+          <p class="meta-value">Adobe InDesign, Illustrator, Photoshop</p>
+        </div>
+      </div>
+
+      <!-- IMAGEN DESTACADA (HERO COVER) -->
+      <div class="project-hero-wrapper">
+        <img
+          src="../assets/images/project-01-cover.jpg"
+          alt="[PROJECT TITLE] Cover"
+          class="project-hero-image"
+        />
+      </div>
+
+      <!-- DECLARACIÓN DE CONCEPTO Y TEXTO -->
+      <section class="project-editorial-block">
+        <div class="project-quote-container">
+          <h2 class="project-quote-text">
+            "[STATEMENT O CITA EDITORIAL SOBRE EL CONCEPTO DEL PROYECTO]"
+          </h2>
+          <p class="project-body-text">
+            [PLACEHOLDER DE DESCRIPCIÓN: Escribe aquí la descripción detallada
+            del proyecto. Explica la estrategia de diseño, el concepto de
+            composición tipográfica, la elección de materiales, colores e
+            intención estética.]
+          </p>
+        </div>
+      </section>
+
+      <!-- GALERÍA EDITORIAL CON ESPACIO NEGATIVO -->
+      <section class="project-gallery-grid">
+        <!-- Fila doble -->
+        <div class="gallery-row-2">
+          <img
+            src="../assets/images/project-01-detail-1.jpg"
+            alt="Detail 1"
+            loading="lazy"
+          />
+          <img
+            src="../assets/images/project-01-detail-2.jpg"
+            alt="Detail 2"
+            loading="lazy"
+          />
+        </div>
+
+        <!-- Imagen completa ancho -->
+        <div class="gallery-row-full">
+          <img
+            src="../assets/images/project-01-detail-3.jpg"
+            alt="Detail 3"
+            loading="lazy"
+          />
+        </div>
+      </section>
+
+      <!-- NAVEGACIÓN AL SIGUIENTE PROYECTO -->
+      <nav class="project-next-nav">
+        <span class="meta-label" data-i18n="next_project_label"
+          >Siguiente Proyecto</span
+        >
+        <a href="project-02.html" class="next-project-title">
+          Maison de L'Ombre →
+        </a>
+      </nav>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="footer-inner">
+        <span>© 2026 Emma Agatiello</span>
+        <span data-i18n="footer_location">Madrid / Remoto</span>
+      </div>
+    </footer>
+
+    <!-- Script apuntando a la raíz -->
+    <script src="../script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact — Emma Agatiello</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..600;1,6..96,400&family=Plus+Jakarta+Sans:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="navbar">
+      <div class="nav-container">
+        <a href="index.html" class="brand-logo">Emma Agatiello</a>
+        <nav class="nav-links">
+          <a href="index.html" class="nav-link" data-i18n="nav_work"
+            >Trabajos</a
+          >
+          <a href="about.html" class="nav-link" data-i18n="nav_about"
+            >Sobre mí</a
+          >
+          <a href="contact.html" class="nav-link active" data-i18n="nav_contact"
+            >Contacto</a
+          >
+          <div class="lang-switch">
+            <button class="lang-btn active" data-lang="es">ES</button>
+            <span>/</span>
+            <button class="lang-btn" data-lang="en">EN</button>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container contact-main">
+      <h1 class="contact-title" data-i18n="contact_title">
+        Hablemos de tu próximo proyecto.
+      </h1>
+
+      <div class="contact-links-list">
+        <a href="mailto:hola@emmaagatiello.com" class="contact-email-link">
+          hola@emmaagatiello.com
+        </a>
+        <a
+          href="https://linkedin.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="contact-social-link"
+        >
+          LinkedIn ↗
+        </a>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        <span>© 2026 Emma Agatiello</span>
+        <span data-i18n="footer_location">Madrid / Remoto</span>
+      </div>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>

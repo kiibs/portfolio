@@ -4,14 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>About — Emma Agatiello</title>
-    <meta
-      name="description"
-      content="Sobre Emma Agatiello, diseñadora gráfica y directora de arte. Biografía, formación y disciplinas."
-    />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..600;1,6..96,400&family=Plus+Jakarta+Sans:wght@300;400;500&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="style.css" />
@@ -41,78 +37,66 @@
 
     <main class="container">
       <section class="about-grid">
-        <div class="about-portrait-wrapper">
-          <!-- Reemplazar src por tu fotografía real -->
+        <div>
           <img
             src="assets/images/about-portrait.jpg"
             alt="Emma Agatiello Portrait"
             class="about-portrait"
-            loading="lazy"
           />
         </div>
 
         <div class="about-content">
-          <h1 class="about-bio" data-i18n="about_bio_1">
-            Soy Emma Agatiello, diseñadora gráfica recién graduada apasionada
-            por el diseño editorial, la dirección de arte y las identidades de
-            marca con carácter contemporáneo.
+          <h1 class="about-intro" data-i18n="about_intro">
+            Hola, soy Emma Agatiello. Diseñadora gráfica graduada con enfoque en
+            dirección de arte, branding y publicaciones editoriales.
           </h1>
 
-          <p
-            style="color: var(--color-text-muted); line-height: 1.8"
-            data-i18n="about_bio_2"
-          >
-            Mi enfoque combina la simplicidad estructural con una rica
-            sensibilidad táctil y cromática, buscando soluciones visuales que
-            sean memorables, funcionales y atemporales.
-          </p>
+          <!-- LOGOS DE HERRAMIENTAS SVG -->
+          <div class="about-tools-section">
+            <span class="meta-label" data-i18n="tools_label"
+              >Herramientas & Software</span
+            >
 
-          <!-- FORMACIÓN -->
-          <div class="about-section-block">
-            <h2 class="about-block-title" data-i18n="about_edu_title">
-              Formación
-            </h2>
-            <div class="about-list">
-              <p class="about-list-item" data-i18n="about_edu_1">
-                Grado en Diseño Gráfico — Escuela Superior de Diseño (2022 -
-                2026)
-              </p>
-              <p class="about-list-item" data-i18n="about_edu_2">
-                Taller de Tipografía Editorial & Print — Studio Session (2025)
-              </p>
+            <div class="tools-grid">
+              <div class="tool-card">
+                <svg viewBox="0 0 24 24">
+                  <path d="M12 2L2 19.5h20L12 2zm0 4l6.5 11.5h-13L12 6z" />
+                </svg>
+                <span class="tool-name">Illustrator</span>
+              </div>
+              <div class="tool-card">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M4 3h16v18H4V3zm3 4v10h2V7H7zm5 0v10h5v-2h-3V7h-2z"
+                  />
+                </svg>
+                <span class="tool-name">InDesign</span>
+              </div>
+              <div class="tool-card">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M3 3h18v18H3V3zm4 4v10h3v-4h2a3 3 0 0 0 0-6H7zm3 2h2a1 1 0 0 1 0 2h-2V9zm7 2a2.5 2.5 0 0 0-2.5 2.5V17h2v-3.5a.5.5 0 0 1 1 0V17h2v-3.5A2.5 2.5 0 0 0 17 11z"
+                  />
+                </svg>
+                <span class="tool-name">Photoshop</span>
+              </div>
+              <div class="tool-card">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M12 12a3 3 0 1 1 3-3 3 3 0 0 1-3 3zm0 0a3 3 0 1 1-3 3 3 3 0 0 1 3-3zm0 6a3 3 0 1 1-3 3 3 3 0 0 1 3-3zM6 6a3 3 0 0 1 3-3h3v6H9a3 3 0 0 1-3-3zm12 0a3 3 0 0 1-3 3h-3V3h3a3 3 0 0 1 3 3z"
+                  />
+                </svg>
+                <span class="tool-name">Figma</span>
+              </div>
             </div>
-          </div>
-
-          <!-- DISCIPLINAS -->
-          <div class="about-section-block">
-            <h2 class="about-block-title" data-i18n="about_skills_title">
-              Disciplinas
-            </h2>
-            <p class="about-list-item" data-i18n="about_skills_1">
-              Dirección de Arte / Branding & Identidad / Diseño Editorial /
-              Packaging / Tipografía / Estrategia Visual
-            </p>
-          </div>
-
-          <!-- HERRAMIENTAS -->
-          <div class="about-section-block">
-            <h2 class="about-block-title" data-i18n="about_tools_title">
-              Herramientas
-            </h2>
-            <p class="about-list-item" data-i18n="about_tools_1">
-              Adobe Creative Cloud (InDesign, Illustrator, Photoshop, Figma,
-              Lightroom)
-            </p>
           </div>
         </div>
       </section>
     </main>
 
     <footer class="footer">
-      <div class="footer-container">
-        <span data-i18n="footer_rights"
-          >© 2026 Emma Agatiello. Todos los derechos reservados.</span
-        >
+      <div class="footer-inner">
+        <span>© 2026 Emma Agatiello</span>
         <span data-i18n="footer_location">Madrid / Remoto</span>
       </div>
     </footer>

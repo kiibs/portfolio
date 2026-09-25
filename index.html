@@ -6,39 +6,18 @@
     <title>Emma Agatiello — Graphic Designer & Art Director</title>
     <meta
       name="description"
-      content="Portfolio de diseño gráfico y dirección de arte de Emma Agatiello. Identidades visuales, diseño editorial y branding contemporáneo."
+      content="Portfolio personal de diseño gráfico y dirección de arte de Emma Agatiello."
     />
 
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..600;1,6..96,400&family=Plus+Jakarta+Sans:wght@300;400;500&display=swap"
       rel="stylesheet"
     />
-
-    <!-- Estilos con Ruta Relativa -->
-    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <!-- EDITORIAL LOADER -->
-    <div id="loader" aria-hidden="true">
-      <div class="loader-top">
-        <span class="text-meta">EMMA AGATIELLO</span>
-        <span class="text-meta">2026</span>
-      </div>
-      <div class="loader-center">
-        <h1 class="loader-title">Portfolio</h1>
-        <div class="loader-progress-bar">
-          <div class="loader-progress-fill"></div>
-        </div>
-      </div>
-      <div class="loader-bottom">
-        <span class="text-meta">GRAPHIC DESIGN</span>
-        <span class="text-meta">EDITORIAL / BRANDING</span>
-      </div>
-    </div>
-
     <!-- NAVEGACIÓN -->
     <header class="navbar">
       <div class="nav-container">
@@ -62,171 +41,120 @@
       </div>
     </header>
 
-    <main>
-      <!-- EDITORIAL HERO STATEMENT -->
+    <main class="container">
       <section class="hero-editorial">
-        <div class="hero-grid">
-          <h1 class="hero-statement" data-i18n="hero_statement">
-            Diseño gráfico & dirección de arte enfocado en identidades visuales
-            contemporáneas, publicaciones y sensibilidad editorial.
-          </h1>
-          <p class="hero-meta" data-i18n="hero_meta">
-            Emma Agatiello — Graduada en Diseño Gráfico. Creando proyectos con
-            rigor visual, tipografía sofisticada y atención al detalle.
-          </p>
-        </div>
+        <h1 class="hero-title" data-i18n="hero_title">
+          Diseño gráfico & dirección de arte enfocados en identidad visual y
+          sensibilidad editorial.
+        </h1>
+        <p class="hero-subtitle" data-i18n="hero_sub">
+          Emma Agatiello — Proyectos desarrollados con rigor tipográfico,
+          equilibrio y composiciones contemporáneas.
+        </p>
       </section>
 
-      <!-- LISTA EDITORIAL DE PROYECTOS -->
-      <section class="projects-section">
-        <div class="section-header">
-          <span class="text-meta" data-i18n="section_projects"
-            >Proyectos Seleccionados (06)</span
-          >
-          <span class="text-meta">2024 — 2026</span>
-        </div>
-
+      <!-- LISTA EDITORIAL CON PREVIEW EN COLUMNA FIJA A LA DERECHA -->
+      <section class="projects-editorial">
         <div class="project-list">
-          <!-- PROYECTO 01 -->
           <article
             class="project-item"
-            data-preview="assets/images/project-01-cover.jpg"
+            data-image="assets/images/project-01-cover.jpg"
             onclick="window.location.href='projects/project-01.html'"
           >
-            <span class="project-num">01</span>
-            <div class="project-title-wrapper">
-              <h2 class="project-title">Aura Botanical</h2>
-              <span class="project-category">Identity & Packaging</span>
-              <!-- Mobile Preview Image -->
-              <img
-                src="assets/images/project-01-cover.jpg"
-                alt="Aura Botanical Preview"
-                class="project-mobile-thumb"
-                loading="lazy"
-              />
+            <div class="project-meta-line">
+              <span>01 — Identity & Packaging</span>
+              <span>2026</span>
             </div>
-            <span class="project-year">2026</span>
+            <h2 class="project-title">Aura Botanical</h2>
           </article>
 
-          <!-- PROYECTO 02 -->
           <article
             class="project-item"
-            data-preview="assets/images/project-02-cover.jpg"
+            data-image="assets/images/project-02-cover.jpg"
             onclick="window.location.href='projects/project-02.html'"
           >
-            <span class="project-num">02</span>
-            <div class="project-title-wrapper">
-              <h2 class="project-title">Maison de L'Ombre</h2>
-              <span class="project-category">Editorial Publication</span>
-              <img
-                src="assets/images/project-02-cover.jpg"
-                alt="Maison de L'Ombre Preview"
-                class="project-mobile-thumb"
-                loading="lazy"
-              />
+            <div class="project-meta-line">
+              <span>02 — Editorial Publication</span>
+              <span>2025</span>
             </div>
-            <span class="project-year">2025</span>
+            <h2 class="project-title">Maison de L'Ombre</h2>
           </article>
 
-          <!-- PROYECTO 03 -->
           <article
             class="project-item"
-            data-preview="assets/images/project-03-cover.jpg"
+            data-image="assets/images/project-03-cover.jpg"
             onclick="window.location.href='projects/project-03.html'"
           >
-            <span class="project-num">03</span>
-            <div class="project-title-wrapper">
-              <h2 class="project-title">Revue d'Art</h2>
-              <span class="project-category">Art Direction & Print</span>
-              <img
-                src="assets/images/project-03-cover.jpg"
-                alt="Revue d'Art Preview"
-                class="project-mobile-thumb"
-                loading="lazy"
-              />
+            <div class="project-meta-line">
+              <span>03 — Art Direction & Print</span>
+              <span>2025</span>
             </div>
-            <span class="project-year">2025</span>
+            <h2 class="project-title">Revue d'Art</h2>
           </article>
 
-          <!-- PROYECTO 04 -->
           <article
             class="project-item"
-            data-preview="assets/images/project-04-cover.jpg"
+            data-image="assets/images/project-04-cover.jpg"
             onclick="window.location.href='projects/project-04.html'"
           >
-            <span class="project-num">04</span>
-            <div class="project-title-wrapper">
-              <h2 class="project-title">Silencio Studio</h2>
-              <span class="project-category">Branding & Digital</span>
-              <img
-                src="assets/images/project-04-cover.jpg"
-                alt="Silencio Studio Preview"
-                class="project-mobile-thumb"
-                loading="lazy"
-              />
+            <div class="project-meta-line">
+              <span>04 — Branding & Digital</span>
+              <span>2025</span>
             </div>
-            <span class="project-year">2025</span>
+            <h2 class="project-title">Silencio Studio</h2>
           </article>
 
-          <!-- PROYECTO 05 -->
           <article
             class="project-item"
-            data-preview="assets/images/project-05-cover.jpg"
+            data-image="assets/images/project-05-cover.jpg"
             onclick="window.location.href='projects/project-05.html'"
           >
-            <span class="project-num">05</span>
-            <div class="project-title-wrapper">
-              <h2 class="project-title">Sotto Voce</h2>
-              <span class="project-category">Custom Typography & Poster</span>
-              <img
-                src="assets/images/project-05-cover.jpg"
-                alt="Sotto Voce Preview"
-                class="project-mobile-thumb"
-                loading="lazy"
-              />
+            <div class="project-meta-line">
+              <span>05 — Custom Typography</span>
+              <span>2024</span>
             </div>
-            <span class="project-year">2024</span>
+            <h2 class="project-title">Sotto Voce</h2>
           </article>
 
-          <!-- PROYECTO 06 -->
           <article
             class="project-item"
-            data-preview="assets/images/project-06-cover.jpg"
+            data-image="assets/images/project-06-cover.jpg"
             onclick="window.location.href='projects/project-06.html'"
           >
-            <span class="project-num">06</span>
-            <div class="project-title-wrapper">
-              <h2 class="project-title">Komorebi Gallery</h2>
-              <span class="project-category">Exhibition Identity</span>
-              <img
-                src="assets/images/project-06-cover.jpg"
-                alt="Komorebi Gallery Preview"
-                class="project-mobile-thumb"
-                loading="lazy"
-              />
+            <div class="project-meta-line">
+              <span>06 — Exhibition Identity</span>
+              <span>2024</span>
             </div>
-            <span class="project-year">2024</span>
+            <h2 class="project-title">Komorebi Gallery</h2>
           </article>
+        </div>
+
+        <!-- MARCO DE PREVIEW FIJO EN LA DERECHA -->
+        <div class="preview-sticky-column">
+          <span
+            id="preview-placeholder"
+            class="preview-placeholder-text"
+            data-i18n="hover_hint"
+          >
+            Pasa el ratón sobre un proyecto para ver la previsualización
+          </span>
+          <img
+            id="sticky-preview-img"
+            class="preview-sticky-img"
+            src=""
+            alt="Project Preview"
+          />
         </div>
       </section>
     </main>
 
-    <!-- CONTENEDOR FLOTANTE PARA CURSOR HOVER PREVIEW -->
-    <div id="cursor-preview" class="cursor-preview" aria-hidden="true">
-      <img id="cursor-preview-img" src="" alt="Project Floating Preview" />
-    </div>
-
-    <!-- FOOTER -->
     <footer class="footer">
-      <div class="footer-container">
-        <span data-i18n="footer_rights"
-          >© 2026 Emma Agatiello. Todos los derechos reservados.</span
-        >
+      <div class="footer-inner">
+        <span>© 2026 Emma Agatiello</span>
         <span data-i18n="footer_location">Madrid / Remoto</span>
       </div>
     </footer>
 
-    <!-- Script con Ruta Relativa -->
     <script src="script.js"></script>
   </body>
 </html>
