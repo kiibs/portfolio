@@ -989,59 +989,49 @@ function renderProject(index) {
    ========================================================= */
 
 function renderHalfway(container, project) {
-  /*
-   * The title and category stay in .modal-copy.
-   *
-   * The PDF lives inside the visual area.
-   * This keeps the information hierarchy:
-   *
-   * HALFWAY
-   * EDITORIAL / ART DIRECTION
-   *
-   * [ PDF ]
-   *
-   * description
-   */
-
   const wrapper = document.createElement("div");
 
   wrapper.className = "pdf-viewer";
 
   wrapper.innerHTML = `
-       <div class="pdf-stage">
-         <div class="pdf-loading">
-           LOADING PDF / 00%
-         </div>
-   
-         <canvas class="pdf-canvas"></canvas>
-       </div>
-   
-       <div class="pdf-controls">
-         <button
-           type="button"
-           class="pdf-prev"
-           aria-label="Previous page"
-         >
-           ←
-         </button>
-   
-         <span class="pdf-page">
-           01 / 01
-         </span>
-   
-         <button
-           type="button"
-           class="pdf-next"
-           aria-label="Next page"
-         >
-           →
-         </button>
-       </div>
-     `;
+      <div class="pdf-stage">
+  
+        <div class="pdf-loading">
+          LOADING PDF / 00%
+        </div>
+  
+        <div class="pdf-spread"></div>
+  
+      </div>
+  
+      <div class="pdf-controls">
+  
+        <button
+          type="button"
+          class="pdf-prev"
+          aria-label="Previous spread"
+        >
+          ←
+        </button>
+  
+        <span class="pdf-page">
+          01 / 01
+        </span>
+  
+        <button
+          type="button"
+          class="pdf-next"
+          aria-label="Next spread"
+        >
+          →
+        </button>
+  
+      </div>
+    `;
 
   container.appendChild(wrapper);
 
-  const pdfUrl = project.pdf || "assets/halfway-MAG.pdf";
+  const pdfUrl = project.pdf || "assets/halfway-MAG.pdf.pdf";
 
   setupPDFViewer(wrapper, pdfUrl);
 }
@@ -1051,38 +1041,25 @@ function renderHalfway(container, project) {
    ========================================================= */
 
 async function setupPDFViewer(wrapper, url) {
-  const canvas = wrapper.querySelector(".pdf-canvas");
-
   const stage = wrapper.querySelector(".pdf-stage");
-
+  const spread = wrapper.querySelector(".pdf-spread");
   const loading = wrapper.querySelector(".pdf-loading");
 
   const prev = wrapper.querySelector(".pdf-prev");
-
   const next = wrapper.querySelector(".pdf-next");
-
   const pageIndicator = wrapper.querySelector(".pdf-page");
 
-  if (!canvas || !stage || !loading) {
-    return;
-  }
+  if (!stage || !spread || !loading) return;
 
-  /*
-   * pdfjsLib comes from the global PDF.js build
-   * loaded by index.html.
-   */
   if (typeof pdfjsLib === "undefined") {
     loading.textContent = "PDF.JS NOT AVAILABLE";
-
     return;
   }
 
-  const context = canvas.getContext("2d");
-
   let pdf = null;
-  let currentPage = 1;
+  let currentSpread = 0;
   let rendering = false;
-  let queuedPage = null;
+  let queuedSpread = null;
 
   try {
     pdf = await pdfjsLib.getDocument(url).promise;
@@ -1091,25 +1068,27 @@ async function setupPDFViewer(wrapper, url) {
       throw new Error("PDF could not be loaded.");
     }
 
-    await renderPage(currentPage);
+    await renderSpread(0);
 
     prev?.addEventListener("click", () => {
-      if (currentPage <= 1) return;
+      if (currentSpread <= 0) return;
 
-      queuePage(currentPage - 1);
+      queueSpread(currentSpread - 1);
     });
 
     next?.addEventListener("click", () => {
-      if (!pdf || currentPage >= pdf.numPages) {
-        return;
-      }
+      if (!pdf) return;
 
-      queuePage(currentPage + 1);
+      const spreads = getSpreads(pdf.numPages);
+
+      if (currentSpread >= spreads.length - 1) return;
+
+      queueSpread(currentSpread + 1);
     });
 
     window.addEventListener("resize", () => {
-      if (state.modalOpen && state.currentProject === 0) {
-        renderPage(currentPage);
+      if (state.modalOpen && state.currentProject === 0 && pdf) {
+        renderSpread(currentSpread);
       }
     });
   } catch (error) {
@@ -1118,87 +1097,221 @@ async function setupPDFViewer(wrapper, url) {
     loading.textContent = "PDF COULD NOT BE LOADED";
   }
 
-  function queuePage(pageNumber) {
+  function getSpreads(totalPages) {
+    const result = [];
+
+    if (!totalPages) return result;
+
+    // COVER
+    result.push([1]);
+
+    // INTERIOR SPREADS
+    let page = 2;
+
+    while (page < totalPages) {
+      if (page + 1 <= totalPages) {
+        result.push([page, page + 1]);
+        page += 2;
+      } else {
+        result.push([page]);
+        page++;
+      }
+    }
+
+    return result;
+  }
+
+  function queueSpread(index) {
     if (rendering) {
-      queuedPage = pageNumber;
+      queuedSpread = index;
       return;
     }
 
-    renderPage(pageNumber);
+    renderSpread(index);
   }
 
-  async function renderPage(pageNumber) {
+  async function renderSpread(spreadIndex) {
     if (!pdf) return;
 
     rendering = true;
 
-    loading.style.display = "block";
+    loading.style.display = "flex";
 
     try {
-      const page = await pdf.getPage(pageNumber);
+      const spreads = getSpreads(pdf.numPages);
+      const pages = spreads[spreadIndex];
 
-      const baseViewport = page.getViewport({
-        scale: 1,
-      });
+      if (!pages) return;
 
-      const availableWidth = Math.max(280, stage.clientWidth - 30);
+      spread.innerHTML = "";
 
-      const availableHeight = Math.max(300, stage.clientHeight - 30);
+      /*
+       * We render every page independently.
+       * This lets us create a real magazine spread.
+       */
 
-      const widthScale = availableWidth / baseViewport.width;
+      const canvases = [];
 
-      const heightScale = availableHeight / baseViewport.height;
+      for (const pageNumber of pages) {
+        const page = await pdf.getPage(pageNumber);
 
-      const scale = Math.min(widthScale, heightScale);
+        const baseViewport = page.getViewport({
+          scale: 1,
+        });
 
-      const viewport = page.getViewport({
-        scale,
-      });
+        canvases.push({
+          page,
+          pageNumber,
+          baseViewport,
+        });
+      }
 
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      /*
+       * Calculate the available area.
+       */
 
-      canvas.width = Math.floor(viewport.width * dpr);
+      const availableWidth = Math.max(500, stage.clientWidth - 30);
 
-      canvas.height = Math.floor(viewport.height * dpr);
+      const availableHeight = Math.max(500, stage.clientHeight - 30);
 
-      canvas.style.width = `${viewport.width}px`;
+      /*
+       * SINGLE PAGE
+       */
 
-      canvas.style.height = `${viewport.height}px`;
+      if (pages.length === 1) {
+        const item = canvases[0];
 
-      context.setTransform(dpr, 0, 0, dpr, 0, 0);
+        const scale = Math.min(
+          availableWidth / item.baseViewport.width,
+          availableHeight / item.baseViewport.height
+        );
 
-      await page.render({
-        canvasContext: context,
-        viewport,
-      }).promise;
+        const viewport = item.page.getViewport({
+          scale,
+        });
 
-      currentPage = pageNumber;
+        const canvas = document.createElement("canvas");
 
-      pageIndicator.textContent = `${String(currentPage).padStart(
-        2,
-        "0"
-      )} / ${String(pdf.numPages).padStart(2, "0")}`;
+        canvas.className = "pdf-page-single";
+
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+        canvas.width = Math.floor(viewport.width * dpr);
+
+        canvas.height = Math.floor(viewport.height * dpr);
+
+        canvas.style.width = `${viewport.width}px`;
+        canvas.style.height = `${viewport.height}px`;
+
+        const context = canvas.getContext("2d");
+
+        context.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+        await item.page.render({
+          canvasContext: context,
+          viewport,
+        }).promise;
+
+        spread.classList.add("single");
+        spread.classList.remove("double");
+
+        spread.appendChild(canvas);
+      } else {
+
+      /*
+       * TWO PAGE SPREAD
+       */
+        spread.classList.add("double");
+        spread.classList.remove("single");
+
+        const gap = 10;
+
+        const scaleByWidth =
+          (availableWidth - gap) /
+          (canvases[0].baseViewport.width + canvases[1].baseViewport.width);
+
+        const scaleByHeight =
+          availableHeight /
+          Math.max(
+            canvases[0].baseViewport.height,
+            canvases[1].baseViewport.height
+          );
+
+        const scale = Math.min(scaleByWidth, scaleByHeight);
+
+        for (const item of canvases) {
+          const viewport = item.page.getViewport({
+            scale,
+          });
+
+          const canvas = document.createElement("canvas");
+
+          canvas.className = "pdf-page";
+
+          const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+          canvas.width = Math.floor(viewport.width * dpr);
+
+          canvas.height = Math.floor(viewport.height * dpr);
+
+          canvas.style.width = `${viewport.width}px`;
+          canvas.style.height = `${viewport.height}px`;
+
+          const context = canvas.getContext("2d");
+
+          context.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+          await item.page.render({
+            canvasContext: context,
+            viewport,
+          }).promise;
+
+          spread.appendChild(canvas);
+        }
+      }
+
+      currentSpread = spreadIndex;
+
+      /*
+       * Counter
+       */
+
+      const currentPages = spreads[spreadIndex];
+
+      const firstPage = currentPages[0];
+      const lastPage = currentPages[currentPages.length - 1];
+
+      if (currentPages.length === 1) {
+        pageIndicator.textContent =
+          `${String(firstPage).padStart(2, "0")} / ` +
+          `${String(pdf.numPages).padStart(2, "0")}`;
+      } else {
+        pageIndicator.textContent =
+          `${String(firstPage).padStart(2, "0")}–` +
+          `${String(lastPage).padStart(2, "0")} / ` +
+          `${String(pdf.numPages).padStart(2, "0")}`;
+      }
 
       if (prev) {
-        prev.disabled = currentPage <= 1;
+        prev.disabled = currentSpread <= 0;
       }
 
       if (next) {
-        next.disabled = currentPage >= pdf.numPages;
+        next.disabled = currentSpread >= spreads.length - 1;
       }
 
       loading.style.display = "none";
     } catch (error) {
-      console.error("PDF page rendering error:", error);
+      console.error("PDF spread rendering error:", error);
     } finally {
       rendering = false;
 
-      if (queuedPage !== null) {
-        const nextPage = queuedPage;
+      if (queuedSpread !== null) {
+        const nextSpread = queuedSpread;
 
-        queuedPage = null;
+        queuedSpread = null;
 
-        renderPage(nextPage);
+        renderSpread(nextSpread);
       }
     }
   }

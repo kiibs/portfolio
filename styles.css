@@ -1449,10 +1449,10 @@ footer {
   display: grid;
 
   grid-template-columns:
-    minmax(0, 1.6fr)
-    minmax(280px, 0.7fr);
+    minmax(0, 2.2fr)
+    minmax(250px, 0.55fr);
 
-  gap: 45px;
+  gap: 40px;
 
   align-items: start;
 
@@ -2252,4 +2252,186 @@ body.menu-open .menu-layer {
 
 body.menu-open .menu-close {
   z-index: 1100 !important;
+}
+
+/* =========================================================
+   HALFWAY PDF — LARGE MAGAZINE VIEWER
+========================================================= */
+
+.pdf-viewer {
+  width: 100%;
+  margin: 0;
+  position: relative;
+}
+
+.pdf-stage {
+  width: 100%;
+  height: min(72vh, 820px);
+
+  min-height: 560px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  position: relative;
+
+  overflow: hidden;
+
+  background: transparent;
+}
+
+.pdf-spread {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 10px;
+
+  overflow: hidden;
+}
+
+.pdf-spread.single {
+  gap: 0;
+}
+
+.pdf-spread.double {
+  gap: 10px;
+}
+
+.pdf-page,
+.pdf-page-single {
+  display: block;
+
+  flex: 0 0 auto;
+
+  max-width: none;
+  max-height: none;
+
+  background: #fff;
+
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.14);
+
+  user-select: none;
+
+  -webkit-user-drag: none;
+}
+
+.pdf-page {
+  height: auto;
+}
+
+.pdf-page-single {
+  height: auto;
+}
+
+.pdf-loading {
+  position: absolute;
+
+  inset: 0;
+
+  z-index: 20;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  background: var(--bg);
+
+  color: var(--dim);
+
+  font: 9px "DM Mono";
+
+  pointer-events: none;
+}
+
+.pdf-controls {
+  width: 100%;
+
+  margin-top: 18px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 14px;
+}
+
+.pdf-controls button {
+  width: 38px;
+  height: 38px;
+
+  border: 1px solid var(--line);
+
+  border-radius: 50%;
+
+  background: transparent;
+
+  color: var(--fg);
+
+  display: grid;
+  place-items: center;
+
+  font: 11px "DM Mono";
+
+  cursor: pointer;
+
+  transition: background 0.25s ease, color 0.25s ease, opacity 0.25s ease,
+    transform 0.25s ease;
+}
+
+.pdf-controls button:hover:not(:disabled) {
+  background: var(--fg);
+  color: var(--bg);
+
+  transform: scale(1.08);
+}
+
+.pdf-controls button:disabled {
+  opacity: 0.2;
+
+  cursor: default;
+}
+
+.pdf-page {
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.14);
+}
+
+.pdf-page-single {
+  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.16);
+}
+
+.pdf-page,
+.pdf-page-single {
+  border-radius: 0;
+}
+
+/* =========================================================
+   HALFWAY PDF — MOBILE
+========================================================= */
+
+@media (max-width: 767px) {
+  .pdf-stage {
+    height: 68vh;
+    min-height: 420px;
+  }
+
+  .pdf-spread.double {
+    gap: 4px;
+  }
+
+  .pdf-controls {
+    margin-top: 14px;
+  }
+
+  .pdf-controls button {
+    width: 34px;
+    height: 34px;
+  }
 }
