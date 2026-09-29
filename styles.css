@@ -681,7 +681,7 @@ section {
 
   font-size: clamp(60px, 10vw, 160px);
 
-  line-height: 0.78;
+  line-height: 0.98;
 
   letter-spacing: -0.075em;
 }
