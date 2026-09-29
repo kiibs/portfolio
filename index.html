@@ -1,159 +1,458 @@
 <!DOCTYPE html>
-<html lang="es">
+
+<html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Emma Agatiello — Graphic Designer & Art Director</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+
     <meta
       name="description"
-      content="Portfolio personal de diseño gráfico y dirección de arte de Emma Agatiello."
+      content="EMMA — Graphic Designer / Visual Systems / Art Direction"
     />
+
+    <title>EMMA — Visual Designer</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
     <link
-      href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..600;1,6..96,400&family=Plus+Jakarta+Sans:wght@300;400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="style.css" />
+
+    <link rel="stylesheet" href="styles.css" />
   </head>
+
   <body>
-    <!-- NAVEGACIÓN -->
-    <header class="navbar">
-      <div class="nav-container">
-        <a href="index.html" class="brand-logo">Emma Agatiello</a>
-        <nav class="nav-links">
-          <a href="index.html" class="nav-link active" data-i18n="nav_work"
-            >Trabajos</a
-          >
-          <a href="about.html" class="nav-link" data-i18n="nav_about"
-            >Sobre mí</a
-          >
-          <a href="contact.html" class="nav-link" data-i18n="nav_contact"
-            >Contacto</a
-          >
-          <div class="lang-switch">
-            <button class="lang-btn active" data-lang="es">ES</button>
-            <span>/</span>
-            <button class="lang-btn" data-lang="en">EN</button>
-          </div>
-        </nav>
+    <!-- PRELOADER -->
+    <div class="preloader">
+      <div class="pre-top">
+        <span>EMMA / VISUAL DESIGN</span>
+        <span>2026</span>
+      </div>
+
+      <div class="pre-core">
+        <div class="pre-num">00</div>
+
+        <div class="pre-bar">
+          <i></i>
+        </div>
+
+        <div class="pre-status">BUILDING A SMALL UNIVERSE</div>
+      </div>
+
+      <div class="pre-bottom">
+        <span>IDENTITY / EDITORIAL / MOTION / DIGITAL</span>
+        <span>MADRID</span>
+      </div>
+    </div>
+
+    <!-- AMBIENT CANVAS -->
+    <canvas id="field"></canvas>
+
+    <div class="grain"></div>
+
+    <!-- CUSTOM CURSOR -->
+    <div class="cursor">
+      <i></i>
+    </div>
+
+    <div class="cursor-label">OPEN</div>
+
+    <!-- HEADER -->
+    <header class="header">
+      <a href="#home" class="logo magnetic"> E<span></span>A </a>
+
+      <div class="header-mid">
+        <span>PORTFOLIO / 01—26</span>
+        <span>● AVAILABLE</span>
+      </div>
+
+      <div class="header-actions">
+        <button class="head-btn magnetic" id="theme">
+          ◐ <span>MODE</span>
+        </button>
+
+        <button class="head-btn magnetic" id="lang">ES / EN</button>
+
+        <button
+          class="menu-btn magnetic"
+          id="menu"
+          aria-label="Open menu"
+          aria-expanded="false"
+        >
+          <i></i>
+          <i></i>
+        </button>
       </div>
     </header>
 
-    <main class="container">
-      <section class="hero-editorial">
-        <h1 class="hero-title" data-i18n="hero_title">
-          Diseño gráfico & dirección de arte enfocados en identidad visual y
-          sensibilidad editorial.
-        </h1>
-        <p class="hero-subtitle" data-i18n="hero_sub">
-          Emma Agatiello — Proyectos desarrollados con rigor tipográfico,
-          equilibrio y composiciones contemporáneas.
+    <main>
+      <!-- HERO -->
+      <section id="home" class="hero">
+        <div class="meta">
+          <span>01 — INTRO</span>
+          <span>GRAPHIC DESIGNER / 2026</span>
+        </div>
+
+        <div class="hero-stage">
+          <h1 class="hero-title">
+            <span>MAKE</span>
+            <span class="serif"> things </span>
+            <span>MATTER.</span>
+          </h1>
+
+          <div class="orbit">
+            <svg viewBox="0 0 280 280">
+              <defs>
+                <path
+                  id="orbitPath"
+                  d="
+              M140 140
+              m-105 0
+              a105 105 0 1 1 210 0
+              a105 105 0 1 1 -210 0
+            "
+                />
+              </defs>
+
+              <text>
+                <textpath href="#orbitPath">
+                  * IDENTITY · EDITORIAL · MOTION · DIGITAL · BRANDING ·
+                  PHOTOGRAPHY · ILLUSTRATION *
+                </textpath>
+              </text>
+            </svg>
+
+            <b>✳</b>
+          </div>
+        </div>
+
+        <div class="hero-foot">
+          <p data-i18n="intro">
+            Recently graduated graphic designer building visual identities,
+            campaigns and digital worlds with a soft spot for strange ideas.
+          </p>
+
+          <span class="scroll-cue">
+            SCROLL
+            <b>↓</b>
+          </span>
+        </div>
+      </section>
+
+      <!-- MANIFESTO -->
+      <section class="manifesto">
+        <div class="section-label">
+          <span>02 — POINT OF VIEW</span>
+          <span>EMMA / 01</span>
+        </div>
+
+        <div class="manifesto-grid">
+          <h2 data-i18n="manifesto">
+            GOOD DESIGN
+            <br />
+            <em>SHOULD FEEL</em>
+            <br />
+            ALIVE.
+          </h2>
+
+          <div class="manifesto-side">
+            <span class="star"> ✦ </span>
+
+            <p data-i18n="manifestoSide">
+              Not decoration. Not noise. A clear idea, pushed until it develops
+              a pulse.
+            </p>
+
+            <span class="mono"> TYPE / IMAGE / MOTION / SYSTEMS </span>
+          </div>
+        </div>
+      </section>
+
+      <!-- WORK -->
+      <section id="work" class="work">
+        <div class="section-label">
+          <span>03 — SELECTED WORK</span>
+          <span>DRAG / SCROLL</span>
+        </div>
+
+        <div class="work-intro">
+          <h2>
+            Selected
+            <br />
+            <em>signals.</em>
+          </h2>
+
+          <p data-i18n="workLead">
+            Four fictional studies. Real design thinking. Built to show how I
+            move from concept to visual system.
+          </p>
+        </div>
+
+        <div class="project-track">
+          <!-- PROJECT 01 — L'ÉCLAT -->
+          <article class="project" data-id="0">
+            <div class="project-no">01</div>
+
+            <div class="art art-a">
+              <div class="stamp">HALFWAY</div>
+
+              <div class="pink-orb"></div>
+
+              <span> EDITORIAL / 2026 </span>
+            </div>
+
+            <div class="caption">
+              <b> HALFWAY </b>
+              <span> EDITORIAL / ART DIRECTION </span>
+            </div>
+          </article>
+
+          <!-- PROJECT 02 -->
+          <article class="project" data-id="1">
+            <div class="project-no">02</div>
+
+            <div class="art art-b">
+              <div class="ring"></div>
+
+              <div class="big24">24</div>
+
+              <div class="frame">FRAMES</div>
+
+              <span> 24F / MOTION CAMPAIGN </span>
+            </div>
+
+            <div class="caption">
+              <b> 24 FRAMES </b>
+              <span> MOTION / CAMPAIGN </span>
+            </div>
+          </article>
+
+          <!-- PROJECT 03 -->
+          <article class="project" data-id="2">
+            <div class="project-no">03</div>
+
+            <div class="art art-c">
+              <div class="object">◒</div>
+
+              <div class="obj-type">
+                OBJECTS
+                <br />
+                WITH
+                <br />
+                ATTITUDE
+              </div>
+
+              <span> ODD / EDITORIAL </span>
+            </div>
+
+            <div class="caption">
+              <b> ODD OBJECTS </b>
+              <span> EDITORIAL / PACKAGING </span>
+            </div>
+          </article>
+
+          <!-- PROJECT 04 -->
+          <article class="project" data-id="3">
+            <div class="project-no">04</div>
+
+            <div class="art art-d">
+              <div class="static">
+                NO
+                <br />
+                SIGNAL
+              </div>
+
+              <div class="fm">FM</div>
+
+              <div class="dial">∞</div>
+
+              <span> STATIC / DIGITAL </span>
+            </div>
+
+            <div class="caption">
+              <b> STATIC FM </b>
+              <span> DIGITAL / ART DIRECTION </span>
+            </div>
+          </article>
+        </div>
+
+        <div class="progress">
+          <i></i>
+        </div>
+      </section>
+
+      <!-- INTERLUDE -->
+      <section class="interlude">
+        <div class="interlude-star">∞</div>
+
+        <p data-i18n="interlude">
+          The portfolio is not a container for the work.
+          <br />
+          <em>It is the first piece of work.</em>
         </p>
       </section>
 
-      <!-- LISTA EDITORIAL CON PREVIEW EN COLUMNA FIJA A LA DERECHA -->
-      <section class="projects-editorial">
-        <div class="project-list">
-          <article
-            class="project-item"
-            data-image="assets/images/project-01-cover.jpg"
-            onclick="window.location.href='projects/project-01.html'"
-          >
-            <div class="project-meta-line">
-              <span>01 — Identity & Packaging</span>
-              <span>2026</span>
-            </div>
-            <h2 class="project-title">Aura Botanical</h2>
-          </article>
-
-          <article
-            class="project-item"
-            data-image="assets/images/project-02-cover.jpg"
-            onclick="window.location.href='projects/project-02.html'"
-          >
-            <div class="project-meta-line">
-              <span>02 — Editorial Publication</span>
-              <span>2025</span>
-            </div>
-            <h2 class="project-title">Maison de L'Ombre</h2>
-          </article>
-
-          <article
-            class="project-item"
-            data-image="assets/images/project-03-cover.jpg"
-            onclick="window.location.href='projects/project-03.html'"
-          >
-            <div class="project-meta-line">
-              <span>03 — Art Direction & Print</span>
-              <span>2025</span>
-            </div>
-            <h2 class="project-title">Revue d'Art</h2>
-          </article>
-
-          <article
-            class="project-item"
-            data-image="assets/images/project-04-cover.jpg"
-            onclick="window.location.href='projects/project-04.html'"
-          >
-            <div class="project-meta-line">
-              <span>04 — Branding & Digital</span>
-              <span>2025</span>
-            </div>
-            <h2 class="project-title">Silencio Studio</h2>
-          </article>
-
-          <article
-            class="project-item"
-            data-image="assets/images/project-05-cover.jpg"
-            onclick="window.location.href='projects/project-05.html'"
-          >
-            <div class="project-meta-line">
-              <span>05 — Custom Typography</span>
-              <span>2024</span>
-            </div>
-            <h2 class="project-title">Sotto Voce</h2>
-          </article>
-
-          <article
-            class="project-item"
-            data-image="assets/images/project-06-cover.jpg"
-            onclick="window.location.href='projects/project-06.html'"
-          >
-            <div class="project-meta-line">
-              <span>06 — Exhibition Identity</span>
-              <span>2024</span>
-            </div>
-            <h2 class="project-title">Komorebi Gallery</h2>
-          </article>
+      <!-- ABOUT -->
+      <section id="about" class="about">
+        <div class="section-label">
+          <span>04 — ABOUT</span>
+          <span>HUMAN / PROCESS</span>
         </div>
 
-        <!-- MARCO DE PREVIEW FIJO EN LA DERECHA -->
-        <div class="preview-sticky-column">
-          <span
-            id="preview-placeholder"
-            class="preview-placeholder-text"
-            data-i18n="hover_hint"
-          >
-            Pasa el ratón sobre un proyecto para ver la previsualización
+        <div class="about-grid">
+          <div>
+            <span class="mono"> HELLO, I'M EMMA. </span>
+
+            <h2 data-i18n="aboutTitle">
+              Designer,
+              <br />
+              <em>curious human.</em>
+            </h2>
+          </div>
+
+          <div class="about-copy">
+            <p class="lead" data-i18n="aboutLead">
+              I work somewhere between strategy and play — turning loose
+              thoughts into identities people can recognize, remember and feel.
+            </p>
+
+            <p data-i18n="aboutText">
+              My practice moves across branding, editorial, digital and motion.
+              I like typography with a point of view, systems with room for
+              accidents and details that reward a second look.
+            </p>
+
+            <div class="chips">
+              <span>BRAND</span>
+              <span>EDITORIAL</span>
+              <span>MOTION</span>
+              <span>DIGITAL</span>
+              <span>TYPE</span>
+              <span>ART DIRECTION</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- TOOLS -->
+        <div class="marquee">
+          <div class="marquee-track">
+            <span>ADOBE CC</span>
+            <span>FIGMA</span>
+            <span>AFTER EFFECTS</span>
+            <span>BLENDER</span>
+            <span>GSAP</span>
+            <span>CREATIVE CODING</span>
+
+            <span>ADOBE CC</span>
+            <span>FIGMA</span>
+            <span>AFTER EFFECTS</span>
+            <span>BLENDER</span>
+            <span>GSAP</span>
+            <span>CREATIVE CODING</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- CONTACT -->
+      <section id="contact" class="contact">
+        <div class="section-label">
+          <span>05 — CONTACT</span>
+          <span>OPEN CHANNEL</span>
+        </div>
+
+        <div class="contact-core">
+          <span class="mono" data-i18n="contactEyebrow">
+            HAVE A GOOD BRIEF?
           </span>
-          <img
-            id="sticky-preview-img"
-            class="preview-sticky-img"
-            src=""
-            alt="Project Preview"
-          />
+
+          <a href="mailto:hello@EMMA.design" class="contact-link magnetic">
+            LET'S TALK
+            <sup>↗</sup>
+          </a>
+
+          <p data-i18n="contactText">
+            Available for junior roles, internships and selected freelance
+            projects.
+          </p>
+
+          <div class="contact-details">
+            <span class="contact-email">hello@EMMA.design</span>
+
+            <a
+              href="https://www.linkedin.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              LINKEDIN ↗
+            </a>
+          </div>
         </div>
+
+        <footer>
+          <span> © EMMA / 2026 </span>
+
+          <span> MADRID — SPAIN </span>
+
+          <span> DESIGNED + CODED WITH INTENT </span>
+        </footer>
       </section>
     </main>
 
-    <footer class="footer">
-      <div class="footer-inner">
-        <span>© 2026 Emma Agatiello</span>
-        <span data-i18n="footer_location">Madrid / Remoto</span>
+    <!-- PROJECT MODAL -->
+    <div class="modal" id="modal">
+      <button id="closeModal" aria-label="Close project">CLOSE ×</button>
+
+      <div class="modal-index">01</div>
+
+      <div class="modal-grid">
+        <div id="modalVisual"></div>
+
+        <div class="modal-copy">
+          <span id="modalCat"></span>
+
+          <h2 id="modalTitle"></h2>
+
+          <p id="modalText"></p>
+
+          <div id="modalTags"></div>
+        </div>
       </div>
-    </footer>
+    </div>
+
+    <!-- MENU -->
+    <div class="menu-layer" id="menuLayer" aria-hidden="true">
+      <button
+        class="menu-close magnetic"
+        id="menuClose"
+        aria-label="Close menu"
+      >
+        CLOSE ×
+      </button>
+
+      <div class="menu-links">
+        <a href="#work">WORK</a>
+        <a href="#about">ABOUT</a>
+        <a href="#contact">CONTACT</a>
+      </div>
+
+      <div class="menu-bottom">
+        <span>EMMA®</span>
+        <span>ES / EN / 2026</span>
+      </div>
+    </div>
+
+    <!-- GSAP -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollToPlugin.min.js"></script>
+
+    <!-- PDF.JS -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs"
+      type="module"
+    ></script>
 
     <script src="script.js"></script>
   </body>

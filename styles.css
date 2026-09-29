@@ -1,0 +1,1896 @@
+:root {
+  --bg: #f7f3eb;
+  --fg: #101010;
+  --dim: #77736c;
+  --line: rgba(16, 16, 16, 0.17);
+
+  --pink: #ff70d9;
+  --lime: #d8ff32;
+  --blue: #5b63ff;
+  --orange: #ff6a32;
+}
+
+[data-theme="dark"] {
+  --bg: #090909;
+  --fg: #f1eee6;
+  --dim: #89867f;
+  --line: rgba(241, 238, 230, 0.18);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: auto;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+
+  font-family: "Space Grotesk", sans-serif;
+
+  overflow-x: hidden;
+
+  cursor: none;
+
+  transition: background 0.5s, color 0.5s;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  color: inherit;
+  font: inherit;
+}
+
+::selection {
+  background: var(--fg);
+  color: var(--bg);
+}
+
+/* =========================
+     CANVAS
+  ========================= */
+
+#field {
+  position: fixed;
+
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  z-index: -2;
+
+  opacity: 0.45;
+}
+
+.grain {
+  position: fixed;
+
+  inset: -50%;
+
+  z-index: 1000;
+
+  pointer-events: none;
+
+  opacity: 0.045;
+
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+
+  animation: grain 0.18s steps(2) infinite;
+}
+
+@keyframes grain {
+  50% {
+    transform: translate(1%, -2%);
+  }
+}
+
+/* =====================================
+   MULTICOLOR CURSOR
+===================================== */
+
+.cursor {
+  position: fixed;
+
+  width: 11px;
+  height: 11px;
+
+  border-radius: 50%;
+
+  z-index: 3000;
+
+  pointer-events: none;
+
+  transform: translate(-50%, -50%);
+
+  /* GRADIENTE ANIMADO */
+  background: linear-gradient(
+    135deg,
+    #ff3cac,
+    #ff7043,
+    #deb900,
+    #89d900,
+    #08c6df,
+    #3644de,
+    #a027f6,
+    #f91897
+  );
+
+  background-size: 500% 500%;
+
+  animation: cursorColors 6s ease infinite;
+
+  /* Glow del círculo interior */
+  box-shadow: 0 0 8px rgba(255, 60, 172, 0.7), 0 0 18px rgba(53, 232, 255, 0.35);
+}
+
+/*
+     CÍRCULO EXTERIOR
+  */
+
+.cursor::before {
+  content: "";
+
+  position: absolute;
+
+  width: 42px;
+  height: 42px;
+
+  left: -16px;
+  top: -16px;
+
+  border-radius: 50%;
+
+  /* El truco está aquí:
+       usamos el mismo gradiente */
+  background: linear-gradient(
+    135deg,
+    #ff3cac,
+    #ff7043,
+    #deb900,
+    #89d900,
+    #08c6df,
+    #3644de,
+    #a027f6,
+    #f91897
+  );
+
+  background-size: 500% 500%;
+
+  animation: cursorColors 6s ease infinite, cursorRing 2.8s ease-in-out infinite;
+
+  /*
+      Hacemos que solo se vea
+      como un anillo
+    */
+  padding: 1px;
+
+  opacity: 0.75;
+
+  box-shadow: 0 0 14px rgba(255, 60, 172, 0.15),
+    0 0 28px rgba(53, 232, 255, 0.1);
+
+  /*
+      Esto crea el agujero central
+    */
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+
+  -webkit-mask-composite: xor;
+
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+
+  mask-composite: exclude;
+}
+
+/*
+     ANIMACIÓN DE COLORES
+  */
+
+@keyframes cursorColors {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  20% {
+    background-position: 100% 0%;
+  }
+
+  40% {
+    background-position: 100% 100%;
+  }
+
+  60% {
+    background-position: 0% 100%;
+  }
+
+  80% {
+    background-position: 20% 0%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/*
+     EL ANILLO RESPIRA
+  */
+
+@keyframes cursorRing {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+
+  50% {
+    transform: scale(1.12);
+    opacity: 0.9;
+  }
+}
+
+.cursor-label {
+  position: fixed;
+
+  z-index: 2999;
+
+  pointer-events: none;
+
+  font: 9px "DM Mono";
+
+  opacity: 0;
+
+  transform: translate(18px, 18px);
+}
+
+/* =========================
+     PRELOADER
+  ========================= */
+
+.preloader {
+  position: fixed;
+
+  inset: 0;
+
+  z-index: 5000;
+
+  background: #111;
+
+  color: #eeeae2;
+
+  padding: 24px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: space-between;
+}
+
+.pre-top,
+.pre-bottom {
+  display: flex;
+
+  justify-content: space-between;
+
+  font: 9px "DM Mono";
+}
+
+.pre-core {
+  display: grid;
+
+  gap: 20px;
+}
+
+.pre-num {
+  font-size: clamp(110px, 25vw, 360px);
+
+  line-height: 0.7;
+
+  letter-spacing: -0.09em;
+}
+
+.pre-bar {
+  height: 2px;
+
+  background: #333;
+}
+
+.pre-bar i {
+  display: block;
+
+  width: 0;
+
+  height: 100%;
+
+  background: #eeeae2;
+}
+
+.pre-status {
+  font: 9px "DM Mono";
+}
+
+/* =========================
+     HEADER
+  ========================= */
+
+.header {
+  height: 72px;
+
+  position: fixed;
+
+  top: 0;
+  left: 0;
+
+  width: 100%;
+
+  z-index: 1000;
+
+  padding: 0 26px;
+
+  display: grid;
+
+  grid-template-columns: 1fr auto 1fr;
+
+  align-items: center;
+}
+
+.logo {
+  font-size: 22px;
+
+  font-weight: 700;
+
+  letter-spacing: -0.1em;
+}
+
+.logo span {
+  color: var(--pink);
+
+  font-size: 12px;
+}
+
+.header-mid {
+  display: flex;
+
+  gap: 22px;
+
+  color: var(--dim);
+
+  font: 9px "DM Mono";
+}
+
+.header-actions {
+  justify-self: end;
+
+  display: flex;
+
+  gap: 6px;
+}
+
+.head-btn,
+.menu-btn {
+  background: transparent;
+
+  border: 1px solid var(--line);
+
+  border-radius: 99px;
+
+  padding: 8px 11px;
+
+  font: 9px "DM Mono";
+
+  cursor: none;
+}
+
+.menu-btn {
+  width: 40px;
+
+  height: 31px;
+
+  padding: 0;
+
+  display: grid;
+
+  place-content: center;
+
+  gap: 4px;
+}
+
+.menu-btn i {
+  display: block;
+
+  width: 11px;
+
+  height: 1px;
+
+  background: currentColor;
+}
+
+/* =========================
+     SECTIONS
+  ========================= */
+
+section {
+  padding: 100px 26px;
+}
+
+.hero {
+  min-height: 100svh;
+
+  padding-top: 145px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: space-between;
+
+  position: relative;
+
+  overflow: hidden;
+}
+
+.meta,
+.section-label {
+  display: flex;
+
+  justify-content: space-between;
+
+  font: 9px "DM Mono";
+
+  position: relative;
+
+  z-index: 2;
+}
+
+.hero::after {
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  background: linear-gradient(
+      90deg,
+      transparent 49.95%,
+      var(--line) 50%,
+      transparent 50.05%
+    ),
+    linear-gradient(var(--line) 1px, transparent 1px);
+
+  background-size: 100% 100%, 100% 25%;
+
+  opacity: 0.2;
+
+  pointer-events: none;
+}
+
+.hero-title {
+  font-size: clamp(90px, 17vw, 255px);
+
+  line-height: 0.69;
+
+  letter-spacing: -0.095em;
+
+  font-weight: 600;
+
+  margin: 0;
+}
+
+.hero-title span {
+  display: block;
+
+  overflow: hidden;
+}
+
+.hero-title .serif {
+  font-family: "Instrument Serif", serif;
+
+  font-weight: 400;
+
+  font-style: italic;
+
+  margin-left: 14vw;
+
+  letter-spacing: -0.06em;
+}
+
+.hero-stage {
+  position: relative;
+
+  z-index: 2;
+}
+
+.orbit {
+  position: absolute;
+
+  right: 8vw;
+
+  top: 29%;
+
+  width: min(22vw, 270px);
+
+  z-index: 3;
+}
+
+.orbit svg {
+  width: 100%;
+
+  animation: spin 25s linear infinite;
+}
+
+.orbit text {
+  font: 9px "DM Mono";
+
+  fill: var(--fg);
+
+  letter-spacing: 0.12em;
+}
+
+.orbit b {
+  position: absolute;
+
+  inset: 0;
+
+  display: grid;
+
+  place-items: center;
+
+  color: var(--pink);
+
+  font-size: 35px;
+}
+
+.hero-foot {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: end;
+
+  position: relative;
+
+  z-index: 2;
+}
+
+.hero-foot p {
+  max-width: 410px;
+
+  font-size: 14px;
+
+  line-height: 1.35;
+}
+
+.scroll-cue {
+  font: 9px "DM Mono";
+
+  display: flex;
+
+  gap: 18px;
+}
+
+.scroll-cue b {
+  font-size: 18px;
+
+  animation: down 1.4s infinite;
+}
+
+@keyframes down {
+  50% {
+    transform: translateY(5px);
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* =========================
+     MANIFESTO
+  ========================= */
+
+.manifesto {
+  min-height: 100vh;
+
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: space-between;
+}
+
+.manifesto-grid {
+  display: grid;
+
+  grid-template-columns: 4fr 1fr;
+
+  align-items: end;
+
+  gap: 8vw;
+}
+
+.manifesto h2 {
+  font-size: clamp(70px, 11.5vw, 180px);
+
+  line-height: 1;
+
+  letter-spacing: -0.085em;
+
+  font-weight: 500;
+
+  margin: 0;
+}
+
+.manifesto h2 em,
+.work-intro em,
+.interlude em,
+.about h2 em {
+  font-family: "Instrument Serif";
+
+  font-weight: 400;
+}
+
+.manifesto-side {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 45px;
+
+  padding-bottom: 8px;
+}
+
+.manifesto-side p {
+  font-size: 19px;
+
+  line-height: 1.15;
+
+  max-width: 300px;
+}
+
+.star {
+  font-size: 75px;
+
+  color: var(--lime);
+
+  animation: spin 12s linear infinite;
+}
+
+.mono {
+  font: 9px "DM Mono";
+
+  letter-spacing: 0.05em;
+}
+
+/* =========================
+     WORK
+  ========================= */
+
+.work {
+  overflow: hidden;
+}
+
+.work-intro {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: end;
+
+  margin: 100px 0 75px;
+}
+
+.work-intro h2 {
+  font-size: clamp(75px, 10vw, 160px);
+
+  line-height: 0.75;
+
+  letter-spacing: -0.08em;
+
+  font-weight: 500;
+
+  margin: 0;
+}
+
+.work-intro p {
+  max-width: 290px;
+
+  font-size: 13px;
+
+  line-height: 1.4;
+}
+
+.project-track {
+  display: flex;
+
+  gap: 30px;
+
+  width: max-content;
+
+  padding-bottom: 20px;
+}
+
+.project {
+  width: min(58vw, 760px);
+
+  flex: none;
+}
+
+.project-no {
+  font: 9px "DM Mono";
+
+  margin-bottom: 10px;
+
+  color: var(--dim);
+}
+
+.art {
+  height: min(60vw, 690px);
+
+  position: relative;
+
+  overflow: hidden;
+
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.project:hover .art {
+  transform: scale(0.985);
+}
+
+.caption {
+  display: flex;
+
+  justify-content: space-between;
+
+  padding: 13px 0;
+
+  border-bottom: 1px solid var(--line);
+
+  font: 9px "DM Mono";
+}
+
+.caption b {
+  font-family: "Space Grotesk";
+}
+
+/* PROJECT 1 */
+
+.art-a {
+  background: #e9e1d2;
+
+  color: #111;
+
+  padding: 7%;
+}
+
+.pink-orb {
+  position: absolute;
+
+  width: 58%;
+
+  aspect-ratio: 1;
+
+  border-radius: 50%;
+
+  background: var(--pink);
+
+  right: 8%;
+
+  top: 13%;
+
+  mix-blend-mode: multiply;
+}
+
+.stamp {
+  position: relative;
+
+  z-index: 2;
+
+  font-size: clamp(50px, 7vw, 110px);
+
+  line-height: 0.78;
+
+  letter-spacing: -0.09em;
+}
+
+/* PROJECT 2 */
+
+.art-b {
+  background: var(--blue);
+
+  color: #f4f0e8;
+
+  padding: 7%;
+}
+
+.big24 {
+  font-size: clamp(190px, 31vw, 450px);
+
+  letter-spacing: -0.13em;
+
+  line-height: 0.7;
+
+  position: absolute;
+
+  left: 4%;
+
+  top: 14%;
+}
+
+.frame {
+  position: absolute;
+
+  right: 7%;
+
+  bottom: 8%;
+
+  font: 12px "DM Mono";
+
+  writing-mode: vertical-rl;
+}
+
+.ring {
+  position: absolute;
+
+  inset: 18% 16%;
+
+  border: 1px solid #f4f0e8;
+
+  border-radius: 50%;
+
+  animation: spin 9s linear infinite;
+}
+
+/* PROJECT 3 */
+
+.art-c {
+  background: var(--orange);
+
+  color: #111;
+
+  padding: 7%;
+}
+
+.object {
+  position: absolute;
+
+  right: 9%;
+
+  top: 15%;
+
+  font-size: 220px;
+}
+
+.obj-type {
+  font-size: clamp(48px, 7vw, 105px);
+
+  line-height: 0.75;
+
+  letter-spacing: -0.08em;
+}
+
+/* PROJECT 4 */
+
+.art-d {
+  background: #111;
+
+  color: #f4f0e8;
+
+  padding: 7%;
+}
+
+.static {
+  font-size: clamp(80px, 12vw, 180px);
+
+  line-height: 0.72;
+
+  letter-spacing: -0.1em;
+}
+
+.fm {
+  font-size: clamp(180px, 28vw, 420px);
+
+  line-height: 0.65;
+
+  position: absolute;
+
+  right: 4%;
+
+  bottom: 10%;
+
+  color: var(--lime);
+
+  letter-spacing: -0.14em;
+}
+
+.dial {
+  position: absolute;
+
+  left: 48%;
+
+  top: 42%;
+
+  font-size: 90px;
+}
+
+.art span {
+  position: absolute;
+
+  left: 7%;
+
+  bottom: 5%;
+
+  font: 9px "DM Mono";
+}
+
+.progress {
+  height: 1px;
+
+  background: var(--line);
+
+  margin-top: 70px;
+}
+
+.progress i {
+  display: block;
+
+  height: 2px;
+
+  width: 20%;
+
+  background: var(--fg);
+
+  transform-origin: left;
+}
+
+/* =========================
+     INTERLUDE
+  ========================= */
+
+.interlude {
+  min-height: 85vh;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  text-align: center;
+}
+
+.interlude-star {
+  font-size: 120px;
+
+  color: var(--pink);
+
+  animation: spin 15s linear infinite;
+}
+
+.interlude p {
+  font-size: clamp(55px, 8vw, 125px);
+
+  line-height: 0.82;
+
+  letter-spacing: -0.075em;
+
+  max-width: 1050px;
+}
+
+/* =========================
+     ABOUT
+  ========================= */
+
+.about {
+  padding-bottom: 0;
+}
+
+.about-grid {
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 9vw;
+
+  margin: 115px 0;
+}
+
+.about h2 {
+  font-size: clamp(70px, 9vw, 145px);
+
+  line-height: 0.74;
+
+  letter-spacing: -0.08em;
+
+  margin: 35px 0;
+
+  font-weight: 500;
+}
+
+.about-copy {
+  max-width: 520px;
+}
+
+.lead {
+  font-size: clamp(25px, 3vw, 45px);
+
+  line-height: 0.98;
+
+  letter-spacing: -0.04em;
+}
+
+.about-copy > p:not(.lead) {
+  font-size: 14px;
+
+  line-height: 1.55;
+
+  color: var(--dim);
+
+  max-width: 430px;
+}
+
+.chips {
+  display: flex;
+
+  gap: 5px;
+
+  flex-wrap: wrap;
+
+  margin-top: 40px;
+}
+
+.chips span {
+  border: 1px solid var(--line);
+
+  border-radius: 99px;
+
+  padding: 8px 11px;
+
+  font: 8px "DM Mono";
+}
+
+.marquee {
+  border-top: 1px solid var(--line);
+
+  border-bottom: 1px solid var(--line);
+
+  overflow: hidden;
+
+  white-space: nowrap;
+
+  padding: 15px 0;
+
+  font: 10px "DM Mono";
+}
+
+.marquee span {
+  display: inline-block;
+
+  animation: marquee 28s linear infinite;
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* =========================
+     CONTACT
+  ========================= */
+
+.contact {
+  min-height: 100vh;
+
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: space-between;
+}
+
+.contact-core {
+  padding: 130px 0;
+}
+
+.contact-link {
+  display: block;
+
+  font-size: clamp(75px, 13vw, 205px);
+
+  letter-spacing: -0.1em;
+
+  line-height: 0.75;
+
+  margin: 35px 0;
+}
+
+.contact-link sup {
+  font-size: 0.25em;
+
+  color: var(--pink);
+}
+
+.contact-core p {
+  font-size: 13px;
+
+  color: var(--dim);
+}
+
+footer {
+  border-top: 1px solid var(--line);
+
+  padding: 13px 0;
+
+  font: 8px "DM Mono";
+
+  display: flex;
+
+  justify-content: space-between;
+}
+
+/* =========================
+     MODAL
+  ========================= */
+
+.modal {
+  position: fixed;
+
+  inset: 0;
+
+  z-index: 2500;
+
+  background: var(--bg);
+
+  display: none;
+
+  padding: 90px 26px 26px;
+
+  overflow: auto;
+}
+
+.modal > button {
+  position: absolute;
+
+  right: 26px;
+
+  top: 25px;
+
+  border: 0;
+
+  background: none;
+
+  font: 9px "DM Mono";
+
+  cursor: none;
+}
+
+.modal-index {
+  position: absolute;
+
+  top: 25px;
+
+  left: 26px;
+
+  font: 9px "DM Mono";
+}
+
+.modal-grid {
+  max-width: 1400px;
+
+  margin: auto;
+
+  display: grid;
+
+  grid-template-columns: 1.15fr 0.85fr;
+
+  gap: 8vw;
+
+  align-items: center;
+}
+
+.modal-grid > div:first-child {
+  min-height: 55vh;
+}
+
+.modal-copy > span {
+  font: 9px "DM Mono";
+
+  color: var(--dim);
+}
+
+.modal-copy h2 {
+  font-size: clamp(65px, 9vw, 145px);
+
+  line-height: 0.75;
+
+  letter-spacing: -0.08em;
+
+  margin: 25px 0;
+}
+
+.modal-copy p {
+  max-width: 430px;
+
+  font-size: 15px;
+
+  line-height: 1.45;
+
+  color: var(--dim);
+}
+
+#modalTags {
+  display: flex;
+
+  gap: 5px;
+
+  flex-wrap: wrap;
+
+  margin-top: 30px;
+}
+
+#modalTags span {
+  border: 1px solid var(--line);
+
+  border-radius: 99px;
+
+  padding: 7px 10px;
+
+  font: 8px "DM Mono";
+}
+
+/* =========================
+     MENU
+  ========================= */
+
+.menu-layer {
+  position: fixed;
+
+  inset: 0;
+
+  background: var(--fg);
+
+  color: var(--bg);
+
+  z-index: 2000;
+
+  display: none;
+
+  flex-direction: column;
+
+  justify-content: space-between;
+
+  padding: 110px 26px 25px;
+}
+
+.menu-links {
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: flex-start;
+}
+
+.menu-links a {
+  font-size: clamp(75px, 13vw, 200px);
+
+  line-height: 0.74;
+
+  letter-spacing: -0.09em;
+}
+
+.menu-links a:hover {
+  font-family: "Instrument Serif";
+
+  font-style: italic;
+
+  padding-left: 4vw;
+}
+
+.menu-bottom {
+  display: flex;
+
+  justify-content: space-between;
+
+  font: 9px "DM Mono";
+}
+
+/* =========================
+     MOBILE
+  ========================= */
+
+@media (max-width: 800px) {
+  body {
+    cursor: auto;
+  }
+
+  .cursor,
+  .cursor-label {
+    display: none;
+  }
+
+  .header {
+    padding: 0 14px;
+
+    grid-template-columns: 1fr auto;
+  }
+
+  .header-mid {
+    display: none;
+  }
+
+  .head-btn {
+    display: none;
+  }
+
+  section {
+    padding: 80px 14px;
+  }
+
+  .hero {
+    padding-top: 120px;
+  }
+
+  .hero-title {
+    font-size: 21vw;
+  }
+
+  .hero-title .serif {
+    margin-left: 8vw;
+  }
+
+  .orbit {
+    width: 35vw;
+
+    right: 2vw;
+
+    top: 34%;
+  }
+
+  .hero-foot {
+    display: block;
+  }
+
+  .scroll-cue {
+    margin-top: 35px;
+
+    justify-content: space-between;
+  }
+
+  .manifesto-grid,
+  .about-grid,
+  .modal-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .work-intro {
+    display: block;
+
+    margin: 70px 0 45px;
+  }
+
+  .work-intro p {
+    margin-top: 35px;
+  }
+
+  .project {
+    width: 83vw;
+  }
+
+  .art {
+    height: 82vw;
+  }
+
+  .interlude {
+    min-height: 70vh;
+  }
+
+  .contact-link {
+    font-size: 20vw;
+  }
+
+  .contact-core {
+    padding: 100px 0;
+  }
+
+  footer {
+    flex-wrap: wrap;
+
+    gap: 12px;
+  }
+
+  .menu-layer {
+    padding-left: 14px;
+
+    padding-right: 14px;
+  }
+
+  .modal-grid > div:first-child {
+    min-height: 55vw;
+  }
+
+  .modal-copy h2 {
+    font-size: 19vw;
+  }
+}
+
+/* =========================
+     REDUCED MOTION
+  ========================= */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+
+    transition: none !important;
+  }
+}
+
+/* =========================================================
+AÑADE ESTO AL FINAL DE TU styles.css
+NO BORRES EL CSS ORIGINAL
+========================================================= */
+
+/* =========================================================
+   HALFWAY MAGAZINE VIEWER
+   ========================================================= */
+
+.magazine-viewer {
+  position: relative;
+
+  width: 100%;
+  max-width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  overflow: hidden;
+
+  box-sizing: border-box;
+
+  user-select: none;
+}
+
+/* ---------------------------------------------------------
+     STAGE
+     --------------------------------------------------------- */
+
+.magazine-stage {
+  position: relative;
+
+  width: min(92vw, 1100px);
+
+  /*
+      Important:
+      the viewer itself never becomes wider than
+      the viewport.
+    */
+
+  max-width: 100%;
+
+  height: min(70vh, 760px);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  overflow: hidden;
+
+  perspective: 1800px;
+}
+
+/* ---------------------------------------------------------
+     SPREAD
+     --------------------------------------------------------- */
+
+.magazine-spread {
+  position: relative;
+
+  width: 100%;
+  height: 100%;
+
+  max-width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  box-sizing: border-box;
+
+  transform-style: preserve-3d;
+
+  will-change: transform, opacity;
+}
+
+/* ---------------------------------------------------------
+     PDF PAGES
+     --------------------------------------------------------- */
+
+.magazine-page {
+  display: block;
+
+  width: auto;
+  height: auto;
+
+  max-width: 100%;
+  max-height: 100%;
+
+  object-fit: contain;
+
+  background: white;
+
+  flex: 0 1 auto;
+
+  box-sizing: border-box;
+
+  will-change: transform;
+}
+
+/*
+     Double page
+  */
+
+.magazine-spread.is-double {
+  gap: 0;
+}
+
+.magazine-spread.is-double .magazine-page {
+  width: 50%;
+  height: 100%;
+
+  max-width: 50%;
+}
+
+/*
+     Single page:
+     cover / back cover
+  */
+
+.magazine-spread.is-single .magazine-page {
+  width: auto;
+  height: 100%;
+
+  max-width: 100%;
+}
+
+/* ---------------------------------------------------------
+     GUTTER
+     --------------------------------------------------------- */
+
+.magazine-gutter {
+  position: absolute;
+
+  top: 0;
+  bottom: 0;
+
+  left: 50%;
+
+  width: 1px;
+
+  transform: translateX(-50%);
+
+  pointer-events: none;
+
+  background: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0.08),
+    rgba(255, 255, 255, 0.65),
+    rgba(0, 0, 0, 0.08)
+  );
+
+  z-index: 5;
+}
+
+/*
+     Don't show the gutter on covers.
+  */
+
+.magazine-spread.is-single .magazine-gutter {
+  display: none;
+}
+
+/* ---------------------------------------------------------
+     PAGE SHADOWS
+     --------------------------------------------------------- */
+
+.magazine-page-left {
+  box-shadow: inset -10px 0 18px rgba(0, 0, 0, 0.045);
+}
+
+.magazine-page-right {
+  box-shadow: inset 10px 0 18px rgba(0, 0, 0, 0.045);
+}
+
+/* ---------------------------------------------------------
+     CONTROLS
+     --------------------------------------------------------- */
+
+.magazine-controls {
+  width: min(92vw, 1100px);
+
+  max-width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-top: 16px;
+
+  box-sizing: border-box;
+}
+
+.magazine-controls-left {
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+}
+
+.magazine-button {
+  width: 38px;
+  height: 30px;
+
+  border: 1px solid var(--line);
+
+  background: transparent;
+
+  color: var(--fg);
+
+  font: 9px "DM Mono", monospace;
+
+  cursor: none;
+
+  transition: background 0.25s ease, color 0.25s ease;
+}
+
+.magazine-button:hover {
+  background: var(--fg);
+
+  color: var(--bg);
+}
+
+.magazine-button:disabled {
+  opacity: 0.25;
+
+  pointer-events: none;
+}
+
+.magazine-counter {
+  min-width: 80px;
+
+  text-align: center;
+
+  font: 9px "DM Mono", monospace;
+
+  color: var(--dim);
+}
+
+.magazine-hint {
+  margin-top: 8px;
+
+  font: 8px "DM Mono", monospace;
+
+  color: var(--dim);
+
+  opacity: 0.7;
+
+  text-align: center;
+}
+
+/* ---------------------------------------------------------
+     LOADING
+     --------------------------------------------------------- */
+
+.magazine-loading {
+  position: absolute;
+
+  inset: 0;
+
+  z-index: 50;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: var(--bg);
+
+  font: 9px "DM Mono", monospace;
+}
+
+.magazine-loading.is-hidden {
+  opacity: 0;
+
+  pointer-events: none;
+
+  transition: opacity 0.35s ease;
+}
+
+/* ---------------------------------------------------------
+     MOBILE
+     --------------------------------------------------------- */
+
+@media (max-width: 700px) {
+  .magazine-stage {
+    width: 94vw;
+
+    height: 62vh;
+  }
+
+  .magazine-spread.is-double .magazine-page {
+    width: 50%;
+    max-width: 50%;
+  }
+
+  .magazine-controls {
+    width: 94vw;
+  }
+}
+/* =========================================================
+    CONTACT DETAILS
+    ========================================================= */
+
+.contact-details {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 22px;
+  margin-top: 30px;
+  font: 9px "DM Mono";
+}
+
+.contact-details a,
+.contact-email {
+  display: inline-block;
+}
+
+.contact-details a {
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 3px;
+}
+
+.contact-details a:hover {
+  border-color: var(--fg);
+}
+
+/* =========================================================
+    MENU CLOSE
+    ========================================================= */
+
+.menu-close {
+  position: absolute;
+  top: 25px;
+  right: 26px;
+  z-index: 3;
+
+  border: 1px solid currentColor;
+  background: transparent;
+  color: inherit;
+
+  padding: 8px 11px;
+
+  font: 9px "DM Mono";
+
+  cursor: none;
+
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.menu-close:hover {
+  background: var(--bg);
+  color: var(--fg);
+}
+
+/* =========================================================
+    MENU OPEN STATE
+    ========================================================= */
+
+.menu-layer {
+  visibility: hidden;
+  pointer-events: none;
+  clip-path: inset(0 0 100% 0);
+}
+
+.menu-layer.is-open {
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* =========================================================
+    TOOLS MARQUEE
+    ========================================================= */
+
+.marquee {
+  position: relative;
+  overflow: hidden;
+  white-space: nowrap;
+  padding: 15px 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  align-items: center;
+  will-change: transform;
+}
+
+.marquee-track span {
+  flex: none;
+  display: block;
+  padding-right: 45px;
+  font: 10px "DM Mono";
+}
+
+/* =========================================================
+    MOBILE
+    ========================================================= */
+
+@media (max-width: 800px) {
+  .magazine-stage {
+    height: 65vh;
+    min-height: 420px;
+  }
+
+  .magazine-empty {
+    width: 82%;
+  }
+
+  .magazine-controls {
+    gap: 10px;
+  }
+
+  .magazine-controls-left,
+  .magazine-controls-right {
+    gap: 4px;
+  }
+
+  .magazine-button {
+    min-width: 34px;
+    padding: 0 7px;
+  }
+
+  .magazine-hint {
+    font-size: 7px;
+  }
+
+  .contact-details {
+    margin-top: 25px;
+    gap: 14px;
+  }
+
+  .menu-close {
+    right: 14px;
+    top: 18px;
+  }
+}
+
+/* =========================================================
+    REDUCED MOTION
+    ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    transform: none !important;
+  }
+
+  .magazine-page {
+    transition: none !important;
+  }
+}
