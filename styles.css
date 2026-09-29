@@ -538,29 +538,39 @@ section {
 
   pointer-events: none;
 }
-/* POSIBLE BORRAR
+
 .hero-stage {
   position: relative;
+
   min-height: 55vh;
+
   display: flex;
+
   align-items: center;
-  justify-content: flex-start; /* Alinea el bloque del título a la izquierda del contenedor 
+  justify-content: flex-start;
 }
 
 .hero-title {
   position: relative;
+
   z-index: 2;
+
   margin: 0;
+
   display: flex;
   flex-direction: column;
-  align-items: flex-start; /* Alinea cada línea (MAKE / things / MATTER.) a la izquierda 
+  align-items: flex-start;
+
   font-size: clamp(76px, 14vw, 220px);
+
   line-height: 0.75;
+
   letter-spacing: -0.085em;
+
   font-weight: 600;
-  text-align: left; /* Alineación de texto a la izquierda 
+
+  text-align: left;
 }
-*/
 
 .hero-title .serif {
   font-family: "Instrument Serif", serif;
@@ -1371,12 +1381,6 @@ footer {
   pointer-events: none;
 
   clip-path: inset(0 0 100% 0);
-
-  /*
-   * IMPORTANT:
-   * No display:none here.
-   * GSAP controls visibility and clip-path.
-   */
 }
 
 .menu-layer.is-open {
@@ -2035,7 +2039,7 @@ footer {
   min-height: 55vh;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start; /* Alinea el bloque completo a la izquierda */
 }
 
 .hero-title {
@@ -2044,12 +2048,12 @@ footer {
   margin: 0;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start; /* Alinea las tres líneas de texto a la izquierda entre sí */
   font-size: clamp(76px, 14vw, 220px);
   line-height: 0.75;
   letter-spacing: -0.085em;
   font-weight: 600;
-  text-align: center;
+  text-align: left;
 }
 
 .hero-title .serif {
