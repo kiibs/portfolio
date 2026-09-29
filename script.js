@@ -6,8 +6,8 @@
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
 /* =========================================================
-      SETTINGS
-   ========================================================= */
+         SETTINGS
+      ========================================================= */
 
 const STORAGE_THEME = "emma-theme";
 const STORAGE_LANG = "emma-lang";
@@ -23,8 +23,8 @@ const state = {
 };
 
 /* =========================================================
-      TRANSLATIONS
-   ========================================================= */
+         TRANSLATIONS
+      ========================================================= */
 
 const translations = {
   en: {
@@ -91,8 +91,8 @@ const translations = {
 };
 
 /* =========================================================
-      PROJECT DATA
-   ========================================================= */
+         PROJECT DATA
+      ========================================================= */
 
 const projects = [
   {
@@ -159,8 +159,8 @@ const projects = [
 ];
 
 /* =========================================================
-      DOM
-   ========================================================= */
+         DOM
+      ========================================================= */
 
 const body = document.body;
 const html = document.documentElement;
@@ -192,8 +192,8 @@ const projectsElements = document.querySelectorAll(".project");
 const marqueeTrack = document.querySelector(".marquee-track");
 
 /* =========================================================
-      SETTINGS
-   ========================================================= */
+         SETTINGS
+      ========================================================= */
 
 function applyTheme() {
   html.dataset.theme = state.theme;
@@ -227,8 +227,8 @@ function applyLanguage() {
 }
 
 /* =========================================================
-      THEME
-   ========================================================= */
+         THEME
+      ========================================================= */
 
 themeButton?.addEventListener("click", () => {
   state.theme = state.theme === "dark" ? "light" : "dark";
@@ -246,8 +246,8 @@ themeButton?.addEventListener("click", () => {
 });
 
 /* =========================================================
-      LANGUAGE
-   ========================================================= */
+         LANGUAGE
+      ========================================================= */
 
 langButton?.addEventListener("click", () => {
   state.lang = state.lang === "en" ? "es" : "en";
@@ -264,8 +264,8 @@ langButton?.addEventListener("click", () => {
 });
 
 /* =========================================================
-      PRELOADER
-   ========================================================= */
+         PRELOADER
+      ========================================================= */
 
 function runPreloader() {
   const alreadySeen = sessionStorage.getItem(STORAGE_LOADER) === "true";
@@ -334,8 +334,8 @@ function runPreloader() {
 }
 
 /* =========================================================
-      CURSOR
-   ========================================================= */
+         CURSOR
+      ========================================================= */
 
 function setupCursor() {
   const cursor = document.querySelector(".cursor");
@@ -408,8 +408,8 @@ function setupCursor() {
 }
 
 /* =========================================================
-      MAGNETIC ELEMENTS
-   ========================================================= */
+         MAGNETIC ELEMENTS
+      ========================================================= */
 
 function setupMagnetic() {
   if (window.matchMedia("(pointer: coarse)").matches) return;
@@ -442,8 +442,8 @@ function setupMagnetic() {
 }
 
 /* =========================================================
-      MENU
-   ========================================================= */
+         MENU
+      ========================================================= */
 
 function openMenu() {
   if (!menuLayer || state.menuOpen) return;
@@ -557,8 +557,8 @@ document.querySelectorAll(".menu-links a").forEach((link) => {
 });
 
 /* =========================================================
-      HERO
-   ========================================================= */
+         HERO
+      ========================================================= */
 
 function setupHero() {
   const heroTitle = document.querySelector(".hero-title");
@@ -609,8 +609,8 @@ function setupHero() {
 }
 
 /* =========================================================
-      COLOURED HERO ASTERISK
-   ========================================================= */
+         COLOURED HERO ASTERISK
+      ========================================================= */
 
 function restoreAsterisk() {
   const asterisk = document.querySelector(".orbit b");
@@ -625,8 +625,8 @@ function restoreAsterisk() {
 }
 
 /* =========================================================
-      GENERAL REVEALS
-   ========================================================= */
+         GENERAL REVEALS
+      ========================================================= */
 
 function setupReveals() {
   const elements = document.querySelectorAll(
@@ -657,8 +657,8 @@ function setupReveals() {
 }
 
 /* =========================================================
-      HORIZONTAL WORK SHOWCASE
-   ========================================================= */
+         HORIZONTAL WORK SHOWCASE
+      ========================================================= */
 
 let horizontalWorkTrigger = null;
 
@@ -746,8 +746,8 @@ function setupHorizontalWork() {
 }
 
 /* =========================================================
-      PROJECT CLICK
-   ========================================================= */
+         PROJECT CLICK
+      ========================================================= */
 
 projectsElements.forEach((project) => {
   project.addEventListener("click", (event) => {
@@ -768,8 +768,8 @@ projectsElements.forEach((project) => {
 });
 
 /* =========================================================
-      PROJECT MODAL
-   ========================================================= */
+         PROJECT MODAL
+      ========================================================= */
 
 function openProject(index) {
   if (!modal) return;
@@ -888,8 +888,8 @@ document.addEventListener("keydown", (event) => {
 });
 
 /* =========================================================
-      RENDER PROJECT
-   ========================================================= */
+         RENDER PROJECT
+      ========================================================= */
 
 function renderProject(index) {
   const project = projects[index];
@@ -946,47 +946,47 @@ function renderProject(index) {
 
   if (project.visual === "art-b") {
     visual.innerHTML = `
-         <div class="ring"></div>
-         <div class="big24">24</div>
-         <div class="frame">FRAMES</div>
-         <span>24F / MOTION CAMPAIGN</span>
-       `;
+            <div class="ring"></div>
+            <div class="big24">24</div>
+            <div class="frame">FRAMES</div>
+            <span>24F / MOTION CAMPAIGN</span>
+          `;
   }
 
   if (project.visual === "art-c") {
     visual.innerHTML = `
-         <div class="object">◒</div>
-   
-         <div class="obj-type">
-           OBJECTS<br>
-           WITH<br>
-           ATTITUDE
-         </div>
-   
-         <span>ODD / EDITORIAL</span>
-       `;
+            <div class="object">◒</div>
+      
+            <div class="obj-type">
+              OBJECTS<br>
+              WITH<br>
+              ATTITUDE
+            </div>
+      
+            <span>ODD / EDITORIAL</span>
+          `;
   }
 
   if (project.visual === "art-d") {
     visual.innerHTML = `
-         <div class="static">
-           NO<br>
-           SIGNAL
-         </div>
-   
-         <div class="fm">FM</div>
-         <div class="dial">∞</div>
-   
-         <span>STATIC / DIGITAL</span>
-       `;
+            <div class="static">
+              NO<br>
+              SIGNAL
+            </div>
+      
+            <div class="fm">FM</div>
+            <div class="dial">∞</div>
+      
+            <span>STATIC / DIGITAL</span>
+          `;
   }
 
   modalVisual.appendChild(visual);
 }
 
 /* =========================================================
-      HALFWAY PDF
-   ========================================================= */
+         HALFWAY PDF
+      ========================================================= */
 
 function renderHalfway(container, project) {
   const wrapper = document.createElement("div");
@@ -994,40 +994,40 @@ function renderHalfway(container, project) {
   wrapper.className = "pdf-viewer";
 
   wrapper.innerHTML = `
-      <div class="pdf-stage">
-  
-        <div class="pdf-loading">
-          LOADING PDF / 00%
-        </div>
-  
-        <div class="pdf-spread"></div>
-  
-      </div>
-  
-      <div class="pdf-controls">
-  
-        <button
-          type="button"
-          class="pdf-prev"
-          aria-label="Previous spread"
-        >
-          ←
-        </button>
-  
-        <span class="pdf-page">
-          01 / 01
-        </span>
-  
-        <button
-          type="button"
-          class="pdf-next"
-          aria-label="Next spread"
-        >
-          →
-        </button>
-  
-      </div>
-    `;
+         <div class="pdf-stage">
+     
+           <div class="pdf-loading">
+             LOADING PDF / 00%
+           </div>
+     
+           <div class="pdf-spread"></div>
+     
+         </div>
+     
+         <div class="pdf-controls">
+     
+           <button
+             type="button"
+             class="pdf-prev"
+             aria-label="Previous spread"
+           >
+             ←
+           </button>
+     
+           <span class="pdf-page">
+             01 / 01
+           </span>
+     
+           <button
+             type="button"
+             class="pdf-next"
+             aria-label="Next spread"
+           >
+             →
+           </button>
+     
+         </div>
+       `;
 
   container.appendChild(wrapper);
 
@@ -1037,8 +1037,8 @@ function renderHalfway(container, project) {
 }
 
 /* =========================================================
-      PDF VIEWER
-   ========================================================= */
+         PDF VIEWER
+      ========================================================= */
 
 async function setupPDFViewer(wrapper, url) {
   const stage = wrapper.querySelector(".pdf-stage");
@@ -1217,10 +1217,9 @@ async function setupPDFViewer(wrapper, url) {
 
         spread.appendChild(canvas);
       } else {
-
-      /*
-       * TWO PAGE SPREAD
-       */
+        /*
+         * TWO PAGE SPREAD
+         */
         spread.classList.add("double");
         spread.classList.remove("single");
 
@@ -1318,8 +1317,8 @@ async function setupPDFViewer(wrapper, url) {
 }
 
 /* =========================================================
-      TOOLS MARQUEE
-   ========================================================= */
+         TOOLS MARQUEE
+      ========================================================= */
 
 const tools = [
   "FIGMA",
@@ -1361,9 +1360,9 @@ function setupMarquee() {
     item.className = "marquee-item";
 
     item.innerHTML = `
-         <b>✦</b>
-         ${tool}
-       `;
+            <b>✦</b>
+            ${tool}
+          `;
 
     marqueeTrack.appendChild(item);
   });
@@ -1389,8 +1388,8 @@ function setupMarquee() {
 }
 
 /* =========================================================
-      PROJECT CARD HOVER
-   ========================================================= */
+         PROJECT CARD HOVER
+      ========================================================= */
 
 function setupProjectHover() {
   projectsElements.forEach((project) => {
@@ -1417,8 +1416,8 @@ function setupProjectHover() {
 }
 
 /* =========================================================
-      SECTION LABELS
-   ========================================================= */
+         SECTION LABELS
+      ========================================================= */
 
 function setupSectionAnimations() {
   document.querySelectorAll(".section-label").forEach((label) => {
@@ -1448,8 +1447,8 @@ function setupSectionAnimations() {
 }
 
 /* =========================================================
-      MANIFESTO STAR
-   ========================================================= */
+         MANIFESTO STAR
+      ========================================================= */
 
 function setupManifestoStar() {
   const star = document.querySelector(".manifesto-side .star");
@@ -1465,8 +1464,8 @@ function setupManifestoStar() {
 }
 
 /* =========================================================
-      BACKGROUND FIELD
-   ========================================================= */
+         BACKGROUND FIELD
+      ========================================================= */
 
 function setupField() {
   const canvas = document.getElementById("field");
@@ -1543,8 +1542,8 @@ function setupField() {
 }
 
 /* =========================================================
-      CONTACT MAGNETIC
-   ========================================================= */
+         CONTACT MAGNETIC
+      ========================================================= */
 
 function setupContact() {
   const contact = document.querySelector(".contact-link");
@@ -1567,8 +1566,8 @@ function setupContact() {
 }
 
 /* =========================================================
-      SMOOTH MENU SCROLL
-   ========================================================= */
+         SMOOTH MENU SCROLL
+      ========================================================= */
 
 document.querySelectorAll('a[href^="#"]').forEach((link) => {
   link.addEventListener("click", (event) => {
@@ -1598,8 +1597,8 @@ document.querySelectorAll('a[href^="#"]').forEach((link) => {
 });
 
 /* =========================================================
-      LOGO
-   ========================================================= */
+         LOGO
+      ========================================================= */
 
 document.querySelector(".logo")?.addEventListener("click", (event) => {
   event.preventDefault();
@@ -1612,8 +1611,8 @@ document.querySelector(".logo")?.addEventListener("click", (event) => {
 });
 
 /* =========================================================
-      RESIZE
-   ========================================================= */
+         RESIZE
+      ========================================================= */
 
 let resizeTimer;
 
@@ -1630,8 +1629,8 @@ window.addEventListener("resize", () => {
 });
 
 /* =========================================================
-      REDUCED MOTION
-   ========================================================= */
+         REDUCED MOTION
+      ========================================================= */
 
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
@@ -1640,8 +1639,8 @@ if (reducedMotion.matches) {
 }
 
 /* =========================================================
-      INIT
-   ========================================================= */
+         INIT
+      ========================================================= */
 
 function init() {
   applyTheme();
@@ -1681,8 +1680,8 @@ function init() {
 }
 
 /* =========================================================
-      START
-   ========================================================= */
+         START
+      ========================================================= */
 
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", init);
