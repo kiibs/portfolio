@@ -446,68 +446,97 @@ function setupMagnetic() {
    ========================================================= */
 
 function openMenu() {
-  if (!menuLayer) return;
+  if (!menuLayer || state.menuOpen) return;
 
   state.menuOpen = true;
 
-  body.classList.add("menu-open");
+  document.body.classList.add("menu-open");
 
   menuLayer.setAttribute("aria-hidden", "false");
 
   if (menuButton) {
     menuButton.setAttribute("aria-expanded", "true");
+    menuButton.setAttribute("aria-label", "Close menu");
   }
 
   gsap.killTweensOf(menuLayer);
+  gsap.killTweensOf(".menu-links a");
 
+  /*
+   * IMPORTANT:
+   * The CSS starts the menu with:
+   * clip-path: inset(0 0 100% 0)
+   *
+   * We explicitly open that clip-path here.
+   */
   gsap.set(menuLayer, {
-    display: "block",
-    autoAlpha: 0,
+    display: "flex",
+    visibility: "visible",
+    pointerEvents: "auto",
+    autoAlpha: 1,
+    clipPath: "inset(0 0 100% 0)",
+  });
+
+  gsap.set(".menu-links a", {
+    y: 70,
+    opacity: 0,
   });
 
   gsap.to(menuLayer, {
-    autoAlpha: 1,
-    duration: 0.45,
-    ease: "power3.out",
+    clipPath: "inset(0 0 0% 0)",
+    duration: 0.65,
+    ease: "power4.inOut",
   });
 
-  gsap.fromTo(
-    ".menu-links a",
-    {
-      y: 60,
-      opacity: 0,
-    },
-    {
-      y: 0,
-      opacity: 1,
-      duration: 0.7,
-      stagger: 0.07,
-      delay: 0.08,
-      ease: "power4.out",
-    }
-  );
+  gsap.to(".menu-links a", {
+    y: 0,
+    opacity: 1,
+    duration: 0.65,
+    stagger: 0.08,
+    delay: 0.18,
+    ease: "power4.out",
+  });
 }
 
 function closeMenu() {
-  if (!menuLayer) return;
+  if (!menuLayer || !state.menuOpen) return;
 
   state.menuOpen = false;
 
-  body.classList.remove("menu-open");
+  document.body.classList.remove("menu-open");
 
   menuLayer.setAttribute("aria-hidden", "true");
 
   if (menuButton) {
     menuButton.setAttribute("aria-expanded", "false");
+    menuButton.setAttribute("aria-label", "Open menu");
   }
 
+  gsap.killTweensOf(menuLayer);
+  gsap.killTweensOf(".menu-links a");
+
   gsap.to(menuLayer, {
-    autoAlpha: 0,
-    duration: 0.35,
-    ease: "power3.inOut",
-    onComplete() {
-      menuLayer.style.display = "none";
+    clipPath: "inset(0 0 100% 0)",
+    autoAlpha: 1,
+    duration: 0.55,
+    ease: "power4.inOut",
+
+    onComplete: () => {
+      if (!state.menuOpen) {
+        gsap.set(menuLayer, {
+          visibility: "hidden",
+          pointerEvents: "none",
+          display: "flex",
+        });
+      }
     },
+  });
+
+  gsap.to(".menu-links a", {
+    y: 40,
+    opacity: 0,
+    duration: 0.25,
+    ease: "power2.in",
   });
 }
 
@@ -752,39 +781,49 @@ function openProject(index) {
   state.currentProject = index;
   state.modalOpen = true;
 
-  body.classList.add("modal-open");
+  document.body.classList.add("modal-open");
 
   modal.setAttribute("aria-hidden", "false");
 
   renderProject(index);
 
   gsap.killTweensOf(modal);
+  gsap.killTweensOf(".modal-grid");
 
+  /*
+   * CRITICAL FIX:
+   * The modal CSS starts closed with:
+   *
+   * clip-path: inset(0 0 100% 0);
+   *
+   * We reset it before opening.
+   */
   gsap.set(modal, {
     display: "block",
-    autoAlpha: 0,
+    visibility: "visible",
+    pointerEvents: "auto",
+    autoAlpha: 1,
+    clipPath: "inset(0 0 100% 0)",
+  });
+
+  gsap.set(".modal-grid", {
+    y: 35,
+    opacity: 0,
   });
 
   gsap.to(modal, {
-    autoAlpha: 1,
-    duration: 0.5,
-    ease: "power3.out",
+    clipPath: "inset(0 0 0% 0)",
+    duration: 0.55,
+    ease: "power4.inOut",
   });
 
-  gsap.fromTo(
-    ".modal-grid",
-    {
-      y: 35,
-      opacity: 0,
-    },
-    {
-      y: 0,
-      opacity: 1,
-      duration: 0.65,
-      delay: 0.05,
-      ease: "power3.out",
-    }
-  );
+  gsap.to(".modal-grid", {
+    y: 0,
+    opacity: 1,
+    duration: 0.65,
+    delay: 0.08,
+    ease: "power3.out",
+  });
 }
 
 function closeProject() {
@@ -792,19 +831,37 @@ function closeProject() {
 
   state.modalOpen = false;
 
-  body.classList.remove("modal-open");
+  document.body.classList.remove("modal-open");
 
   modal.setAttribute("aria-hidden", "true");
 
-  gsap.to(modal, {
-    autoAlpha: 0,
-    duration: 0.35,
-    ease: "power3.inOut",
-    onComplete() {
-      modal.style.display = "none";
+  gsap.killTweensOf(modal);
+  gsap.killTweensOf(".modal-grid");
 
-      if (modalVisual) {
-        modalVisual.innerHTML = "";
+  gsap.to(".modal-grid", {
+    y: 20,
+    opacity: 0,
+    duration: 0.2,
+    ease: "power2.in",
+  });
+
+  gsap.to(modal, {
+    clipPath: "inset(0 0 100% 0)",
+    duration: 0.45,
+    delay: 0.05,
+    ease: "power4.inOut",
+
+    onComplete: () => {
+      if (!state.modalOpen) {
+        gsap.set(modal, {
+          display: "none",
+          pointerEvents: "none",
+          autoAlpha: 1,
+        });
+
+        if (modalVisual) {
+          modalVisual.innerHTML = "";
+        }
       }
     },
   });
