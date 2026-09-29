@@ -2033,3 +2033,146 @@ footer {
     font-size: 18vw;
   }
 }
+
+/* =========================================================
+   FINAL FIXES — HERO / WORK / MARQUEE
+========================================================= */
+
+/* Restore original hero composition */
+.hero-stage {
+  position: relative;
+  min-height: 55vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-title {
+  position: relative;
+  z-index: 2;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: clamp(76px, 14vw, 220px);
+  line-height: 0.75;
+  letter-spacing: -0.085em;
+  font-weight: 600;
+  text-align: center;
+}
+
+.hero-title .serif {
+  font-family: "Instrument Serif", serif;
+  font-style: italic;
+  font-weight: 400;
+}
+
+/* Central coloured asterisk */
+.orbit b {
+  position: absolute;
+  color: var(--pink) !important;
+  font-size: 30px;
+  line-height: 1;
+  z-index: 3;
+  animation: orbitCounter 12s linear infinite;
+}
+
+/* GSAP controls the horizontal position */
+.work {
+  overflow: hidden;
+}
+
+.project-track {
+  display: flex;
+  gap: 28px;
+  width: max-content;
+  margin-top: 100px;
+  will-change: transform;
+}
+
+.project {
+  flex: 0 0 auto;
+  width: min(55vw, 680px);
+  position: relative;
+  cursor: none;
+  pointer-events: auto;
+}
+
+/* Continuous tools strip */
+.marquee {
+  overflow: hidden;
+  width: 100%;
+  position: relative;
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  align-items: center;
+  will-change: transform;
+}
+
+.marquee-item {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 30px;
+  padding-right: 30px;
+  white-space: nowrap;
+  font-size: clamp(42px, 6vw, 90px);
+  line-height: 1;
+  letter-spacing: -0.06em;
+}
+
+.marquee-item b {
+  color: var(--pink);
+  font-size: 0.5em;
+}
+
+/* Active language */
+.lang-switch span {
+  transition: color 0.25s ease, opacity 0.25s ease;
+}
+
+.lang-switch span.active {
+  color: #e54848 !important;
+  opacity: 1;
+}
+
+/* Available remains green */
+.availability,
+.availability i {
+  color: var(--available);
+}
+
+.availability i {
+  background: var(--available);
+}
+
+/* =========================================================
+   MOBILE WORK
+========================================================= */
+
+@media (max-width: 767px) {
+  .project-track {
+    width: max-content;
+    overflow: visible;
+  }
+
+  .project {
+    width: min(82vw, 520px);
+  }
+
+  .hero-title {
+    font-size: clamp(64px, 18vw, 130px);
+  }
+
+  .orbit {
+    width: 46vw;
+    right: 2%;
+  }
+
+  .marquee-item {
+    font-size: 48px;
+  }
+}

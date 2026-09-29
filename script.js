@@ -1,1053 +1,421 @@
 /* =========================================================
    EMMA PORTFOLIO
    MAIN JAVASCRIPT
-========================================================= */
+   ========================================================= */
 
-document.addEventListener("DOMContentLoaded", () => {
-  /* =======================================================
-     GSAP
-  ======================================================= */
+gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
-  gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+/* =========================================================
+      SETTINGS
+   ========================================================= */
 
-  /* =======================================================
-     STATE
-  ======================================================= */
+const STORAGE_THEME = "emma-theme";
+const STORAGE_LANG = "emma-lang";
+const STORAGE_LOADER = "emma-loader-seen";
 
-  let lang = localStorage.getItem("EMMA-lang") || "en";
-  let theme = localStorage.getItem("EMMA-theme") || "light";
+const state = {
+  theme: localStorage.getItem(STORAGE_THEME) || "light",
+  lang: localStorage.getItem(STORAGE_LANG) || "en",
+  menuOpen: false,
+  modalOpen: false,
+  currentProject: 0,
+  loading: true,
+};
 
-  let menuOpen = false;
-  let currentProject = null;
+/* =========================================================
+      TRANSLATIONS
+   ========================================================= */
 
-  let pdfDocument = null;
-  let pdfPage = 1;
-  let pdfTotalPages = 0;
-  let pdfRendering = false;
+const translations = {
+  en: {
+    available: "AVAILABLE",
 
-  /* =======================================================
-     TRANSLATIONS
-  ======================================================= */
+    intro:
+      "Recently graduated graphic designer building visual identities, campaigns and digital worlds with a soft spot for strange ideas.",
 
-  const copy = {
-    en: {
-      available: "AVAILABLE",
+    manifesto: "GOOD DESIGN<br><em>SHOULD FEEL</em><br>ALIVE.",
 
-      intro:
-        "Recently graduated graphic designer building visual identities, campaigns and digital worlds with a soft spot for strange ideas.",
+    manifestoSide:
+      "Not decoration. Not noise. A clear idea, pushed until it develops a pulse.",
 
-      manifesto: "GOOD DESIGN<br><em>SHOULD FEEL</em><br>ALIVE.",
+    workLead:
+      "Four fictional studies. Real design thinking. Built to show how I move from concept to visual system.",
 
-      manifestoSide:
-        "Not decoration. Not noise. A clear idea, pushed until it develops a pulse.",
+    interlude:
+      "The portfolio is not a container for the work.<br><em>It is the first piece of work.</em>",
 
-      workLead:
-        "Four fictional studies. Real design thinking. Built to show how I move from concept to visual system.",
+    aboutTitle: "Designer,<br><em>curious human.</em>",
 
-      interlude:
-        "The portfolio is not a container for the work.<br><em>It is the first piece of work.</em>",
+    aboutLead:
+      "I work somewhere between strategy and play — turning loose thoughts into identities people can recognize, remember and feel.",
 
-      aboutTitle: "Designer,<br><em>curious human.</em>",
+    aboutText:
+      "My practice moves across branding, editorial, digital and motion. I like typography with a point of view, systems with room for accidents and details that reward a second look.",
 
-      aboutLead:
-        "I work somewhere between strategy and play — turning loose thoughts into identities people can recognize, remember and feel.",
+    contactEyebrow: "HAVE A GOOD BRIEF?",
 
-      aboutText:
-        "My practice moves across branding, editorial, digital and motion. I like typography with a point of view, systems with room for accidents and details that reward a second look.",
+    contactText:
+      "Available for junior roles, internships and selected freelance projects.",
+  },
 
-      contactEyebrow: "HAVE A GOOD BRIEF?",
+  es: {
+    available: "DISPONIBLE",
 
-      contactText:
-        "Available for junior roles, internships and selected freelance projects.",
+    intro:
+      "Diseñadora gráfica recién graduada que crea identidades visuales, campañas y mundos digitales con debilidad por las ideas extrañas.",
+
+    manifesto: "EL BUEN DISEÑO<br><em>DEBERÍA SENTIRSE</em><br>VIVO.",
+
+    manifestoSide:
+      "No decoración. No ruido. Una idea clara, llevada hasta desarrollar su propio pulso.",
+
+    workLead:
+      "Cuatro estudios ficticios. Diseño real. Una muestra de cómo paso del concepto a un sistema visual.",
+
+    interlude:
+      "El portfolio no es un contenedor para el trabajo.<br><em>Es la primera pieza de trabajo.</em>",
+
+    aboutTitle: "Diseñadora,<br><em>persona curiosa.</em>",
+
+    aboutLead:
+      "Trabajo entre la estrategia y el juego: convierto ideas sueltas en identidades que la gente puede reconocer, recordar y sentir.",
+
+    aboutText:
+      "Mi práctica se mueve entre branding, editorial, digital y motion. Me interesa la tipografía con personalidad, los sistemas que dejan espacio para los accidentes y los detalles que premian una segunda mirada.",
+
+    contactEyebrow: "¿TIENES UN BUEN BRIEF?",
+
+    contactText:
+      "Disponible para puestos junior, prácticas y proyectos freelance seleccionados.",
+  },
+};
+
+/* =========================================================
+      PROJECT DATA
+   ========================================================= */
+
+const projects = [
+  {
+    number: "01",
+    title: "HALFWAY",
+    category: "EDITORIAL / ART DIRECTION",
+    description: {
+      en: "An experimental editorial system exploring the uncomfortable space between two decisions. Halfway turns hesitation into a visual language built around rhythm, contrast and unexpected interruptions.",
+
+      es: "Un sistema editorial experimental que explora ese espacio incómodo entre dos decisiones. Halfway convierte la duda en un lenguaje visual basado en ritmo, contraste e interrupciones inesperadas.",
     },
 
-    es: {
-      available: "DISPONIBLE",
+    tags: ["EDITORIAL", "ART DIRECTION", "TYPOGRAPHY", "INDESIGN"],
 
-      intro:
-        "Diseñadora gráfica recién graduada interesada en crear identidades visuales, campañas y mundos digitales, con debilidad por las ideas extrañas.",
+    visual: "art-a",
 
-      manifesto: "EL BUEN DISEÑO<br><em>DEBERÍA SENTIRSE</em><br>VIVO.",
+    pdf: "assets/HALFWAY.pdf",
+  },
 
-      manifestoSide:
-        "No decoración. No ruido. Una idea clara, llevada hasta desarrollar su propio pulso.",
+  {
+    number: "02",
+    title: "24 FRAMES",
+    category: "MOTION / CAMPAIGN",
+    description: {
+      en: "A motion campaign built around repetition, rhythm and controlled visual distortion. The identity changes frame by frame while remaining recognisable as one system.",
 
-      workLead:
-        "Cuatro estudios ficticios. Pensamiento de diseño real. Proyectos construidos para mostrar cómo paso del concepto al sistema visual.",
-
-      interlude:
-        "El portfolio no es un contenedor para el trabajo.<br><em>Es la primera pieza de trabajo.</em>",
-
-      aboutTitle: "Diseñadora,<br><em>persona curiosa.</em>",
-
-      aboutLead:
-        "Trabajo en algún punto entre la estrategia y el juego: convierto ideas sueltas en identidades que la gente puede reconocer, recordar y sentir.",
-
-      aboutText:
-        "Mi práctica se mueve entre branding, editorial, digital y motion. Me interesa la tipografía con personalidad, los sistemas con espacio para accidentes y los detalles que recompensan una segunda mirada.",
-
-      contactEyebrow: "¿TIENES UN BUEN BRIEF?",
-
-      contactText:
-        "Disponible para puestos junior, prácticas y proyectos freelance seleccionados.",
-    },
-  };
-
-  /* =======================================================
-     PROJECT DATA
-  ======================================================= */
-
-  const projects = [
-    {
-      cat: "EDITORIAL / ART DIRECTION",
-
-      title: "HALFWAY",
-
-      text: {
-        en: "An editorial project exploring fashion, culture and visual rhythm through a tactile magazine system designed as a complete reading experience.",
-
-        es: "Un proyecto editorial que explora la moda, la cultura y el ritmo visual mediante un sistema de revista táctil concebido como una experiencia de lectura completa.",
-      },
-
-      tags: ["Editorial", "Art Direction", "Typography", "Publication"],
-
-      magazine: true,
+      es: "Una campaña de motion basada en la repetición, el ritmo y la distorsión visual controlada. La identidad cambia frame a frame sin dejar de pertenecer al mismo sistema.",
     },
 
-    {
-      cat: "MOTION / CAMPAIGN",
+    tags: ["MOTION", "CAMPAIGN", "ART DIRECTION", "AFTER EFFECTS"],
 
-      title: "24 FRAMES",
+    visual: "art-b",
+  },
 
-      text: {
-        en: "A motion study built around rhythm, repetition and the expressive potential of a restricted visual system.",
+  {
+    number: "03",
+    title: "ODD OBJECTS",
+    category: "EDITORIAL / PACKAGING",
+    description: {
+      en: "A playful editorial and packaging study for objects that refuse to behave normally. The project mixes tactile forms, oversized typography and deliberately awkward compositions.",
 
-        es: "Un estudio de motion construido alrededor del ritmo, la repetición y el potencial expresivo de un sistema visual limitado.",
-      },
-
-      tags: ["Motion", "Campaign", "Art Direction"],
+      es: "Un estudio editorial y de packaging para objetos que se niegan a comportarse de forma normal. El proyecto mezcla formas táctiles, tipografía sobredimensionada y composiciones deliberadamente extrañas.",
     },
 
-    {
-      cat: "EDITORIAL / PACKAGING",
+    tags: ["PACKAGING", "EDITORIAL", "TYPE", "ART DIRECTION"],
 
-      title: "ODD OBJECTS",
+    visual: "art-c",
+  },
 
-      text: {
-        en: "An experimental editorial and packaging system giving everyday objects a strange visual personality.",
+  {
+    number: "04",
+    title: "STATIC FM",
+    category: "DIGITAL / ART DIRECTION",
+    description: {
+      en: "A digital identity inspired by radio interference, analogue equipment and visual noise. Static FM turns imperfection into a recognisable graphic system.",
 
-        es: "Un sistema editorial y de packaging experimental que dota a objetos cotidianos de una personalidad visual extraña.",
-      },
-
-      tags: ["Editorial", "Packaging", "Concept"],
+      es: "Una identidad digital inspirada en interferencias de radio, equipos analógicos y ruido visual. Static FM convierte la imperfección en un sistema gráfico reconocible.",
     },
 
-    {
-      cat: "DIGITAL / ART DIRECTION",
+    tags: ["DIGITAL", "IDENTITY", "ART DIRECTION", "UI"],
 
-      title: "STATIC FM",
+    visual: "art-d",
+  },
+];
 
-      text: {
-        en: "A digital art direction experiment exploring noise, radio culture and visual interference.",
+/* =========================================================
+      DOM
+   ========================================================= */
 
-        es: "Un experimento de dirección de arte digital que explora el ruido, la cultura radiofónica y la interferencia visual.",
-      },
+const body = document.body;
+const html = document.documentElement;
 
-      tags: ["Digital", "Art Direction", "Visual Identity"],
-    },
-  ];
+const preloader = document.getElementById("preloader");
+const preNum = document.getElementById("preNum");
+const preBar = document.getElementById("preBar");
 
-  /* =======================================================
-     SETTINGS
-  ======================================================= */
+const themeButton = document.getElementById("theme");
+const langButton = document.getElementById("lang");
 
-  function applySettings() {
-    document.documentElement.lang = lang;
+const menuButton = document.getElementById("menu");
+const menuLayer = document.getElementById("menuLayer");
+const menuClose = document.getElementById("menuClose");
 
-    document.documentElement.dataset.theme = theme;
+const modal = document.getElementById("modal");
+const closeModalButton = document.getElementById("closeModal");
 
-    localStorage.setItem("EMMA-lang", lang);
-    localStorage.setItem("EMMA-theme", theme);
+const modalIndex = document.getElementById("modalIndex");
+const modalVisual = document.getElementById("modalVisual");
+const modalCat = document.getElementById("modalCat");
+const modalTitle = document.getElementById("modalTitle");
+const modalText = document.getElementById("modalText");
+const modalTags = document.getElementById("modalTags");
 
-    document.querySelectorAll("[data-i18n]").forEach((element) => {
-      const value = copy[lang]?.[element.dataset.i18n];
+const projectTrack = document.querySelector(".project-track");
+const projectsElements = document.querySelectorAll(".project");
 
-      if (value !== undefined) {
-        element.innerHTML = value;
-      }
-    });
+const marqueeTrack = document.querySelector(".marquee-track");
 
-    /* ACTIVE LANGUAGE IN RED */
+/* =========================================================
+      SETTINGS
+   ========================================================= */
 
-    document.querySelectorAll("[data-lang]").forEach((element) => {
-      element.classList.toggle("active", element.dataset.lang === lang);
-    });
+function applyTheme() {
+  html.dataset.theme = state.theme;
 
-    /* UPDATE PROJECT MODAL IF OPEN */
+  localStorage.setItem(STORAGE_THEME, state.theme);
 
-    if (currentProject !== null && modal && modal.style.display === "block") {
-      const data = projects[currentProject];
-
-      if (data) {
-        const description =
-          typeof data.text === "object" ? data.text[lang] : data.text;
-
-        modalText.textContent = description;
-      }
-    }
+  if (themeButton) {
+    themeButton.innerHTML =
+      state.theme === "dark" ? "☼ <span>MODE</span>" : "◐ <span>MODE</span>";
   }
+}
 
-  /* =======================================================
-     LANGUAGE
-  ======================================================= */
+function applyLanguage() {
+  const dictionary = translations[state.lang];
 
-  const langButton = document.getElementById("lang");
+  document.documentElement.lang = state.lang;
 
-  langButton?.addEventListener("click", () => {
-    lang = lang === "en" ? "es" : "en";
+  document.querySelectorAll("[data-i18n]").forEach((element) => {
+    const key = element.dataset.i18n;
 
-    applySettings();
+    if (!dictionary[key]) return;
+
+    element.innerHTML = dictionary[key];
   });
 
-  /* =======================================================
-     THEME
-  ======================================================= */
-
-  const themeButton = document.getElementById("theme");
-
-  themeButton?.addEventListener("click", () => {
-    theme = theme === "light" ? "dark" : "light";
-
-    applySettings();
+  document.querySelectorAll("[data-lang]").forEach((element) => {
+    element.classList.toggle("active", element.dataset.lang === state.lang);
   });
 
-  /* =======================================================
-     MENU
-  ======================================================= */
+  localStorage.setItem(STORAGE_LANG, state.lang);
+}
 
-  const menuButton = document.getElementById("menu");
-  const menuLayer = document.getElementById("menuLayer");
-  const menuClose = document.getElementById("menuClose");
+/* =========================================================
+      THEME
+   ========================================================= */
 
-  function openMenu() {
-    if (menuOpen || !menuLayer) {
-      return;
-    }
+themeButton?.addEventListener("click", () => {
+  state.theme = state.theme === "dark" ? "light" : "dark";
 
-    menuOpen = true;
+  applyTheme();
 
-    document.body.classList.add("menu-open");
+  /*
+   * Do NOT run the preloader here.
+   * The loader belongs to the first visit only.
+   */
 
-    menuButton?.setAttribute("aria-expanded", "true");
-
-    menuButton?.setAttribute("aria-label", "Close menu");
-
-    menuLayer.setAttribute("aria-hidden", "false");
-
-    gsap.killTweensOf(menuLayer);
-    gsap.killTweensOf(".menu-links a");
-
-    /* IMPORTANT:
-       The menu is made interactive BEFORE animation.
-    */
-
-    gsap.set(menuLayer, {
-      visibility: "visible",
-      pointerEvents: "auto",
-      display: "flex",
-      clipPath: "inset(0 0 100% 0)",
-    });
-
-    gsap.set(".menu-links a", {
-      y: 70,
-      opacity: 0,
-    });
-
-    gsap.to(menuLayer, {
-      clipPath: "inset(0 0 0% 0)",
-
-      duration: 0.65,
-
-      ease: "power4.inOut",
-    });
-
-    gsap.to(".menu-links a", {
-      y: 0,
-      opacity: 1,
-
-      duration: 0.65,
-
-      stagger: 0.08,
-
-      delay: 0.18,
-
-      ease: "power4.out",
-    });
-  }
-
-  function closeMenu() {
-    if (!menuOpen || !menuLayer) {
-      return;
-    }
-
-    menuOpen = false;
-
-    document.body.classList.remove("menu-open");
-
-    menuButton?.setAttribute("aria-expanded", "false");
-
-    menuButton?.setAttribute("aria-label", "Open menu");
-
-    menuLayer.setAttribute("aria-hidden", "true");
-
-    gsap.killTweensOf(menuLayer);
-
-    gsap.to(menuLayer, {
-      clipPath: "inset(0 0 100% 0)",
-
-      duration: 0.55,
-
-      ease: "power4.inOut",
-
-      onComplete: () => {
-        if (!menuOpen) {
-          gsap.set(menuLayer, {
-            visibility: "hidden",
-            pointerEvents: "none",
-          });
-        }
-      },
-    });
-  }
-
-  menuButton?.addEventListener("click", () => {
-    if (menuOpen) {
-      closeMenu();
-    } else {
-      openMenu();
-    }
+  requestAnimationFrame(() => {
+    ScrollTrigger.refresh();
   });
+});
 
-  menuClose?.addEventListener("click", closeMenu);
+/* =========================================================
+      LANGUAGE
+   ========================================================= */
 
-  document.querySelectorAll(".menu-links a").forEach((link) => {
-    link.addEventListener("click", (event) => {
-      const href = link.getAttribute("href");
+langButton?.addEventListener("click", () => {
+  state.lang = state.lang === "en" ? "es" : "en";
 
-      const target = document.querySelector(href);
+  applyLanguage();
 
-      if (!target) {
-        return;
-      }
+  /*
+   * Re-render modal if it is open so its description
+   * changes language immediately.
+   */
+  if (state.modalOpen) {
+    renderProject(state.currentProject);
+  }
+});
 
-      event.preventDefault();
+/* =========================================================
+      PRELOADER
+   ========================================================= */
 
-      closeMenu();
+function runPreloader() {
+  const alreadySeen = sessionStorage.getItem(STORAGE_LOADER) === "true";
 
-      gsap.delayedCall(0.58, () => {
-        gsap.to(window, {
-          scrollTo: {
-            y: target,
-            autoKill: true,
-          },
+  if (alreadySeen) {
+    preloader?.remove();
+    state.loading = false;
+    return;
+  }
 
-          duration: 1.1,
+  sessionStorage.setItem(STORAGE_LOADER, "true");
 
+  if (!preloader) {
+    state.loading = false;
+    return;
+  }
+
+  let value = 0;
+
+  const timer = setInterval(() => {
+    value += Math.floor(Math.random() * 8) + 2;
+
+    if (value >= 100) {
+      value = 100;
+      clearInterval(timer);
+
+      gsap.to(
+        { value: 0 },
+        {
+          value: 1,
+          duration: 0.65,
           ease: "power3.inOut",
-        });
+          onUpdate() {
+            const progress = this.targets()[0].value;
+
+            gsap.set(preloader, {
+              clipPath: `inset(${progress * 100}% 0 0 0)`,
+            });
+          },
+          onComplete() {
+            preloader.remove();
+            state.loading = false;
+
+            ScrollTrigger.refresh();
+
+            requestAnimationFrame(() => {
+              window.scrollTo(0, 0);
+            });
+          },
+        }
+      );
+    }
+
+    if (preNum) {
+      preNum.textContent = String(value).padStart(2, "0");
+    }
+
+    if (preBar) {
+      gsap.to(preBar, {
+        width: `${value}%`,
+        duration: 0.25,
+        overwrite: true,
       });
-    });
-  });
-
-  /* =======================================================
-     MARQUEE
-  ======================================================= */
-
-  function setupToolsMarquee() {
-    const track = document.querySelector(".marquee-track");
-
-    if (!track) {
-      return;
     }
+  }, 45);
+}
 
-    if (track._marqueeTween) {
-      track._marqueeTween.kill();
+/* =========================================================
+      CURSOR
+   ========================================================= */
 
-      track._marqueeTween = null;
-    }
-
-    const tools = [
-      "ADOBE CC",
-      "FIGMA",
-      "AFTER EFFECTS",
-      "BLENDER",
-      "GSAP",
-      "CREATIVE CODING",
-    ];
-
-    track.innerHTML = "";
-
-    /*
-     * We create two identical groups.
-     * Each group is made wide enough to cover
-     * the viewport several times.
-     */
-
-    const groupA = document.createElement("div");
-
-    const groupB = document.createElement("div");
-
-    groupA.className = "marquee-group";
-
-    groupB.className = "marquee-group";
-
-    function fillGroup(group) {
-      let safety = 0;
-
-      do {
-        tools.forEach((tool) => {
-          const span = document.createElement("span");
-
-          span.textContent = tool;
-
-          group.appendChild(span);
-        });
-
-        safety++;
-      } while (group.scrollWidth < window.innerWidth * 1.5 && safety < 10);
-    }
-
-    fillGroup(groupA);
-
-    groupB.innerHTML = groupA.innerHTML;
-
-    track.appendChild(groupA);
-    track.appendChild(groupB);
-
-    /*
-     * Force layout calculation.
-     */
-
-    const loopWidth = groupA.getBoundingClientRect().width;
-
-    const pixelsPerSecond = 55;
-
-    const duration = loopWidth / pixelsPerSecond;
-
-    gsap.set(track, {
-      x: 0,
-    });
-
-    track._marqueeTween = gsap.to(track, {
-      x: -loopWidth,
-
-      duration,
-
-      ease: "none",
-
-      repeat: -1,
-    });
-  }
-
-  let marqueeResizeTimer;
-
-  window.addEventListener("resize", () => {
-    clearTimeout(marqueeResizeTimer);
-
-    marqueeResizeTimer = setTimeout(setupToolsMarquee, 250);
-  });
-
-  /* =======================================================
-     PDF.JS
-  ======================================================= */
-
-  function getPDFLib() {
-    if (typeof pdfjsLib !== "undefined") {
-      return pdfjsLib;
-    }
-
-    return null;
-  }
-
-  async function createMagazineViewer() {
-    const viewer = document.createElement("div");
-
-    viewer.className = "magazine-viewer";
-
-    viewer.innerHTML = `
-
-      <div class="magazine-stage">
-
-        <div
-          class="magazine-loading"
-          id="magazineLoading"
-        >
-          LOADING / HALFWAY
-        </div>
-
-        <div
-          class="magazine-empty"
-          id="magazineEmpty"
-        >
-          <strong>HALFWAY</strong>
-          <span>PDF LOADING</span>
-        </div>
-
-      </div>
-
-      <div class="magazine-controls">
-
-        <div class="magazine-controls-left">
-
-          <button
-            class="magazine-button"
-            id="magPrev"
-            type="button"
-            aria-label="Previous page"
-          >
-            ←
-          </button>
-
-          <span
-            class="magazine-counter"
-            id="magCounter"
-          >
-            01 / 01
-          </span>
-
-          <button
-            class="magazine-button"
-            id="magNext"
-            type="button"
-            aria-label="Next page"
-          >
-            →
-          </button>
-
-        </div>
-
-      </div>
-
-    `;
-
-    return viewer;
-  }
-
-  function getMagazineStage() {
-    return document.querySelector(".magazine-stage");
-  }
-
-  async function loadMagazinePDF() {
-    const loading = document.getElementById("magazineLoading");
-
-    const empty = document.getElementById("magazineEmpty");
-
-    const pdfLib = getPDFLib();
-
-    if (!pdfLib) {
-      console.error("PDF.js was not loaded.");
-
-      if (empty) {
-        empty.innerHTML = `
-          <strong>PDF ERROR</strong>
-          <span>PDF.JS COULD NOT BE LOADED</span>
-        `;
-      }
-
-      loading?.classList.add("is-hidden");
-
-      return;
-    }
-
-    const pdfPath = "assets/halfway-MAG.pdf";
-
-    try {
-      pdfLib.GlobalWorkerOptions.workerSrc =
-        "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
-
-      const loadingTask = pdfLib.getDocument(pdfPath);
-
-      pdfDocument = await loadingTask.promise;
-
-      pdfTotalPages = pdfDocument.numPages;
-
-      pdfPage = 1;
-
-      empty?.remove();
-
-      loading?.classList.add("is-hidden");
-
-      await renderMagazinePage(pdfPage);
-    } catch (error) {
-      console.error("HALFWAY PDF ERROR:", error);
-
-      if (empty) {
-        empty.innerHTML = `
-
-          <strong>HALFWAY</strong>
-
-          <span>
-            PDF COULD NOT BE LOADED
-          </span>
-
-          <small>
-            Check assets/halfway-MAG.pdf
-          </small>
-
-        `;
-      }
-
-      loading?.classList.add("is-hidden");
-    }
-  }
-
-  async function renderMagazinePage(pageNumber) {
-    if (!pdfDocument || pdfRendering) {
-      return;
-    }
-
-    pdfRendering = true;
-
-    try {
-      const stage = getMagazineStage();
-
-      if (!stage) {
-        return;
-      }
-
-      const page = await pdfDocument.getPage(pageNumber);
-
-      const baseViewport = page.getViewport({
-        scale: 1,
-      });
-
-      const availableWidth = Math.max(stage.clientWidth - 20, 280);
-
-      const availableHeight = Math.max(stage.clientHeight - 20, 350);
-
-      const widthScale = availableWidth / baseViewport.width;
-
-      const heightScale = availableHeight / baseViewport.height;
-
-      const scale = Math.min(widthScale, heightScale, 1.8);
-
-      const viewport = page.getViewport({
-        scale,
-      });
-
-      const canvas = document.createElement("canvas");
-
-      const context = canvas.getContext("2d", {
-        alpha: false,
-      });
-
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-
-      canvas.width = Math.ceil(viewport.width * dpr);
-
-      canvas.height = Math.ceil(viewport.height * dpr);
-
-      canvas.style.width = `${viewport.width}px`;
-
-      canvas.style.height = `${viewport.height}px`;
-
-      canvas.className = "magazine-page";
-
-      context.setTransform(dpr, 0, 0, dpr, 0, 0);
-
-      await page.render({
-        canvasContext: context,
-
-        viewport,
-      }).promise;
-
-      const spread = document.createElement("div");
-
-      spread.className = "magazine-spread";
-
-      spread.appendChild(canvas);
-
-      stage.innerHTML = "";
-
-      stage.appendChild(spread);
-
-      updateMagazineCounter();
-    } catch (error) {
-      console.error("PDF render error:", error);
-    } finally {
-      pdfRendering = false;
-    }
-  }
-
-  function updateMagazineCounter() {
-    const counter = document.getElementById("magCounter");
-
-    const prev = document.getElementById("magPrev");
-
-    const next = document.getElementById("magNext");
-
-    if (!counter) {
-      return;
-    }
-
-    counter.textContent = `${String(pdfPage).padStart(2, "0")} / ${String(
-      pdfTotalPages
-    ).padStart(2, "0")}`;
-
-    if (prev) {
-      prev.disabled = pdfPage <= 1;
-    }
-
-    if (next) {
-      next.disabled = pdfPage >= pdfTotalPages;
-    }
-  }
-
-  async function nextMagazinePage() {
-    if (!pdfDocument || pdfPage >= pdfTotalPages) {
-      return;
-    }
-
-    pdfPage++;
-
-    await renderMagazinePage(pdfPage);
-  }
-
-  async function previousMagazinePage() {
-    if (!pdfDocument || pdfPage <= 1) {
-      return;
-    }
-
-    pdfPage--;
-
-    await renderMagazinePage(pdfPage);
-  }
-
-  function setupMagazineControls() {
-    const prev = document.getElementById("magPrev");
-
-    const next = document.getElementById("magNext");
-
-    prev?.addEventListener("click", previousMagazinePage);
-
-    next?.addEventListener("click", nextMagazinePage);
-
-    updateMagazineCounter();
-  }
-
-  /* =======================================================
-     PROJECT MODAL
-  ======================================================= */
-
-  const modal = document.getElementById("modal");
-
-  const modalVisual = document.getElementById("modalVisual");
-
-  const modalCat = document.getElementById("modalCat");
-
-  const modalTitle = document.getElementById("modalTitle");
-
-  const modalText = document.getElementById("modalText");
-
-  const modalTags = document.getElementById("modalTags");
-
-  const modalIndex = document.getElementById("modalIndex");
-
-  async function openProject(index) {
-    const data = projects[index];
-
-    if (!data) {
-      return;
-    }
-
-    currentProject = index;
-
-    modalIndex.textContent = String(index + 1).padStart(2, "0");
-
-    modalCat.textContent = data.cat;
-
-    modalTitle.textContent = data.title;
-
-    const description =
-      typeof data.text === "object" ? data.text[lang] : data.text;
-
-    modalText.textContent = description;
-
-    modalTags.innerHTML = data.tags
-      .map((tag) => `<span>${tag}</span>`)
-      .join("");
-
-    modalVisual.innerHTML = "";
-
-    modal.style.display = "block";
-
-    modal.setAttribute("aria-hidden", "false");
-
-    document.body.classList.add("modal-open");
-
-    gsap.killTweensOf(modal);
-
-    gsap.set(modal, {
-      clipPath: "inset(0 0 100% 0)",
-    });
-
-    gsap.to(modal, {
-      clipPath: "inset(0 0 0% 0)",
-
-      duration: 0.75,
-
-      ease: "power4.inOut",
-    });
-
-    gsap.fromTo(
-      ".modal-copy > *",
-
-      {
-        y: 30,
-        opacity: 0,
-      },
-
-      {
-        y: 0,
-        opacity: 1,
-
-        stagger: 0.07,
-
-        duration: 0.55,
-
-        delay: 0.2,
-
-        ease: "power3.out",
-      }
-    );
-
-    /* =====================================================
-       HALFWAY
-    ====================================================== */
-
-    if (data.magazine) {
-      modalVisual.className = "modal-visual";
-
-      const heading = document.createElement("div");
-
-      heading.className = "halfway-heading";
-
-      heading.innerHTML = `
-
-        <span>
-          ${data.cat}
-        </span>
-
-        <h2>
-          ${data.title}
-        </h2>
-
-      `;
-
-      modalVisual.appendChild(heading);
-
-      const viewer = await createMagazineViewer();
-
-      modalVisual.appendChild(viewer);
-
-      await new Promise((resolve) => {
-        requestAnimationFrame(() => {
-          requestAnimationFrame(resolve);
-        });
-      });
-
-      setupMagazineControls();
-
-      await loadMagazinePDF();
-
-      const descriptionBox = document.createElement("div");
-
-      descriptionBox.className = "halfway-description";
-
-      descriptionBox.innerHTML = `
-
-        <p>
-          ${description}
-        </p>
-
-      `;
-
-      modalVisual.appendChild(descriptionBox);
-
-      return;
-    }
-
-    /* =====================================================
-       OTHER PROJECTS
-    ====================================================== */
-
-    const originalProject = document.querySelector(
-      `.project[data-id="${index}"]`
-    );
-
-    const originalArt = originalProject?.querySelector(".art");
-
-    if (originalArt) {
-      modalVisual.className = `modal-visual ${originalArt.className}`;
-
-      modalVisual.innerHTML = originalArt.innerHTML;
-    }
-  }
-
-  document.querySelectorAll(".project").forEach((project) => {
-    project.addEventListener("click", () => {
-      const index = Number(project.dataset.id);
-
-      openProject(index);
-    });
-  });
-
-  /* =======================================================
-     CLOSE MODAL
-  ======================================================= */
-
-  function closeModal() {
-    if (!modal || modal.style.display !== "block") {
-      return;
-    }
-
-    gsap.killTweensOf(modal);
-
-    gsap.to(modal, {
-      clipPath: "inset(0 0 100% 0)",
-
-      duration: 0.55,
-
-      ease: "power4.inOut",
-
-      onComplete: () => {
-        modal.style.display = "none";
-
-        modal.setAttribute("aria-hidden", "true");
-
-        document.body.classList.remove("modal-open");
-
-        modalVisual.innerHTML = "";
-
-        pdfDocument = null;
-
-        pdfPage = 1;
-
-        pdfTotalPages = 0;
-
-        currentProject = null;
-      },
-    });
-  }
-
-  document.getElementById("closeModal")?.addEventListener("click", closeModal);
-
-  /* =======================================================
-     KEYBOARD
-  ======================================================= */
-
-  document.addEventListener("keydown", (event) => {
-    if (event.key !== "Escape") {
-      return;
-    }
-
-    if (modal?.style.display === "block") {
-      closeModal();
-
-      return;
-    }
-
-    if (menuOpen) {
-      closeMenu();
-    }
-  });
-
-  /* =======================================================
-     CLICK OUTSIDE MODAL
-  ======================================================= */
-
-  modal?.addEventListener("click", (event) => {
-    if (event.target === modal) {
-      closeModal();
-    }
-  });
-
-  /* =======================================================
-     CUSTOM CURSOR
-  ======================================================= */
-
+function setupCursor() {
   const cursor = document.querySelector(".cursor");
-
   const cursorLabel = document.querySelector(".cursor-label");
 
-  let mouseX = 0;
-  let mouseY = 0;
+  if (!cursor || !cursorLabel) return;
 
-  let cursorX = 0;
-  let cursorY = 0;
+  if (window.matchMedia("(pointer: coarse)").matches) {
+    cursor.style.display = "none";
+    cursorLabel.style.display = "none";
+    document.body.style.cursor = "auto";
+    return;
+  }
+
+  let mouseX = window.innerWidth / 2;
+  let mouseY = window.innerHeight / 2;
+
+  let currentX = mouseX;
+  let currentY = mouseY;
 
   window.addEventListener("mousemove", (event) => {
     mouseX = event.clientX;
-
     mouseY = event.clientY;
+
+    gsap.to(cursorLabel, {
+      x: mouseX,
+      y: mouseY,
+      duration: 0.18,
+      ease: "power2.out",
+    });
   });
 
-  function cursorLoop() {
-    cursorX += (mouseX - cursorX) * 0.18;
+  gsap.ticker.add(() => {
+    currentX += (mouseX - currentX) * 0.2;
+    currentY += (mouseY - currentY) * 0.2;
 
-    cursorY += (mouseY - cursorY) * 0.18;
+    cursor.style.left = `${currentX}px`;
+    cursor.style.top = `${currentY}px`;
+  });
 
-    if (cursor) {
-      cursor.style.left = `${cursorX}px`;
+  projectsElements.forEach((project) => {
+    project.addEventListener("mouseenter", () => {
+      cursorLabel.textContent = "OPEN";
 
-      cursor.style.top = `${cursorY}px`;
-    }
-
-    if (cursorLabel) {
-      cursorLabel.style.left = `${cursorX}px`;
-
-      cursorLabel.style.top = `${cursorY}px`;
-    }
-
-    requestAnimationFrame(cursorLoop);
-  }
-
-  cursorLoop();
-
-  document.querySelectorAll("a,button,.project").forEach((element) => {
-    element.addEventListener("mouseenter", () => {
-      if (!cursor) {
-        return;
-      }
+      gsap.to(cursorLabel, {
+        opacity: 1,
+        duration: 0.2,
+      });
 
       gsap.to(cursor, {
-        scale: 1.35,
-        duration: 0.2,
+        scale: 1.5,
+        duration: 0.25,
+        ease: "power2.out",
       });
     });
 
-    element.addEventListener("mouseleave", () => {
-      if (!cursor) {
-        return;
-      }
+    project.addEventListener("mouseleave", () => {
+      gsap.to(cursorLabel, {
+        opacity: 0,
+        duration: 0.2,
+      });
 
       gsap.to(cursor, {
         scale: 1,
-        duration: 0.2,
+        duration: 0.25,
+        ease: "power2.out",
       });
     });
   });
+}
 
-  /* =======================================================
-     MAGNETIC
-  ======================================================= */
+/* =========================================================
+      MAGNETIC ELEMENTS
+   ========================================================= */
+
+function setupMagnetic() {
+  if (window.matchMedia("(pointer: coarse)").matches) return;
 
   document.querySelectorAll(".magnetic").forEach((element) => {
     element.addEventListener("mousemove", (event) => {
-      if (window.innerWidth <= 700) {
-        return;
-      }
-
       const rect = element.getBoundingClientRect();
 
       const x = event.clientX - rect.left - rect.width / 2;
@@ -1056,314 +424,1098 @@ document.addEventListener("DOMContentLoaded", () => {
 
       gsap.to(element, {
         x: x * 0.18,
-
         y: y * 0.18,
-
-        duration: 0.3,
-
-        ease: "power2.out",
+        duration: 0.35,
+        ease: "power3.out",
       });
     });
 
     element.addEventListener("mouseleave", () => {
       gsap.to(element, {
         x: 0,
-
         y: 0,
-
         duration: 0.5,
-
-        ease: "elastic.out(1,.45)",
+        ease: "elastic.out(1, 0.35)",
       });
     });
   });
+}
 
-  /* =======================================================
-     CANVAS
-  ======================================================= */
+/* =========================================================
+      MENU
+   ========================================================= */
 
-  const canvas = document.getElementById("field");
+function openMenu() {
+  if (!menuLayer) return;
 
-  const ctx = canvas?.getContext("2d");
+  state.menuOpen = true;
 
-  const particles = [];
+  body.classList.add("menu-open");
 
-  const PARTICLE_COUNT = 35;
+  menuLayer.setAttribute("aria-hidden", "false");
 
-  function resizeCanvas() {
-    if (!canvas || !ctx) {
-      return;
-    }
-
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-
-    canvas.width = window.innerWidth * dpr;
-
-    canvas.height = window.innerHeight * dpr;
-
-    canvas.style.width = `${window.innerWidth}px`;
-
-    canvas.style.height = `${window.innerHeight}px`;
-
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  if (menuButton) {
+    menuButton.setAttribute("aria-expanded", "true");
   }
 
-  function createParticles() {
-    particles.length = 0;
+  gsap.killTweensOf(menuLayer);
 
-    for (let i = 0; i < PARTICLE_COUNT; i++) {
-      particles.push({
-        x: Math.random() * window.innerWidth,
-
-        y: Math.random() * window.innerHeight,
-
-        vx: (Math.random() - 0.5) * 0.2,
-
-        vy: (Math.random() - 0.5) * 0.2,
-
-        r: Math.random() * 1.4 + 0.3,
-      });
-    }
-  }
-
-  function drawParticles() {
-    if (!canvas || !ctx) {
-      return;
-    }
-
-    ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-
-    const dark = document.documentElement.dataset.theme === "dark";
-
-    ctx.fillStyle = dark ? "rgba(241,238,230,.18)" : "rgba(16,16,16,.16)";
-
-    particles.forEach((particle) => {
-      particle.x += particle.vx;
-
-      particle.y += particle.vy;
-
-      if (particle.x < -20) {
-        particle.x = window.innerWidth + 20;
-      }
-
-      if (particle.x > window.innerWidth + 20) {
-        particle.x = -20;
-      }
-
-      if (particle.y < -20) {
-        particle.y = window.innerHeight + 20;
-      }
-
-      if (particle.y > window.innerHeight + 20) {
-        particle.y = -20;
-      }
-
-      ctx.beginPath();
-
-      ctx.arc(particle.x, particle.y, particle.r, 0, Math.PI * 2);
-
-      ctx.fill();
-    });
-
-    requestAnimationFrame(drawParticles);
-  }
-
-  window.addEventListener("resize", () => {
-    resizeCanvas();
-    createParticles();
+  gsap.set(menuLayer, {
+    display: "block",
+    autoAlpha: 0,
   });
 
-  resizeCanvas();
-  createParticles();
-  drawParticles();
+  gsap.to(menuLayer, {
+    autoAlpha: 1,
+    duration: 0.45,
+    ease: "power3.out",
+  });
 
-  /* =======================================================
-     SCROLL ANIMATIONS
-  ======================================================= */
-
-  gsap.utils.toArray("section").forEach((section) => {
-    const elements = section.querySelectorAll(
-      ".section-label,.work-intro,.manifesto-grid,.about-grid,.contact-core,.tools-line"
-    );
-
-    if (!elements.length) {
-      return;
-    }
-
-    gsap.from(elements, {
-      y: 35,
-
+  gsap.fromTo(
+    ".menu-links a",
+    {
+      y: 60,
       opacity: 0,
+    },
+    {
+      y: 0,
+      opacity: 1,
+      duration: 0.7,
+      stagger: 0.07,
+      delay: 0.08,
+      ease: "power4.out",
+    }
+  );
+}
 
-      duration: 0.9,
+function closeMenu() {
+  if (!menuLayer) return;
 
-      stagger: 0.08,
+  state.menuOpen = false;
 
-      ease: "power3.out",
+  body.classList.remove("menu-open");
 
-      scrollTrigger: {
-        trigger: section,
+  menuLayer.setAttribute("aria-hidden", "true");
 
-        start: "top 78%",
+  if (menuButton) {
+    menuButton.setAttribute("aria-expanded", "false");
+  }
 
-        once: true,
-      },
-    });
+  gsap.to(menuLayer, {
+    autoAlpha: 0,
+    duration: 0.35,
+    ease: "power3.inOut",
+    onComplete() {
+      menuLayer.style.display = "none";
+    },
+  });
+}
+
+menuButton?.addEventListener("click", () => {
+  if (state.menuOpen) {
+    closeMenu();
+  } else {
+    openMenu();
+  }
+});
+
+menuClose?.addEventListener("click", closeMenu);
+
+document.querySelectorAll(".menu-links a").forEach((link) => {
+  link.addEventListener("click", () => {
+    closeMenu();
+  });
+});
+
+/* =========================================================
+      HERO
+   ========================================================= */
+
+function setupHero() {
+  const heroTitle = document.querySelector(".hero-title");
+  const orbit = document.querySelector(".orbit");
+
+  if (!heroTitle || !orbit) return;
+
+  /*
+   * This restores the original composition:
+   * the title remains centred in its original stage.
+   * Only the scroll parallax moves it afterwards.
+   */
+
+  gsap.set(heroTitle, {
+    y: 0,
+    x: 0,
   });
 
-  /* =======================================================
-     WORK PROGRESS
-  ======================================================= */
+  gsap.set(orbit, {
+    y: 0,
+    x: 0,
+  });
 
-  const projectTrack = document.querySelector(".project-track");
+  gsap.to(heroTitle, {
+    y: -80,
+    ease: "none",
 
-  const progress = document.querySelector(".progress i");
-
-  if (projectTrack && progress) {
-    ScrollTrigger.create({
-      trigger: ".work",
-
-      start: "top bottom",
-
+    scrollTrigger: {
+      trigger: ".hero",
+      start: "top top",
       end: "bottom top",
+      scrub: 1,
+    },
+  });
 
-      scrub: true,
+  gsap.to(orbit, {
+    y: 220,
+    rotation: 130,
+    ease: "none",
+
+    scrollTrigger: {
+      trigger: ".hero",
+      start: "top top",
+      end: "bottom top",
+      scrub: 1,
+    },
+  });
+}
+
+/* =========================================================
+      COLOURED HERO ASTERISK
+   ========================================================= */
+
+function restoreAsterisk() {
+  const asterisk = document.querySelector(".orbit b");
+
+  if (!asterisk) return;
+
+  /*
+   * The central asterisk was losing its accent colour.
+   * Force it back to the portfolio pink.
+   */
+  asterisk.style.color = "var(--pink)";
+}
+
+/* =========================================================
+      GENERAL REVEALS
+   ========================================================= */
+
+function setupReveals() {
+  const elements = document.querySelectorAll(
+    ".section-label, .manifesto h2, .manifesto-side, .work-intro, .interlude p, .about-grid, .contact-core"
+  );
+
+  elements.forEach((element) => {
+    gsap.fromTo(
+      element,
+      {
+        y: 45,
+        opacity: 0,
+      },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 1,
+        ease: "power3.out",
+
+        scrollTrigger: {
+          trigger: element,
+          start: "top 85%",
+          once: true,
+        },
+      }
+    );
+  });
+}
+
+/* =========================================================
+      HORIZONTAL WORK SHOWCASE
+   ========================================================= */
+
+let horizontalWorkTrigger = null;
+
+function setupHorizontalWork() {
+  if (!projectTrack) return;
+
+  /*
+   * IMPORTANT:
+   *
+   * Do not use projectTrack.scrollLeft.
+   *
+   * .project-track is intentionally width:max-content.
+   * GSAP translates the entire track horizontally while
+   * the .work section remains pinned.
+   */
+
+  if (horizontalWorkTrigger) {
+    horizontalWorkTrigger.kill();
+    horizontalWorkTrigger = null;
+  }
+
+  gsap.killTweensOf(projectTrack);
+
+  const workSection = document.querySelector(".work");
+
+  if (!workSection) return;
+
+  const isMobile = window.innerWidth < 768;
+
+  /*
+   * On mobile, keep the native horizontal behaviour.
+   * Desktop gets the cinematic pinned showcase.
+   */
+
+  if (isMobile) {
+    gsap.set(projectTrack, {
+      clearProps: "transform",
+    });
+
+    return;
+  }
+
+  const getDistance = () => {
+    return Math.max(0, projectTrack.scrollWidth - window.innerWidth + 80);
+  };
+
+  horizontalWorkTrigger = gsap.to(projectTrack, {
+    x: () => -getDistance(),
+    ease: "none",
+
+    scrollTrigger: {
+      trigger: workSection,
+
+      start: "top top",
+
+      end: () => `+=${Math.max(900, getDistance() * 1.15)}`,
+
+      pin: true,
+
+      scrub: 1.05,
+
+      invalidateOnRefresh: true,
+
+      anticipatePin: 1,
 
       onUpdate: (self) => {
-        progress.style.width = `${Math.max(25, self.progress * 100)}%`;
+        const progress = document.querySelector(".progress i");
+
+        if (progress) {
+          gsap.set(progress, {
+            scaleX: self.progress,
+          });
+        }
       },
+    },
+  });
+
+  /*
+   * Make sure cards stay clickable.
+   * The track itself never receives pointer-drag logic.
+   */
+  projectsElements.forEach((project) => {
+    project.style.pointerEvents = "auto";
+  });
+}
+
+/* =========================================================
+      PROJECT CLICK
+   ========================================================= */
+
+projectsElements.forEach((project) => {
+  project.addEventListener("click", (event) => {
+    /*
+     * Ignore clicks only when the user has clicked a real
+     * interactive element inside a project in the future.
+     */
+    if (event.target.closest("a") || event.target.closest("button")) {
+      return;
+    }
+
+    const index = Number(project.dataset.id);
+
+    if (Number.isNaN(index)) return;
+
+    openProject(index);
+  });
+});
+
+/* =========================================================
+      PROJECT MODAL
+   ========================================================= */
+
+function openProject(index) {
+  if (!modal) return;
+
+  const project = projects[index];
+
+  if (!project) return;
+
+  state.currentProject = index;
+  state.modalOpen = true;
+
+  body.classList.add("modal-open");
+
+  modal.setAttribute("aria-hidden", "false");
+
+  renderProject(index);
+
+  gsap.killTweensOf(modal);
+
+  gsap.set(modal, {
+    display: "block",
+    autoAlpha: 0,
+  });
+
+  gsap.to(modal, {
+    autoAlpha: 1,
+    duration: 0.5,
+    ease: "power3.out",
+  });
+
+  gsap.fromTo(
+    ".modal-grid",
+    {
+      y: 35,
+      opacity: 0,
+    },
+    {
+      y: 0,
+      opacity: 1,
+      duration: 0.65,
+      delay: 0.05,
+      ease: "power3.out",
+    }
+  );
+}
+
+function closeProject() {
+  if (!modal || !state.modalOpen) return;
+
+  state.modalOpen = false;
+
+  body.classList.remove("modal-open");
+
+  modal.setAttribute("aria-hidden", "true");
+
+  gsap.to(modal, {
+    autoAlpha: 0,
+    duration: 0.35,
+    ease: "power3.inOut",
+    onComplete() {
+      modal.style.display = "none";
+
+      if (modalVisual) {
+        modalVisual.innerHTML = "";
+      }
+    },
+  });
+}
+
+closeModalButton?.addEventListener("click", closeProject);
+
+modal?.addEventListener("click", (event) => {
+  if (event.target === modal) {
+    closeProject();
+  }
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") {
+    if (state.modalOpen) {
+      closeProject();
+    }
+
+    if (state.menuOpen) {
+      closeMenu();
+    }
+  }
+});
+
+/* =========================================================
+      RENDER PROJECT
+   ========================================================= */
+
+function renderProject(index) {
+  const project = projects[index];
+
+  if (!project) return;
+
+  if (modalIndex) {
+    modalIndex.textContent = project.number;
+  }
+
+  if (modalCat) {
+    modalCat.textContent = project.category;
+  }
+
+  if (modalTitle) {
+    modalTitle.textContent = project.title;
+  }
+
+  if (modalText) {
+    modalText.textContent = project.description[state.lang];
+  }
+
+  if (modalTags) {
+    modalTags.innerHTML = "";
+
+    project.tags.forEach((tag) => {
+      const element = document.createElement("span");
+
+      element.textContent = tag;
+
+      modalTags.appendChild(element);
     });
   }
 
-  /* =======================================================
-     HORIZONTAL WORK DRAG
-  ======================================================= */
+  if (!modalVisual) return;
 
-  if (projectTrack) {
-    let dragging = false;
+  modalVisual.innerHTML = "";
 
-    let startX = 0;
+  /*
+   * HALFWAY
+   */
+  if (index === 0) {
+    renderHalfway(modalVisual, project);
+    return;
+  }
 
-    let startScroll = 0;
+  /*
+   * Other projects use the same artwork language
+   * as the cards, but enlarged inside the modal.
+   */
+  const visual = document.createElement("div");
 
-    projectTrack.addEventListener("pointerdown", (event) => {
-      dragging = true;
+  visual.className = `modal-art ${project.visual}`;
 
-      startX = event.clientX;
+  if (project.visual === "art-b") {
+    visual.innerHTML = `
+         <div class="ring"></div>
+         <div class="big24">24</div>
+         <div class="frame">FRAMES</div>
+         <span>24F / MOTION CAMPAIGN</span>
+       `;
+  }
 
-      startScroll = projectTrack.scrollLeft;
+  if (project.visual === "art-c") {
+    visual.innerHTML = `
+         <div class="object">◒</div>
+   
+         <div class="obj-type">
+           OBJECTS<br>
+           WITH<br>
+           ATTITUDE
+         </div>
+   
+         <span>ODD / EDITORIAL</span>
+       `;
+  }
 
-      projectTrack.setPointerCapture(event.pointerId);
+  if (project.visual === "art-d") {
+    visual.innerHTML = `
+         <div class="static">
+           NO<br>
+           SIGNAL
+         </div>
+   
+         <div class="fm">FM</div>
+         <div class="dial">∞</div>
+   
+         <span>STATIC / DIGITAL</span>
+       `;
+  }
+
+  modalVisual.appendChild(visual);
+}
+
+/* =========================================================
+      HALFWAY PDF
+   ========================================================= */
+
+function renderHalfway(container, project) {
+  /*
+   * The title and category stay in .modal-copy.
+   *
+   * The PDF lives inside the visual area.
+   * This keeps the information hierarchy:
+   *
+   * HALFWAY
+   * EDITORIAL / ART DIRECTION
+   *
+   * [ PDF ]
+   *
+   * description
+   */
+
+  const wrapper = document.createElement("div");
+
+  wrapper.className = "pdf-viewer";
+
+  wrapper.innerHTML = `
+       <div class="pdf-stage">
+         <div class="pdf-loading">
+           LOADING PDF / 00%
+         </div>
+   
+         <canvas class="pdf-canvas"></canvas>
+       </div>
+   
+       <div class="pdf-controls">
+         <button
+           type="button"
+           class="pdf-prev"
+           aria-label="Previous page"
+         >
+           ←
+         </button>
+   
+         <span class="pdf-page">
+           01 / 01
+         </span>
+   
+         <button
+           type="button"
+           class="pdf-next"
+           aria-label="Next page"
+         >
+           →
+         </button>
+       </div>
+     `;
+
+  container.appendChild(wrapper);
+
+  const pdfUrl = project.pdf || "assets/HALFWAY.pdf";
+
+  setupPDFViewer(wrapper, pdfUrl);
+}
+
+/* =========================================================
+      PDF VIEWER
+   ========================================================= */
+
+async function setupPDFViewer(wrapper, url) {
+  const canvas = wrapper.querySelector(".pdf-canvas");
+
+  const stage = wrapper.querySelector(".pdf-stage");
+
+  const loading = wrapper.querySelector(".pdf-loading");
+
+  const prev = wrapper.querySelector(".pdf-prev");
+
+  const next = wrapper.querySelector(".pdf-next");
+
+  const pageIndicator = wrapper.querySelector(".pdf-page");
+
+  if (!canvas || !stage || !loading) {
+    return;
+  }
+
+  /*
+   * pdfjsLib comes from the global PDF.js build
+   * loaded by index.html.
+   */
+  if (typeof pdfjsLib === "undefined") {
+    loading.textContent = "PDF.JS NOT AVAILABLE";
+
+    return;
+  }
+
+  const context = canvas.getContext("2d");
+
+  let pdf = null;
+  let currentPage = 1;
+  let rendering = false;
+  let queuedPage = null;
+
+  try {
+    pdf = await pdfjsLib.getDocument(url).promise;
+
+    if (!pdf) {
+      throw new Error("PDF could not be loaded.");
+    }
+
+    await renderPage(currentPage);
+
+    prev?.addEventListener("click", () => {
+      if (currentPage <= 1) return;
+
+      queuePage(currentPage - 1);
     });
 
-    projectTrack.addEventListener("pointermove", (event) => {
-      if (!dragging) {
+    next?.addEventListener("click", () => {
+      if (!pdf || currentPage >= pdf.numPages) {
         return;
       }
 
-      const delta = event.clientX - startX;
-
-      projectTrack.scrollLeft = startScroll - delta;
+      queuePage(currentPage + 1);
     });
 
-    projectTrack.addEventListener("pointerup", () => {
-      dragging = false;
+    window.addEventListener("resize", () => {
+      if (state.modalOpen && state.currentProject === 0) {
+        renderPage(currentPage);
+      }
+    });
+  } catch (error) {
+    console.error("HALFWAY PDF error:", error);
+
+    loading.textContent = "PDF COULD NOT BE LOADED";
+  }
+
+  function queuePage(pageNumber) {
+    if (rendering) {
+      queuedPage = pageNumber;
+      return;
+    }
+
+    renderPage(pageNumber);
+  }
+
+  async function renderPage(pageNumber) {
+    if (!pdf) return;
+
+    rendering = true;
+
+    loading.style.display = "block";
+
+    try {
+      const page = await pdf.getPage(pageNumber);
+
+      const baseViewport = page.getViewport({
+        scale: 1,
+      });
+
+      const availableWidth = Math.max(280, stage.clientWidth - 30);
+
+      const availableHeight = Math.max(300, stage.clientHeight - 30);
+
+      const widthScale = availableWidth / baseViewport.width;
+
+      const heightScale = availableHeight / baseViewport.height;
+
+      const scale = Math.min(widthScale, heightScale);
+
+      const viewport = page.getViewport({
+        scale,
+      });
+
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+      canvas.width = Math.floor(viewport.width * dpr);
+
+      canvas.height = Math.floor(viewport.height * dpr);
+
+      canvas.style.width = `${viewport.width}px`;
+
+      canvas.style.height = `${viewport.height}px`;
+
+      context.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      await page.render({
+        canvasContext: context,
+        viewport,
+      }).promise;
+
+      currentPage = pageNumber;
+
+      pageIndicator.textContent = `${String(currentPage).padStart(
+        2,
+        "0"
+      )} / ${String(pdf.numPages).padStart(2, "0")}`;
+
+      if (prev) {
+        prev.disabled = currentPage <= 1;
+      }
+
+      if (next) {
+        next.disabled = currentPage >= pdf.numPages;
+      }
+
+      loading.style.display = "none";
+    } catch (error) {
+      console.error("PDF page rendering error:", error);
+    } finally {
+      rendering = false;
+
+      if (queuedPage !== null) {
+        const nextPage = queuedPage;
+
+        queuedPage = null;
+
+        renderPage(nextPage);
+      }
+    }
+  }
+}
+
+/* =========================================================
+      TOOLS MARQUEE
+   ========================================================= */
+
+const tools = [
+  "FIGMA",
+  "ADOBE CC",
+  "INDESIGN",
+  "PHOTOSHOP",
+  "ILLUSTRATOR",
+  "AFTER EFFECTS",
+  "PREMIERE",
+  "BLENDER",
+  "PROCREATE",
+  "NOTION",
+  "FIGMA",
+  "ADOBE CC",
+  "INDESIGN",
+  "PHOTOSHOP",
+  "ILLUSTRATOR",
+  "AFTER EFFECTS",
+  "PREMIERE",
+  "BLENDER",
+  "PROCREATE",
+  "NOTION",
+];
+
+function setupMarquee() {
+  if (!marqueeTrack) return;
+
+  marqueeTrack.innerHTML = "";
+
+  /*
+   * Duplicate the complete sequence so there is never
+   * an empty section during the loop.
+   */
+  const sequence = [...tools, ...tools];
+
+  sequence.forEach((tool) => {
+    const item = document.createElement("span");
+
+    item.className = "marquee-item";
+
+    item.innerHTML = `
+         <b>✦</b>
+         ${tool}
+       `;
+
+    marqueeTrack.appendChild(item);
+  });
+
+  /*
+   * Kill previous marquee tweens.
+   */
+  gsap.killTweensOf(marqueeTrack);
+
+  /*
+   * The CSS handles the actual width.
+   * GSAP gives it a continuous, perfectly
+   * linear movement.
+   */
+  const halfWidth = marqueeTrack.scrollWidth / 2;
+
+  gsap.to(marqueeTrack, {
+    x: -halfWidth,
+    duration: 24,
+    ease: "none",
+    repeat: -1,
+  });
+}
+
+/* =========================================================
+      PROJECT CARD HOVER
+   ========================================================= */
+
+function setupProjectHover() {
+  projectsElements.forEach((project) => {
+    const art = project.querySelector(".art");
+
+    if (!art) return;
+
+    project.addEventListener("mouseenter", () => {
+      gsap.to(art, {
+        scale: 1.025,
+        duration: 0.7,
+        ease: "power3.out",
+      });
     });
 
-    projectTrack.addEventListener("pointercancel", () => {
-      dragging = false;
+    project.addEventListener("mouseleave", () => {
+      gsap.to(art, {
+        scale: 1,
+        duration: 0.7,
+        ease: "power3.out",
+      });
+    });
+  });
+}
+
+/* =========================================================
+      SECTION LABELS
+   ========================================================= */
+
+function setupSectionAnimations() {
+  document.querySelectorAll(".section-label").forEach((label) => {
+    const spans = label.querySelectorAll("span");
+
+    gsap.fromTo(
+      spans,
+      {
+        y: 18,
+        opacity: 0,
+      },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.7,
+        stagger: 0.08,
+        ease: "power3.out",
+
+        scrollTrigger: {
+          trigger: label,
+          start: "top 88%",
+          once: true,
+        },
+      }
+    );
+  });
+}
+
+/* =========================================================
+      MANIFESTO STAR
+   ========================================================= */
+
+function setupManifestoStar() {
+  const star = document.querySelector(".manifesto-side .star");
+
+  if (!star) return;
+
+  gsap.to(star, {
+    rotation: 360,
+    duration: 18,
+    repeat: -1,
+    ease: "none",
+  });
+}
+
+/* =========================================================
+      BACKGROUND FIELD
+   ========================================================= */
+
+function setupField() {
+  const canvas = document.getElementById("field");
+
+  if (!canvas) return;
+
+  const context = canvas.getContext("2d");
+
+  if (!context) return;
+
+  let width = 0;
+  let height = 0;
+
+  const points = [];
+
+  const pointCount = Math.min(
+    100,
+    Math.max(45, Math.floor(window.innerWidth / 18))
+  );
+
+  function resize() {
+    width = canvas.width = window.innerWidth;
+
+    height = canvas.height = window.innerHeight;
+  }
+
+  resize();
+
+  window.addEventListener("resize", resize);
+
+  for (let i = 0; i < pointCount; i++) {
+    points.push({
+      x: Math.random() * window.innerWidth,
+
+      y: Math.random() * window.innerHeight,
+
+      radius: Math.random() * 1.2 + 0.3,
+
+      speed: Math.random() * 0.15 + 0.03,
+
+      offset: Math.random() * Math.PI * 2,
     });
   }
 
-  /* =======================================================
-     LOGO
-  ======================================================= */
+  function draw(time) {
+    context.clearRect(0, 0, width, height);
 
-  document.querySelector(".logo")?.addEventListener("click", (event) => {
+    const dark = html.dataset.theme === "dark";
+
+    context.fillStyle = dark ? "rgba(241,238,230,.35)" : "rgba(16,16,16,.24)";
+
+    points.forEach((point) => {
+      point.y -= point.speed;
+
+      if (point.y < -10) {
+        point.y = height + 10;
+      }
+
+      const x = point.x + Math.sin(time * 0.00025 + point.offset) * 10;
+
+      const y = point.y + Math.cos(time * 0.0002 + point.offset) * 5;
+
+      context.beginPath();
+
+      context.arc(x, y, point.radius, 0, Math.PI * 2);
+
+      context.fill();
+    });
+
+    requestAnimationFrame(draw);
+  }
+
+  requestAnimationFrame(draw);
+}
+
+/* =========================================================
+      CONTACT MAGNETIC
+   ========================================================= */
+
+function setupContact() {
+  const contact = document.querySelector(".contact-link");
+
+  if (!contact) return;
+
+  contact.addEventListener("mouseenter", () => {
+    gsap.to(contact, {
+      letterSpacing: "0.02em",
+      duration: 0.3,
+    });
+  });
+
+  contact.addEventListener("mouseleave", () => {
+    gsap.to(contact, {
+      letterSpacing: "-0.06em",
+      duration: 0.3,
+    });
+  });
+}
+
+/* =========================================================
+      SMOOTH MENU SCROLL
+   ========================================================= */
+
+document.querySelectorAll('a[href^="#"]').forEach((link) => {
+  link.addEventListener("click", (event) => {
+    const targetId = link.getAttribute("href");
+
+    if (!targetId || targetId === "#") {
+      return;
+    }
+
+    const target = document.querySelector(targetId);
+
+    if (!target) return;
+
     event.preventDefault();
 
     closeMenu();
 
     gsap.to(window, {
-      scrollTo: 0,
-
-      duration: 1,
-
+      duration: 1.1,
+      scrollTo: {
+        y: target,
+        offsetY: 0,
+      },
       ease: "power3.inOut",
     });
   });
+});
 
-  /* =======================================================
-     PRELOADER
-  ======================================================= */
+/* =========================================================
+      LOGO
+   ========================================================= */
 
-  function runPreloader() {
-    const preloader = document.getElementById("preloader");
+document.querySelector(".logo")?.addEventListener("click", (event) => {
+  event.preventDefault();
 
-    const number = document.getElementById("preNum");
+  gsap.to(window, {
+    duration: 1,
+    scrollTo: 0,
+    ease: "power3.inOut",
+  });
+});
 
-    const bar = document.getElementById("preBar");
+/* =========================================================
+      RESIZE
+   ========================================================= */
 
-    if (!preloader) {
-      return;
-    }
+let resizeTimer;
 
-    const firstVisit = sessionStorage.getItem("EMMA-visited");
+window.addEventListener("resize", () => {
+  clearTimeout(resizeTimer);
 
-    if (firstVisit) {
-      preloader.style.display = "none";
+  resizeTimer = setTimeout(() => {
+    setupHorizontalWork();
 
-      return;
-    }
+    setupMarquee();
 
-    sessionStorage.setItem("EMMA-visited", "true");
+    ScrollTrigger.refresh();
+  }, 250);
+});
 
-    const state = {
-      value: 0,
-    };
+/* =========================================================
+      REDUCED MOTION
+   ========================================================= */
 
-    gsap.to(state, {
-      value: 100,
+const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
-      duration: 1.7,
+if (reducedMotion.matches) {
+  gsap.globalTimeline.timeScale(0.15);
+}
 
-      ease: "power2.inOut",
+/* =========================================================
+      INIT
+   ========================================================= */
 
-      onUpdate: () => {
-        const value = Math.round(state.value);
+function init() {
+  applyTheme();
+  applyLanguage();
 
-        if (number) {
-          number.textContent = String(value).padStart(2, "0");
-        }
+  restoreAsterisk();
 
-        if (bar) {
-          bar.style.width = `${value}%`;
-        }
-      },
+  setupCursor();
+  setupMagnetic();
 
-      onComplete: () => {
-        gsap.to(preloader, {
-          clipPath: "inset(0 0 100% 0)",
+  setupHero();
 
-          duration: 0.9,
+  setupReveals();
+  setupSectionAnimations();
 
-          ease: "power4.inOut",
+  setupHorizontalWork();
 
-          onComplete: () => {
-            preloader.remove();
-          },
-        });
-      },
-    });
-  }
+  setupMarquee();
 
-  /* =======================================================
-     INIT
-  ======================================================= */
+  setupProjectHover();
 
-  applySettings();
+  setupManifestoStar();
 
-  setupToolsMarquee();
+  setupField();
+
+  setupContact();
+
+  /*
+   * Refresh after every layout-dependent
+   * component has been created.
+   */
+  requestAnimationFrame(() => {
+    ScrollTrigger.refresh();
+  });
 
   runPreloader();
-});
+}
+
+/* =========================================================
+      START
+   ========================================================= */
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", init);
+} else {
+  init();
+}
