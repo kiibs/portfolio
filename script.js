@@ -109,7 +109,7 @@ const projects = [
 
     visual: "art-a",
 
-    pdf: "assets/HALFWAY.pdf",
+    pdf: "assets/halfway-MAG.pdf",
   },
 
   {
@@ -1041,7 +1041,7 @@ function renderHalfway(container, project) {
 
   container.appendChild(wrapper);
 
-  const pdfUrl = project.pdf || "assets/HALFWAY.pdf";
+  const pdfUrl = project.pdf || "assets/halfway-MAG.pdf";
 
   setupPDFViewer(wrapper, pdfUrl);
 }
