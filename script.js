@@ -558,127 +558,251 @@ document.getElementById("lang").onclick = () => {
 };
 
 /* =========================================================
-MENU
+MENU — INDEPENDENT GSAP NAVIGATION
 ========================================================= */
 
-const menuButton = document.getElementById("menu");
-const menuLayer = document.getElementById("menuLayer");
-const menuClose = document.getElementById("menuClose");
+(() => {
+  const menuButton = document.getElementById("menu");
 
-let menuOpen = false;
+  const menuLayer = document.getElementById("menuLayer");
 
-function openMenu() {
-  if (menuOpen) return;
+  const menuClose = document.getElementById("menuClose");
 
-  menuOpen = true;
+  /*
+  Si el HTML no contiene estos elementos,
+  no hacemos nada.
+  */
 
-  menuLayer.classList.add("is-open");
-  menuLayer.setAttribute("aria-hidden", "false");
-  menuButton.setAttribute("aria-expanded", "true");
+  if (!menuButton || !menuLayer) {
+    console.warn("Menu elements not found.");
 
-  document.body.style.overflow = "hidden";
-
-  gsap.killTweensOf(menuLayer);
-
-  gsap.fromTo(
-    menuLayer,
-
-    {
-      clipPath: "inset(0 0 100% 0)",
-    },
-
-    {
-      clipPath: "inset(0)",
-      duration: 0.75,
-      ease: "power4.inOut",
-    }
-  );
-
-  gsap.fromTo(
-    ".menu-links a",
-
-    {
-      y: 100,
-      opacity: 0,
-    },
-
-    {
-      y: 0,
-      opacity: 1,
-      stagger: 0.08,
-      duration: 0.65,
-      ease: "power4.out",
-      delay: 0.2,
-    }
-  );
-}
-
-function closeMenu() {
-  if (!menuOpen) return;
-
-  menuOpen = false;
-
-  menuButton.setAttribute("aria-expanded", "false");
-
-  gsap.to(menuLayer, {
-    clipPath: "inset(0 0 100% 0)",
-    duration: 0.55,
-    ease: "power4.inOut",
-
-    onComplete: () => {
-      menuLayer.classList.remove("is-open");
-      menuLayer.setAttribute("aria-hidden", "true");
-
-      document.body.style.overflow = "";
-    },
-  });
-}
-
-menuButton.addEventListener("click", () => {
-  if (menuOpen) {
-    closeMenu();
-  } else {
-    openMenu();
+    return;
   }
-});
 
-menuClose.addEventListener("click", closeMenu);
+  let menuOpen = false;
 
-/* =========================================================
-MENU NAVIGATION
-========================================================= */
+  /*
+  ========================================================
+  OPEN
+  ========================================================
+  */
 
-document.querySelectorAll(".menu-links a").forEach((link) => {
-  link.addEventListener("click", (event) => {
-    const selector = link.getAttribute("href");
-    const target = document.querySelector(selector);
+  function openMenu() {
+    if (menuOpen) {
+      return;
+    }
 
-    if (!target) return;
+    menuOpen = true;
 
-    event.preventDefault();
+    menuLayer.classList.add("is-open");
 
-    closeMenu();
+    menuLayer.setAttribute("aria-hidden", "false");
+
+    menuButton.setAttribute("aria-expanded", "true");
 
     /*
-  Esperamos a que termine la salida del menú antes
-  de desplazar la página.
-*/
+    Bloquear scroll de la página.
+    */
 
-    gsap.delayedCall(0.5, () => {
-      gsap.to(window, {
-        scrollTo: {
-          y: target,
-          autoKill: true,
+    document.body.style.overflow = "hidden";
+
+    /*
+    Animación de entrada.
+    */
+
+    gsap.killTweensOf(menuLayer);
+
+    gsap.killTweensOf(".menu-links a");
+
+    gsap.fromTo(
+      menuLayer,
+
+      {
+        clipPath: "inset(0 0 100% 0)",
+      },
+
+      {
+        clipPath: "inset(0 0 0% 0)",
+
+        duration: 0.7,
+
+        ease: "power4.inOut",
+      }
+    );
+
+    gsap.fromTo(
+      ".menu-links a",
+
+      {
+        y: 60,
+        opacity: 0,
+      },
+
+      {
+        y: 0,
+        opacity: 1,
+
+        stagger: 0.08,
+
+        duration: 0.55,
+
+        delay: 0.2,
+
+        ease: "power4.out",
+      }
+    );
+  }
+
+  /*
+  ========================================================
+  CLOSE
+  ========================================================
+  */
+
+  function closeMenu() {
+    if (!menuOpen) {
+      return;
+    }
+
+    menuOpen = false;
+
+    menuButton.setAttribute("aria-expanded", "false");
+
+    gsap.killTweensOf(menuLayer);
+
+    gsap.to(
+      menuLayer,
+
+      {
+        clipPath: "inset(0 0 100% 0)",
+
+        duration: 0.55,
+
+        ease: "power4.inOut",
+
+        onComplete: () => {
+          menuLayer.classList.remove("is-open");
+
+          menuLayer.setAttribute("aria-hidden", "true");
+
+          document.body.style.overflow = "";
         },
+      }
+    );
+  }
 
-        duration: 1.1,
+  /*
+  ========================================================
+  HAMBURGER
+  ========================================================
+  */
 
-        ease: "power3.inOut",
+  menuButton.addEventListener("click", (event) => {
+    event.preventDefault();
+
+    event.stopPropagation();
+
+    if (menuOpen) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
+  });
+
+  /*
+  ========================================================
+  CLOSE BUTTON
+  ========================================================
+  */
+
+  if (menuClose) {
+    menuClose.addEventListener("click", (event) => {
+      event.preventDefault();
+
+      event.stopPropagation();
+
+      closeMenu();
+    });
+  }
+
+  /*
+  ========================================================
+  MENU LINKS
+  ========================================================
+  */
+
+  document.querySelectorAll(".menu-links a").forEach((link) => {
+    link.addEventListener("click", (event) => {
+      const href = link.getAttribute("href");
+
+      if (!href || href.charAt(0) !== "#") {
+        return;
+      }
+
+      const target = document.querySelector(href);
+
+      if (!target) {
+        return;
+      }
+
+      event.preventDefault();
+
+      /*
+            Primero cerramos el menú.
+            */
+
+      closeMenu();
+
+      /*
+            Esperamos a que termine la
+            animación de cierre y después
+            hacemos scroll.
+            */
+
+      gsap.delayedCall(0.58, () => {
+        gsap.to(window, {
+          scrollTo: {
+            y: target,
+            autoKill: true,
+          },
+
+          duration: 1.1,
+
+          ease: "power3.inOut",
+        });
       });
     });
   });
-});
 
+  /*
+  ========================================================
+  ESCAPE
+  ========================================================
+  */
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && menuOpen) {
+      closeMenu();
+    }
+  });
+
+  /*
+  ========================================================
+  CLICK OUTSIDE
+  ========================================================
+  */
+
+  menuLayer.addEventListener("click", (event) => {
+    /*
+      Solo cerrar si se pulsa
+      directamente sobre el fondo.
+      */
+
+    if (event.target === menuLayer) {
+      closeMenu();
+    }
+  });
+})();
 /* =========================================================
 LOGO NAVIGATION
 ========================================================= */
@@ -1710,13 +1834,45 @@ not open correctly.
 }
 
 /* =========================================================
-TOOLS — GSAP INFINITE MARQUEE
+TOOLS — CONSTANT GSAP MARQUEE
 ========================================================= */
 
 function setupToolsMarquee() {
   const track = document.querySelector(".marquee-track");
 
   if (!track) return;
+
+  /*
+  Evitamos inicializar la misma animación dos veces.
+  */
+
+  if (track.dataset.marqueeReady === "true") {
+    return;
+  }
+
+  track.dataset.marqueeReady = "true";
+
+  /*
+  El HTML ya contiene dos copias de la lista:
+
+  ADOBE CC
+  FIGMA
+  AFTER EFFECTS
+  BLENDER
+  GSAP
+  CREATIVE CODING
+
+  ADOBE CC
+  FIGMA
+  AFTER EFFECTS
+  BLENDER
+  GSAP
+  CREATIVE CODING
+
+  Movemos exactamente el ancho de la primera copia.
+  Cuando llega al final, GSAP vuelve al principio
+  sin que el usuario vea el salto.
+  */
 
   const items = Array.from(track.children);
 
@@ -1725,62 +1881,126 @@ function setupToolsMarquee() {
   }
 
   /*
-The HTML already contains two identical
-sets of tools.
+  Esperamos a que las fuentes estén cargadas.
+  Esto es importante porque las fuentes cambian
+  el ancho real de cada elemento.
+  */
 
+  const startMarquee = () => {
+    /*
+    Si ya existe una animación, la matamos.
+    */
 
-We calculate the width of the first set
-and move exactly that amount.
+    if (track._marqueeTween) {
+      track._marqueeTween.kill();
+    }
 
+    const children = Array.from(track.children);
 
-*/
+    const half = Math.floor(children.length / 2);
 
-  const firstSetWidth = items.slice(0, items.length / 2).reduce(
-    (total, element) => total + element.getBoundingClientRect().width,
+    /*
+    Calculamos el ancho REAL de la primera copia.
+    Incluimos márgenes/gaps mediante getBoundingClientRect.
+    */
 
-    0
-  );
+    let firstSetWidth = 0;
 
-  const marquee = gsap.to(track, {
-    x: -firstSetWidth,
+    for (let i = 0; i < half; i++) {
+      firstSetWidth += children[i].getBoundingClientRect().width;
+    }
 
-    duration: firstSetWidth / 55,
+    /*
+    El track tiene gap en CSS.
+    Lo añadimos para que el loop sea perfecto.
+    */
 
-    ease: "none",
+    const computedStyle = window.getComputedStyle(track);
 
-    repeat: -1,
-  });
+    const gap = parseFloat(computedStyle.columnGap || computedStyle.gap || 0);
 
-  /*
-Pause while hovering.
-*/
+    firstSetWidth += gap * half;
 
-  track.parentElement.addEventListener("mouseenter", () => {
-    marquee.timeScale(0.25);
-  });
+    if (!firstSetWidth || !isFinite(firstSetWidth)) {
+      return;
+    }
 
-  track.parentElement.addEventListener("mouseleave", () => {
-    marquee.timeScale(1);
-  });
+    /*
+    Velocidad constante.
+    
+    Cuanto mayor sea el número,
+    más rápido se mueve.
+    */
 
-  /*
-Recalculate after resizing.
-*/
+    const pixelsPerSecond = 55;
 
-  window.addEventListener("resize", () => {
-    const updatedWidth = Array.from(track.children)
-      .slice(0, track.children.length / 2)
-      .reduce(
-        (total, element) => total + element.getBoundingClientRect().width,
+    const duration = firstSetWidth / pixelsPerSecond;
 
-        0
-      );
+    /*
+    Nos aseguramos de empezar desde 0.
+    */
 
     gsap.set(track, {
-      x: gsap.getProperty(track, "x") % updatedWidth,
+      x: 0,
     });
+
+    /*
+    MARQUEE INFINITO
+
+    linear + repeat infinito =
+    movimiento completamente constante.
+    */
+
+    track._marqueeTween = gsap.to(track, {
+      x: -firstSetWidth,
+
+      duration: duration,
+
+      ease: "none",
+
+      repeat: -1,
+
+      overwrite: true,
+    });
+
+    /*
+    Guardamos el ancho por si necesitamos
+    reconstruir la animación al hacer resize.
+    */
+
+    track.dataset.marqueeWidth = firstSetWidth;
+  };
+
+  /*
+  Esperar a las fuentes evita que la animación
+  calcule mal el ancho al cargar GitHub Pages.
+  */
+
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(startMarquee);
+  } else {
+    window.setTimeout(startMarquee, 100);
+  }
+
+  /*
+  RESIZE
+
+  Reiniciamos la animación porque el ancho
+  de los elementos puede cambiar.
+  */
+
+  let resizeTimer;
+
+  window.addEventListener("resize", () => {
+    clearTimeout(resizeTimer);
+
+    resizeTimer = setTimeout(startMarquee, 250);
   });
 }
+
+/*
+Inicializar.
+*/
 
 setupToolsMarquee();
 

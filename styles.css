@@ -1894,3 +1894,28 @@ NO BORRES EL CSS ORIGINAL
     transition: none !important;
   }
 }
+
+/* =========================================================
+TOOLS — CONTINUOUS MARQUEE
+========================================================= */
+
+.tools-marquee {
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 0;
+  will-change: transform;
+}
+
+.marquee-track > * {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
