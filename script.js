@@ -87,7 +87,59 @@ PRELOADER
 
 const loader = document.querySelector(".preloader");
 
-if (!sessionStorage.getItem("EMMA-loader")) {
+function removeLoader() {
+  if (!loader) {
+    introAnimation();
+    return;
+  }
+
+  gsap.killTweensOf(loader);
+  gsap.killTweensOf(".pre-core > *");
+  gsap.killTweensOf(".pre-bar i");
+
+  gsap.to(".pre-core > *", {
+    y: -30,
+    opacity: 0,
+    stagger: 0.04,
+    duration: 0.4,
+    ease: "power2.in",
+  });
+
+  gsap.to(loader, {
+    yPercent: -100,
+    duration: 0.8,
+    delay: 0.25,
+    ease: "expo.inOut",
+
+    onComplete: () => {
+      loader.remove();
+
+      sessionStorage.setItem("EMMA-loader", "1");
+
+      introAnimation();
+    },
+  });
+}
+
+/*
+   GitHub Pages / production safety.
+
+   If something fails elsewhere in the JS,
+   we don't want the preloader to remain
+   permanently covering the website.
+*/
+
+let loaderFallback = setTimeout(() => {
+  console.warn("Loader fallback triggered.");
+
+  removeLoader();
+}, 4500);
+
+/*
+   First visit
+*/
+
+if (loader && !sessionStorage.getItem("EMMA-loader")) {
   const counter = {
     v: 0,
   };
@@ -100,9 +152,11 @@ if (!sessionStorage.getItem("EMMA-loader")) {
     ease: "power3.inOut",
 
     onUpdate: () => {
-      document.querySelector(".pre-num").textContent = String(
-        Math.round(counter.v)
-      ).padStart(2, "0");
+      const number = document.querySelector(".pre-num");
+
+      if (number) {
+        number.textContent = String(Math.round(counter.v)).padStart(2, "0");
+      }
     },
   });
 
@@ -114,39 +168,26 @@ if (!sessionStorage.getItem("EMMA-loader")) {
     ease: "power3.inOut",
   });
 
-  gsap
-    .timeline({
-      delay: 1.9,
-    })
+  gsap.delayedCall(1.9, () => {
+    clearTimeout(loaderFallback);
 
-    .to(".pre-core > *", {
-      y: -30,
-      opacity: 0,
-      stagger: 0.05,
-      duration: 0.5,
-    })
-
-    .to(loader, {
-      yPercent: -100,
-
-      duration: 1,
-
-      ease: "expo.inOut",
-
-      onComplete: () => {
-        loader.remove();
-
-        sessionStorage.setItem("EMMA-loader", "1");
-
-        introAnimation();
-      },
-    });
+    removeLoader();
+  });
 } else {
-  loader.remove();
+  /*
+     Returning visit.
+
+     Remove immediately.
+  */
+
+  clearTimeout(loaderFallback);
+
+  if (loader) {
+    loader.remove();
+  }
 
   introAnimation();
 }
-
 /* =========================================================
 HERO INTRO
 ========================================================= */
