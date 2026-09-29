@@ -1328,9 +1328,7 @@ const tools = [
   "ILLUSTRATOR",
   "AFTER EFFECTS",
   "PREMIERE",
-  "BLENDER",
-  "PROCREATE",
-  "NOTION",
+  "CINEMA 4D",
   "FIGMA",
   "ADOBE CC",
   "INDESIGN",
@@ -1338,9 +1336,7 @@ const tools = [
   "ILLUSTRATOR",
   "AFTER EFFECTS",
   "PREMIERE",
-  "BLENDER",
-  "PROCREATE",
-  "NOTION",
+  "CINEMA 4D",
 ];
 
 function setupMarquee() {
