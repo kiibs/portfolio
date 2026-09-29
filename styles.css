@@ -541,34 +541,24 @@ section {
 
 .hero-stage {
   position: relative;
-
   min-height: 55vh;
-
   display: flex;
-
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start; /* Alinea el bloque del título a la izquierda del contenedor */
 }
 
 .hero-title {
   position: relative;
-
   z-index: 2;
-
   margin: 0;
-
   display: flex;
   flex-direction: column;
-
+  align-items: flex-start; /* Alinea cada línea (MAKE / things / MATTER.) a la izquierda */
   font-size: clamp(76px, 14vw, 220px);
-
   line-height: 0.75;
-
   letter-spacing: -0.085em;
-
   font-weight: 600;
-
-  text-align: left;
+  text-align: left; /* Alineación de texto a la izquierda */
 }
 
 .hero-title .serif {
