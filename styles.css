@@ -8,6 +8,9 @@
   --lime: #d8ff32;
   --blue: #5b63ff;
   --orange: #ff6a32;
+
+  --available: #42b86b;
+  --selected: #e54848;
 }
 
 [data-theme="dark"] {
@@ -29,14 +32,15 @@ body {
   margin: 0;
   background: var(--bg);
   color: var(--fg);
-
   font-family: "Space Grotesk", sans-serif;
-
   overflow-x: hidden;
-
   cursor: none;
+  transition: background 0.5s ease, color 0.5s ease;
+}
 
-  transition: background 0.5s, color 0.5s;
+body.menu-open,
+body.modal-open {
+  overflow: hidden;
 }
 
 a {
@@ -54,32 +58,28 @@ button {
   color: var(--bg);
 }
 
-/* =========================
-     CANVAS
-  ========================= */
+/* =========================================================
+   CANVAS
+========================================================= */
 
 #field {
   position: fixed;
-
   inset: 0;
-
   width: 100%;
   height: 100%;
-
   z-index: -2;
-
   opacity: 0.45;
 }
 
+/* =========================================================
+   GRAIN
+========================================================= */
+
 .grain {
   position: fixed;
-
   inset: -50%;
-
   z-index: 1000;
-
   pointer-events: none;
-
   opacity: 0.045;
 
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
@@ -93,25 +93,19 @@ button {
   }
 }
 
-/* =====================================
-   MULTICOLOR CURSOR
-===================================== */
+/* =========================================================
+   CURSOR
+========================================================= */
 
 .cursor {
   position: fixed;
-
   width: 11px;
   height: 11px;
-
   border-radius: 50%;
-
   z-index: 3000;
-
   pointer-events: none;
-
   transform: translate(-50%, -50%);
 
-  /* GRADIENTE ANIMADO */
   background: linear-gradient(
     135deg,
     #ff3cac,
@@ -128,17 +122,11 @@ button {
 
   animation: cursorColors 6s ease infinite;
 
-  /* Glow del círculo interior */
   box-shadow: 0 0 8px rgba(255, 60, 172, 0.7), 0 0 18px rgba(53, 232, 255, 0.35);
 }
 
-/*
-     CÍRCULO EXTERIOR
-  */
-
 .cursor::before {
   content: "";
-
   position: absolute;
 
   width: 42px;
@@ -149,8 +137,6 @@ button {
 
   border-radius: 50%;
 
-  /* El truco está aquí:
-       usamos el mismo gradiente */
   background: linear-gradient(
     135deg,
     #ff3cac,
@@ -167,20 +153,10 @@ button {
 
   animation: cursorColors 6s ease infinite, cursorRing 2.8s ease-in-out infinite;
 
-  /*
-      Hacemos que solo se vea
-      como un anillo
-    */
   padding: 1px;
 
   opacity: 0.75;
 
-  box-shadow: 0 0 14px rgba(255, 60, 172, 0.15),
-    0 0 28px rgba(53, 232, 255, 0.1);
-
-  /*
-      Esto crea el agujero central
-    */
   -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
 
   -webkit-mask-composite: xor;
@@ -189,10 +165,6 @@ button {
 
   mask-composite: exclude;
 }
-
-/*
-     ANIMACIÓN DE COLORES
-  */
 
 @keyframes cursorColors {
   0% {
@@ -220,10 +192,6 @@ button {
   }
 }
 
-/*
-     EL ANILLO RESPIRA
-  */
-
 @keyframes cursorRing {
   0%,
   100% {
@@ -239,78 +207,59 @@ button {
 
 .cursor-label {
   position: fixed;
-
   z-index: 2999;
-
   pointer-events: none;
-
   font: 9px "DM Mono";
-
   opacity: 0;
-
   transform: translate(18px, 18px);
 }
 
-/* =========================
-     PRELOADER
-  ========================= */
+/* =========================================================
+   PRELOADER
+========================================================= */
 
 .preloader {
   position: fixed;
-
   inset: 0;
-
   z-index: 5000;
 
   background: #111;
-
   color: #eeeae2;
 
   padding: 24px;
 
   display: flex;
-
   flex-direction: column;
-
   justify-content: space-between;
 }
 
 .pre-top,
 .pre-bottom {
   display: flex;
-
   justify-content: space-between;
-
   font: 9px "DM Mono";
 }
 
 .pre-core {
   display: grid;
-
   gap: 20px;
 }
 
 .pre-num {
   font-size: clamp(110px, 25vw, 360px);
-
   line-height: 0.7;
-
   letter-spacing: -0.09em;
 }
 
 .pre-bar {
   height: 2px;
-
   background: #333;
 }
 
 .pre-bar i {
   display: block;
-
   width: 0;
-
   height: 100%;
-
   background: #eeeae2;
 }
 
@@ -318,15 +267,14 @@ button {
   font: 9px "DM Mono";
 }
 
-/* =========================
-     HEADER
-  ========================= */
+/* =========================================================
+   HEADER
+========================================================= */
 
 .header {
   height: 72px;
 
   position: fixed;
-
   top: 0;
   left: 0;
 
@@ -338,32 +286,29 @@ button {
 
   display: grid;
 
-  grid-template-columns: 1fr auto 1fr;
+  grid-template-columns:
+    1fr
+    auto
+    1fr;
 
   align-items: center;
 }
 
 .logo {
   font-size: 22px;
-
   font-weight: 700;
-
   letter-spacing: -0.1em;
 }
 
 .logo span {
   color: var(--pink);
-
   font-size: 12px;
 }
 
 .header-mid {
   display: flex;
-
   gap: 22px;
-
   color: var(--dim);
-
   font: 9px "DM Mono";
 }
 
@@ -371,7 +316,6 @@ button {
   justify-self: end;
 
   display: flex;
-
   gap: 6px;
 }
 
@@ -392,13 +336,11 @@ button {
 
 .menu-btn {
   width: 40px;
-
   height: 31px;
 
   padding: 0;
 
   display: grid;
-
   place-content: center;
 
   gap: 4px;
@@ -406,21 +348,106 @@ button {
 
 .menu-btn i {
   display: block;
-
   width: 11px;
-
   height: 1px;
-
   background: currentColor;
+
+  transition: transform 0.35s ease, opacity 0.35s ease;
 }
 
-/* =========================
-     SECTIONS
-  ========================= */
+body.menu-open .menu-btn i:first-child {
+  transform: translateY(2.5px) rotate(45deg);
+}
+
+body.menu-open .menu-btn i:last-child {
+  transform: translateY(-2.5px) rotate(-45deg);
+}
+
+/* =========================================================
+   AVAILABLE
+========================================================= */
+
+.availability {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--available);
+}
+
+.availability i {
+  display: block;
+
+  width: 7px;
+  height: 7px;
+
+  border-radius: 50%;
+
+  background: var(--available);
+
+  animation: availablePulse 2s ease-in-out infinite;
+}
+
+@keyframes availablePulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.4;
+    transform: scale(0.8);
+  }
+}
+
+/* =========================================================
+   LANGUAGE
+========================================================= */
+
+.language-switch {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 5px;
+}
+
+.language-switch span {
+  transition: color 0.25s ease, opacity 0.25s ease;
+}
+
+.language-switch b {
+  font-weight: 400;
+  opacity: 0.4;
+}
+
+.language-switch span.is-active {
+  color: var(--selected);
+}
+
+/* =========================================================
+   SECTIONS
+========================================================= */
 
 section {
   padding: 100px 26px;
 }
+
+.meta,
+.section-label {
+  display: flex;
+  justify-content: space-between;
+
+  font: 9px "DM Mono";
+
+  position: relative;
+  z-index: 2;
+}
+
+/* =========================================================
+   HERO
+========================================================= */
 
 .hero {
   min-height: 100svh;
@@ -428,9 +455,7 @@ section {
   padding-top: 145px;
 
   display: flex;
-
   flex-direction: column;
-
   justify-content: space-between;
 
   position: relative;
@@ -438,24 +463,10 @@ section {
   overflow: hidden;
 }
 
-.meta,
-.section-label {
-  display: flex;
-
-  justify-content: space-between;
-
-  font: 9px "DM Mono";
-
-  position: relative;
-
-  z-index: 2;
-}
-
 .hero::after {
   content: "";
 
   position: absolute;
-
   inset: 0;
 
   background: linear-gradient(
@@ -466,278 +477,268 @@ section {
     ),
     linear-gradient(var(--line) 1px, transparent 1px);
 
-  background-size: 100% 100%, 100% 25%;
+  background-size: 100% 100%, 100% 110px;
 
-  opacity: 0.2;
+  opacity: 0.25;
 
   pointer-events: none;
-}
-
-.hero-title {
-  font-size: clamp(90px, 17vw, 255px);
-
-  line-height: 0.69;
-
-  letter-spacing: -0.095em;
-
-  font-weight: 600;
-
-  margin: 0;
-}
-
-.hero-title span {
-  display: block;
-
-  overflow: hidden;
-}
-
-.hero-title .serif {
-  font-family: "Instrument Serif", serif;
-
-  font-weight: 400;
-
-  font-style: italic;
-
-  margin-left: 14vw;
-
-  letter-spacing: -0.06em;
 }
 
 .hero-stage {
   position: relative;
 
+  min-height: 55vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-title {
+  position: relative;
   z-index: 2;
+
+  margin: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  font-size: clamp(76px, 14vw, 220px);
+
+  line-height: 0.75;
+
+  letter-spacing: -0.085em;
+
+  font-weight: 600;
+
+  text-align: center;
+}
+
+.hero-title .serif {
+  font-family: "Instrument Serif", serif;
+  font-style: italic;
+  font-weight: 400;
 }
 
 .orbit {
   position: absolute;
 
-  right: 8vw;
+  width: min(42vw, 280px);
+  aspect-ratio: 1;
 
-  top: 29%;
+  right: 8%;
+  top: 4%;
 
-  width: min(22vw, 270px);
+  display: grid;
+  place-items: center;
 
-  z-index: 3;
+  pointer-events: none;
 }
 
 .orbit svg {
   width: 100%;
+  height: 100%;
 
-  animation: spin 25s linear infinite;
+  animation: orbitSpin 24s linear infinite;
 }
 
 .orbit text {
-  font: 9px "DM Mono";
-
   fill: var(--fg);
 
-  letter-spacing: 0.12em;
+  font: 9px "DM Mono";
+
+  letter-spacing: 2px;
 }
 
 .orbit b {
   position: absolute;
+  font-size: 30px;
 
-  inset: 0;
-
-  display: grid;
-
-  place-items: center;
-
-  color: var(--pink);
-
-  font-size: 35px;
+  animation: orbitCounter 12s linear infinite;
 }
 
-.hero-foot {
-  display: flex;
-
-  justify-content: space-between;
-
-  align-items: end;
-
-  position: relative;
-
-  z-index: 2;
-}
-
-.hero-foot p {
-  max-width: 410px;
-
-  font-size: 14px;
-
-  line-height: 1.35;
-}
-
-.scroll-cue {
-  font: 9px "DM Mono";
-
-  display: flex;
-
-  gap: 18px;
-}
-
-.scroll-cue b {
-  font-size: 18px;
-
-  animation: down 1.4s infinite;
-}
-
-@keyframes down {
-  50% {
-    transform: translateY(5px);
-  }
-}
-
-@keyframes spin {
+@keyframes orbitSpin {
   to {
     transform: rotate(360deg);
   }
 }
 
-/* =========================
-     MANIFESTO
-  ========================= */
+@keyframes orbitCounter {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+.hero-foot {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+
+  gap: 40px;
+
+  position: relative;
+  z-index: 2;
+}
+
+.hero-foot p {
+  width: min(480px, 70vw);
+
+  margin: 0;
+
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.scroll-cue {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  font: 9px "DM Mono";
+}
+
+.scroll-cue b {
+  font-size: 15px;
+}
+
+/* =========================================================
+   MANIFESTO
+========================================================= */
 
 .manifesto {
-  min-height: 100vh;
-
-  display: flex;
-
-  flex-direction: column;
-
-  justify-content: space-between;
+  min-height: 90vh;
 }
 
 .manifesto-grid {
   display: grid;
 
-  grid-template-columns: 4fr 1fr;
+  grid-template-columns:
+    minmax(0, 1.5fr)
+    minmax(240px, 0.5fr);
 
-  align-items: end;
+  gap: 60px;
 
-  gap: 8vw;
+  margin-top: 120px;
 }
 
-.manifesto h2 {
-  font-size: clamp(70px, 11.5vw, 180px);
-
-  line-height: 1;
-
-  letter-spacing: -0.085em;
-
-  font-weight: 500;
-
+.manifesto-grid h2 {
   margin: 0;
+
+  font-size: clamp(60px, 10vw, 160px);
+
+  line-height: 0.78;
+
+  letter-spacing: -0.075em;
 }
 
-.manifesto h2 em,
-.work-intro em,
-.interlude em,
-.about h2 em {
-  font-family: "Instrument Serif";
-
+.manifesto-grid h2 em {
+  font-family: "Instrument Serif", serif;
   font-weight: 400;
 }
 
 .manifesto-side {
   display: flex;
-
   flex-direction: column;
 
-  gap: 45px;
+  justify-content: space-between;
 
-  padding-bottom: 8px;
-}
-
-.manifesto-side p {
-  font-size: 19px;
-
-  line-height: 1.15;
-
-  max-width: 300px;
+  gap: 30px;
 }
 
 .star {
-  font-size: 75px;
+  font-size: 60px;
+}
 
-  color: var(--lime);
+.manifesto-side p {
+  margin: 0;
 
-  animation: spin 12s linear infinite;
+  font-size: 17px;
+  line-height: 1.35;
 }
 
 .mono {
   font: 9px "DM Mono";
-
-  letter-spacing: 0.05em;
 }
 
-/* =========================
-     WORK
-  ========================= */
+/* =========================================================
+   WORK
+========================================================= */
 
 .work {
   overflow: hidden;
 }
 
 .work-intro {
-  display: flex;
+  margin-top: 100px;
 
-  justify-content: space-between;
+  display: grid;
 
-  align-items: end;
+  grid-template-columns: 1fr 1fr;
 
-  margin: 100px 0 75px;
+  gap: 60px;
 }
 
 .work-intro h2 {
-  font-size: clamp(75px, 10vw, 160px);
+  margin: 0;
+
+  font-size: clamp(70px, 10vw, 160px);
 
   line-height: 0.75;
 
   letter-spacing: -0.08em;
+}
 
-  font-weight: 500;
-
-  margin: 0;
+.work-intro h2 em {
+  font-family: "Instrument Serif", serif;
+  font-weight: 400;
 }
 
 .work-intro p {
-  max-width: 290px;
+  max-width: 420px;
 
-  font-size: 13px;
+  margin: 0;
 
-  line-height: 1.4;
+  align-self: end;
+
+  color: var(--dim);
+
+  font-size: 15px;
+
+  line-height: 1.5;
 }
 
 .project-track {
   display: flex;
 
-  gap: 30px;
+  gap: 28px;
 
   width: max-content;
 
-  padding-bottom: 20px;
+  margin-top: 100px;
 }
 
 .project {
-  width: min(58vw, 760px);
+  position: relative;
 
-  flex: none;
+  width: min(55vw, 680px);
+
+  flex: 0 0 auto;
+
+  cursor: none;
 }
 
 .project-no {
-  font: 9px "DM Mono";
+  margin-bottom: 12px;
 
-  margin-bottom: 10px;
+  font: 9px "DM Mono";
 
   color: var(--dim);
 }
 
 .art {
-  height: min(60vw, 690px);
-
   position: relative;
+
+  aspect-ratio: 1.15;
 
   overflow: hidden;
 
@@ -745,7 +746,193 @@ section {
 }
 
 .project:hover .art {
-  transform: scale(0.985);
+  transform: scale(0.98);
+}
+
+.art > span {
+  position: absolute;
+
+  left: 18px;
+  bottom: 18px;
+
+  font: 8px "DM Mono";
+}
+
+/* PROJECT A */
+
+.art-a {
+  background: #ff70d9;
+}
+
+.stamp {
+  position: absolute;
+
+  top: 50%;
+  left: 50%;
+
+  transform: translate(-50%, -50%) rotate(-7deg);
+
+  font-size: clamp(50px, 8vw, 120px);
+
+  font-weight: 700;
+
+  letter-spacing: -0.09em;
+
+  color: #101010;
+
+  z-index: 2;
+}
+
+.pink-orb {
+  position: absolute;
+
+  width: 45%;
+  aspect-ratio: 1;
+
+  border-radius: 50%;
+
+  background: #f7f3eb;
+
+  right: 8%;
+  top: 8%;
+
+  mix-blend-mode: difference;
+}
+
+/* PROJECT B */
+
+.art-b {
+  background: #d8ff32;
+
+  color: #101010;
+}
+
+.ring {
+  position: absolute;
+
+  width: 70%;
+  aspect-ratio: 1;
+
+  border: 1px solid #101010;
+
+  border-radius: 50%;
+
+  left: 15%;
+  top: 15%;
+}
+
+.big24 {
+  position: absolute;
+
+  left: 10%;
+  bottom: 4%;
+
+  font-size: clamp(130px, 20vw, 300px);
+
+  line-height: 0.7;
+
+  font-weight: 700;
+
+  letter-spacing: -0.12em;
+}
+
+.frame {
+  position: absolute;
+
+  right: 10%;
+  top: 10%;
+
+  font: 10px "DM Mono";
+}
+
+/* PROJECT C */
+
+.art-c {
+  background: #5b63ff;
+
+  color: #f7f3eb;
+}
+
+.object {
+  position: absolute;
+
+  width: 48%;
+
+  aspect-ratio: 1;
+
+  left: 25%;
+  top: 18%;
+
+  display: grid;
+  place-items: center;
+
+  font-size: clamp(100px, 18vw, 250px);
+
+  border: 1px solid rgba(255, 255, 255, 0.5);
+
+  border-radius: 50%;
+
+  animation: objectFloat 5s ease-in-out infinite;
+}
+
+.obj-type {
+  position: absolute;
+
+  left: 20px;
+  top: 20px;
+
+  font: 10px "DM Mono";
+}
+
+@keyframes objectFloat {
+  50% {
+    transform: translateY(-15px) rotate(8deg);
+  }
+}
+
+/* PROJECT D */
+
+.art-d {
+  background: #101010;
+
+  color: #f7f3eb;
+}
+
+.static {
+  position: absolute;
+
+  left: 8%;
+  top: 8%;
+
+  font-size: clamp(60px, 10vw, 150px);
+
+  font-weight: 700;
+
+  line-height: 0.72;
+
+  letter-spacing: -0.08em;
+}
+
+.fm {
+  position: absolute;
+
+  right: 12%;
+  top: 25%;
+
+  font-size: clamp(80px, 14vw, 210px);
+
+  font-family: "Instrument Serif", serif;
+
+  font-style: italic;
+}
+
+.dial {
+  position: absolute;
+
+  right: 10%;
+  bottom: 10%;
+
+  font-size: 50px;
 }
 
 .caption {
@@ -753,213 +940,44 @@ section {
 
   justify-content: space-between;
 
-  padding: 13px 0;
+  gap: 20px;
 
-  border-bottom: 1px solid var(--line);
+  padding-top: 14px;
+}
 
+.caption b,
+.caption span {
   font: 9px "DM Mono";
 }
 
-.caption b {
-  font-family: "Space Grotesk";
-}
-
-/* PROJECT 1 */
-
-.art-a {
-  background: #e9e1d2;
-
-  color: #111;
-
-  padding: 7%;
-}
-
-.pink-orb {
-  position: absolute;
-
-  width: 58%;
-
-  aspect-ratio: 1;
-
-  border-radius: 50%;
-
-  background: var(--pink);
-
-  right: 8%;
-
-  top: 13%;
-
-  mix-blend-mode: multiply;
-}
-
-.stamp {
-  position: relative;
-
-  z-index: 2;
-
-  font-size: clamp(50px, 7vw, 110px);
-
-  line-height: 0.78;
-
-  letter-spacing: -0.09em;
-}
-
-/* PROJECT 2 */
-
-.art-b {
-  background: var(--blue);
-
-  color: #f4f0e8;
-
-  padding: 7%;
-}
-
-.big24 {
-  font-size: clamp(190px, 31vw, 450px);
-
-  letter-spacing: -0.13em;
-
-  line-height: 0.7;
-
-  position: absolute;
-
-  left: 4%;
-
-  top: 14%;
-}
-
-.frame {
-  position: absolute;
-
-  right: 7%;
-
-  bottom: 8%;
-
-  font: 12px "DM Mono";
-
-  writing-mode: vertical-rl;
-}
-
-.ring {
-  position: absolute;
-
-  inset: 18% 16%;
-
-  border: 1px solid #f4f0e8;
-
-  border-radius: 50%;
-
-  animation: spin 9s linear infinite;
-}
-
-/* PROJECT 3 */
-
-.art-c {
-  background: var(--orange);
-
-  color: #111;
-
-  padding: 7%;
-}
-
-.object {
-  position: absolute;
-
-  right: 9%;
-
-  top: 15%;
-
-  font-size: 220px;
-}
-
-.obj-type {
-  font-size: clamp(48px, 7vw, 105px);
-
-  line-height: 0.75;
-
-  letter-spacing: -0.08em;
-}
-
-/* PROJECT 4 */
-
-.art-d {
-  background: #111;
-
-  color: #f4f0e8;
-
-  padding: 7%;
-}
-
-.static {
-  font-size: clamp(80px, 12vw, 180px);
-
-  line-height: 0.72;
-
-  letter-spacing: -0.1em;
-}
-
-.fm {
-  font-size: clamp(180px, 28vw, 420px);
-
-  line-height: 0.65;
-
-  position: absolute;
-
-  right: 4%;
-
-  bottom: 10%;
-
-  color: var(--lime);
-
-  letter-spacing: -0.14em;
-}
-
-.dial {
-  position: absolute;
-
-  left: 48%;
-
-  top: 42%;
-
-  font-size: 90px;
-}
-
-.art span {
-  position: absolute;
-
-  left: 7%;
-
-  bottom: 5%;
-
-  font: 9px "DM Mono";
+.caption span {
+  color: var(--dim);
 }
 
 .progress {
   height: 1px;
 
-  background: var(--line);
+  margin-top: 60px;
 
-  margin-top: 70px;
+  background: var(--line);
 }
 
 .progress i {
   display: block;
 
-  height: 2px;
+  width: 25%;
 
-  width: 20%;
+  height: 100%;
 
   background: var(--fg);
-
-  transform-origin: left;
 }
 
-/* =========================
-     INTERLUDE
-  ========================= */
+/* =========================================================
+   INTERLUDE
+========================================================= */
 
 .interlude {
-  min-height: 85vh;
+  min-height: 80vh;
 
   display: flex;
 
@@ -973,83 +991,105 @@ section {
 }
 
 .interlude-star {
-  font-size: 120px;
+  font-size: 110px;
 
-  color: var(--pink);
+  line-height: 1;
 
-  animation: spin 15s linear infinite;
+  margin-bottom: 40px;
+
+  animation: interludeSpin 10s linear infinite;
+}
+
+@keyframes interludeSpin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .interlude p {
-  font-size: clamp(55px, 8vw, 125px);
+  margin: 0;
 
-  line-height: 0.82;
+  font-size: clamp(30px, 5vw, 75px);
 
-  letter-spacing: -0.075em;
+  line-height: 0.95;
 
-  max-width: 1050px;
+  letter-spacing: -0.05em;
 }
 
-/* =========================
-     ABOUT
-  ========================= */
+.interlude em {
+  font-family: "Instrument Serif", serif;
+  font-weight: 400;
+}
+
+/* =========================================================
+   ABOUT
+========================================================= */
 
 .about {
-  padding-bottom: 0;
+  overflow: hidden;
 }
 
 .about-grid {
   display: grid;
 
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns:
+    1fr
+    1fr;
 
-  gap: 9vw;
+  gap: 100px;
 
-  margin: 115px 0;
+  margin-top: 110px;
 }
 
-.about h2 {
-  font-size: clamp(70px, 9vw, 145px);
+.about-grid h2 {
+  margin: 25px 0 0;
 
-  line-height: 0.74;
+  font-size: clamp(70px, 10vw, 150px);
+
+  line-height: 0.75;
 
   letter-spacing: -0.08em;
+}
 
-  margin: 35px 0;
-
-  font-weight: 500;
+.about-grid h2 em {
+  font-family: "Instrument Serif", serif;
+  font-weight: 400;
 }
 
 .about-copy {
-  max-width: 520px;
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 35px;
+
+  max-width: 500px;
 }
 
-.lead {
-  font-size: clamp(25px, 3vw, 45px);
-
-  line-height: 0.98;
-
-  letter-spacing: -0.04em;
-}
-
-.about-copy > p:not(.lead) {
-  font-size: 14px;
-
-  line-height: 1.55;
+.about-copy p {
+  margin: 0;
 
   color: var(--dim);
 
-  max-width: 430px;
+  font-size: 15px;
+
+  line-height: 1.5;
+}
+
+.about-copy .lead {
+  color: var(--fg);
+
+  font-size: 22px;
+
+  line-height: 1.25;
 }
 
 .chips {
   display: flex;
 
-  gap: 5px;
-
   flex-wrap: wrap;
 
-  margin-top: 40px;
+  gap: 6px;
 }
 
 .chips span {
@@ -1057,40 +1097,55 @@ section {
 
   border-radius: 99px;
 
-  padding: 8px 11px;
+  padding: 8px 12px;
 
   font: 8px "DM Mono";
 }
 
-.marquee {
-  border-top: 1px solid var(--line);
+/* =========================================================
+   MARQUEE
+========================================================= */
 
-  border-bottom: 1px solid var(--line);
+.marquee {
+  width: calc(100% + 52px);
+
+  margin: 120px -26px -100px;
 
   overflow: hidden;
 
   white-space: nowrap;
 
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+
   padding: 15px 0;
+}
+
+.marquee-track {
+  display: flex;
+
+  align-items: center;
+
+  flex-wrap: nowrap;
+
+  width: max-content;
+
+  will-change: transform;
+}
+
+.marquee-track span {
+  flex: 0 0 auto;
+
+  padding-right: 45px;
 
   font: 10px "DM Mono";
+
+  white-space: nowrap;
 }
 
-.marquee span {
-  display: inline-block;
-
-  animation: marquee 28s linear infinite;
-}
-
-@keyframes marquee {
-  to {
-    transform: translateX(-50%);
-  }
-}
-
-/* =========================
-     CONTACT
-  ========================= */
+/* =========================================================
+   CONTACT
+========================================================= */
 
 .contact {
   min-height: 100vh;
@@ -1103,107 +1158,212 @@ section {
 }
 
 .contact-core {
-  padding: 130px 0;
+  margin-top: 120px;
 }
 
 .contact-link {
-  display: block;
+  display: inline-block;
 
-  font-size: clamp(75px, 13vw, 205px);
+  margin: 25px 0;
 
-  letter-spacing: -0.1em;
+  font-size: clamp(75px, 14vw, 210px);
 
   line-height: 0.75;
 
-  margin: 35px 0;
+  letter-spacing: -0.09em;
 }
 
 .contact-link sup {
   font-size: 0.25em;
-
-  color: var(--pink);
 }
 
-.contact-core p {
-  font-size: 13px;
+.contact-core > p {
+  max-width: 400px;
 
   color: var(--dim);
+
+  font-size: 14px;
 }
 
-footer {
-  border-top: 1px solid var(--line);
-
-  padding: 13px 0;
-
-  font: 8px "DM Mono";
-
+.contact-details {
   display: flex;
 
   justify-content: space-between;
+
+  max-width: 700px;
+
+  margin-top: 70px;
+
+  padding-top: 15px;
+
+  border-top: 1px solid var(--line);
+
+  font: 9px "DM Mono";
 }
 
-/* =========================
-     MODAL
-  ========================= */
+footer {
+  display: flex;
 
-.modal {
+  justify-content: space-between;
+
+  gap: 20px;
+
+  padding-top: 20px;
+
+  border-top: 1px solid var(--line);
+
+  font: 8px "DM Mono";
+}
+
+/* =========================================================
+   MENU
+========================================================= */
+
+.menu-layer {
   position: fixed;
 
   inset: 0;
 
-  z-index: 2500;
+  z-index: 2000;
 
-  background: var(--bg);
+  display: flex;
 
-  display: none;
+  flex-direction: column;
 
-  padding: 90px 26px 26px;
+  justify-content: space-between;
 
-  overflow: auto;
+  padding: 110px 26px 25px;
+
+  background: var(--fg);
+
+  color: var(--bg);
+
+  visibility: hidden;
+
+  pointer-events: none;
+
+  clip-path: inset(0 0 100% 0);
+
+  overflow: hidden;
 }
 
-.modal > button {
+.menu-layer.is-open {
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.menu-close {
   position: absolute;
 
+  top: 24px;
   right: 26px;
 
-  top: 25px;
+  z-index: 5;
 
-  border: 0;
+  background: transparent;
 
-  background: none;
+  border: 1px solid currentColor;
+
+  border-radius: 99px;
+
+  padding: 8px 12px;
+
+  color: inherit;
 
   font: 9px "DM Mono";
 
   cursor: none;
 }
 
-.modal-index {
-  position: absolute;
+.menu-links {
+  display: flex;
 
-  top: 25px;
+  flex-direction: column;
 
-  left: 26px;
+  gap: 5px;
+}
+
+.menu-links a {
+  display: block;
+
+  font-size: clamp(65px, 11vw, 170px);
+
+  line-height: 0.82;
+
+  letter-spacing: -0.075em;
+
+  opacity: 1;
+
+  transition: opacity 0.3s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.menu-links:hover a:not(:hover) {
+  opacity: 0.25;
+}
+
+.menu-links a:hover {
+  transform: translateX(12px);
+}
+
+.menu-bottom {
+  display: flex;
+
+  justify-content: space-between;
 
   font: 9px "DM Mono";
+
+  opacity: 0.65;
+}
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+.modal {
+  position: fixed;
+
+  inset: 0;
+
+  z-index: 4000;
+
+  display: none;
+
+  overflow-y: auto;
+
+  background: var(--bg);
+
+  color: var(--fg);
+
+  padding: 90px 26px 50px;
+
+  clip-path: inset(0 0 100% 0);
 }
 
 .modal-grid {
-  max-width: 1400px;
-
-  margin: auto;
-
   display: grid;
 
-  grid-template-columns: 1.15fr 0.85fr;
+  grid-template-columns:
+    minmax(0, 1.6fr)
+    minmax(280px, 0.7fr);
 
-  gap: 8vw;
+  gap: 45px;
 
-  align-items: center;
+  align-items: start;
+
+  min-height: calc(100vh - 130px);
 }
 
-.modal-grid > div:first-child {
-  min-height: 55vh;
+.modal-visual {
+  width: 100%;
+  min-width: 0;
+}
+
+.modal-copy {
+  position: sticky;
+
+  top: 90px;
+
+  align-self: start;
 }
 
 .modal-copy > span {
@@ -1213,21 +1373,21 @@ footer {
 }
 
 .modal-copy h2 {
-  font-size: clamp(65px, 9vw, 145px);
+  margin: 12px 0 20px;
 
-  line-height: 0.75;
+  font-size: clamp(60px, 9vw, 150px);
+
+  line-height: 0.78;
 
   letter-spacing: -0.08em;
-
-  margin: 25px 0;
 }
 
 .modal-copy p {
-  max-width: 430px;
+  max-width: 420px;
 
   font-size: 15px;
 
-  line-height: 1.45;
+  line-height: 1.5;
 
   color: var(--dim);
 }
@@ -1235,11 +1395,11 @@ footer {
 #modalTags {
   display: flex;
 
-  gap: 5px;
-
   flex-wrap: wrap;
 
-  margin-top: 30px;
+  gap: 5px;
+
+  margin-top: 25px;
 }
 
 #modalTags span {
@@ -1247,304 +1407,154 @@ footer {
 
   border-radius: 99px;
 
-  padding: 7px 10px;
+  padding: 8px 11px;
 
   font: 8px "DM Mono";
 }
 
-/* =========================
-     MENU
-  ========================= */
-
-.menu-layer {
+#closeModal {
   position: fixed;
 
-  inset: 0;
+  top: 24px;
+  right: 26px;
 
-  background: var(--fg);
+  z-index: 20;
 
-  color: var(--bg);
+  border: 1px solid var(--line);
 
-  z-index: 2000;
+  background: var(--bg);
 
-  display: none;
+  color: var(--fg);
 
-  flex-direction: column;
+  border-radius: 99px;
 
-  justify-content: space-between;
-
-  padding: 110px 26px 25px;
-}
-
-.menu-links {
-  display: flex;
-
-  flex-direction: column;
-
-  align-items: flex-start;
-}
-
-.menu-links a {
-  font-size: clamp(75px, 13vw, 200px);
-
-  line-height: 0.74;
-
-  letter-spacing: -0.09em;
-}
-
-.menu-links a:hover {
-  font-family: "Instrument Serif";
-
-  font-style: italic;
-
-  padding-left: 4vw;
-}
-
-.menu-bottom {
-  display: flex;
-
-  justify-content: space-between;
+  padding: 8px 12px;
 
   font: 9px "DM Mono";
+
+  cursor: none;
 }
 
-/* =========================
-     MOBILE
-  ========================= */
+.modal-index {
+  position: fixed;
 
-@media (max-width: 800px) {
-  body {
-    cursor: auto;
-  }
+  top: 28px;
+  left: 26px;
 
-  .cursor,
-  .cursor-label {
-    display: none;
-  }
+  z-index: 20;
 
-  .header {
-    padding: 0 14px;
+  font: 9px "DM Mono";
 
-    grid-template-columns: 1fr auto;
-  }
-
-  .header-mid {
-    display: none;
-  }
-
-  .head-btn {
-    display: none;
-  }
-
-  section {
-    padding: 80px 14px;
-  }
-
-  .hero {
-    padding-top: 120px;
-  }
-
-  .hero-title {
-    font-size: 21vw;
-  }
-
-  .hero-title .serif {
-    margin-left: 8vw;
-  }
-
-  .orbit {
-    width: 35vw;
-
-    right: 2vw;
-
-    top: 34%;
-  }
-
-  .hero-foot {
-    display: block;
-  }
-
-  .scroll-cue {
-    margin-top: 35px;
-
-    justify-content: space-between;
-  }
-
-  .manifesto-grid,
-  .about-grid,
-  .modal-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .work-intro {
-    display: block;
-
-    margin: 70px 0 45px;
-  }
-
-  .work-intro p {
-    margin-top: 35px;
-  }
-
-  .project {
-    width: 83vw;
-  }
-
-  .art {
-    height: 82vw;
-  }
-
-  .interlude {
-    min-height: 70vh;
-  }
-
-  .contact-link {
-    font-size: 20vw;
-  }
-
-  .contact-core {
-    padding: 100px 0;
-  }
-
-  footer {
-    flex-wrap: wrap;
-
-    gap: 12px;
-  }
-
-  .menu-layer {
-    padding-left: 14px;
-
-    padding-right: 14px;
-  }
-
-  .modal-grid > div:first-child {
-    min-height: 55vw;
-  }
-
-  .modal-copy h2 {
-    font-size: 19vw;
-  }
-}
-
-/* =========================
-     REDUCED MOTION
-  ========================= */
-
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-
-    transition: none !important;
-  }
+  color: var(--dim);
 }
 
 /* =========================================================
-AÑADE ESTO AL FINAL DE TU styles.css
-NO BORRES EL CSS ORIGINAL
+   HALFWAY TITLE + DESCRIPTION
 ========================================================= */
 
+.halfway-heading {
+  margin-bottom: 22px;
+}
+
+.halfway-heading span {
+  display: block;
+
+  margin-bottom: 9px;
+
+  font: 9px "DM Mono";
+
+  color: var(--dim);
+}
+
+.halfway-heading h2 {
+  margin: 0;
+
+  font-size: clamp(50px, 8vw, 120px);
+
+  line-height: 0.8;
+
+  letter-spacing: -0.08em;
+}
+
+.halfway-description {
+  margin-top: 25px;
+
+  max-width: 720px;
+}
+
+.halfway-description p {
+  margin: 0;
+
+  font-size: 14px;
+
+  line-height: 1.5;
+
+  color: var(--dim);
+}
+
 /* =========================================================
-   HALFWAY MAGAZINE VIEWER
-   ========================================================= */
+   PDF VIEWER
+========================================================= */
 
 .magazine-viewer {
   position: relative;
 
   width: 100%;
-  max-width: 100%;
 
   display: flex;
+
   flex-direction: column;
+
   align-items: center;
-
-  overflow: hidden;
-
-  box-sizing: border-box;
-
-  user-select: none;
 }
-
-/* ---------------------------------------------------------
-     STAGE
-     --------------------------------------------------------- */
 
 .magazine-stage {
   position: relative;
 
-  width: min(92vw, 1100px);
+  width: 100%;
 
-  /*
-      Important:
-      the viewer itself never becomes wider than
-      the viewport.
-    */
-
-  max-width: 100%;
-
-  height: min(70vh, 760px);
+  min-height: 65vh;
 
   display: flex;
+
   align-items: center;
+
   justify-content: center;
 
   overflow: hidden;
-
-  perspective: 1800px;
 }
-
-/* ---------------------------------------------------------
-     SPREAD
-     --------------------------------------------------------- */
 
 .magazine-spread {
-  position: relative;
-
   width: 100%;
-  height: 100%;
 
-  max-width: 100%;
+  min-height: 60vh;
 
   display: flex;
+
   align-items: center;
+
   justify-content: center;
 
-  box-sizing: border-box;
-
-  transform-style: preserve-3d;
-
-  will-change: transform, opacity;
+  gap: 0;
 }
-
-/* ---------------------------------------------------------
-     PDF PAGES
-     --------------------------------------------------------- */
 
 .magazine-page {
   display: block;
 
-  width: auto;
-  height: auto;
-
   max-width: 100%;
-  max-height: 100%;
+
+  max-height: 70vh;
+
+  width: auto;
+
+  height: auto;
 
   object-fit: contain;
 
   background: white;
 
-  flex: 0 1 auto;
-
-  box-sizing: border-box;
-
-  will-change: transform;
+  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.13);
 }
-
-/*
-     Double page
-  */
 
 .magazine-spread.is-double {
   gap: 0;
@@ -1552,150 +1562,11 @@ NO BORRES EL CSS ORIGINAL
 
 .magazine-spread.is-double .magazine-page {
   width: 50%;
-  height: 100%;
 
   max-width: 50%;
+
+  max-height: 68vh;
 }
-
-/*
-     Single page:
-     cover / back cover
-  */
-
-.magazine-spread.is-single .magazine-page {
-  width: auto;
-  height: 100%;
-
-  max-width: 100%;
-}
-
-/* ---------------------------------------------------------
-     GUTTER
-     --------------------------------------------------------- */
-
-.magazine-gutter {
-  position: absolute;
-
-  top: 0;
-  bottom: 0;
-
-  left: 50%;
-
-  width: 1px;
-
-  transform: translateX(-50%);
-
-  pointer-events: none;
-
-  background: linear-gradient(
-    to right,
-    rgba(0, 0, 0, 0.08),
-    rgba(255, 255, 255, 0.65),
-    rgba(0, 0, 0, 0.08)
-  );
-
-  z-index: 5;
-}
-
-/*
-     Don't show the gutter on covers.
-  */
-
-.magazine-spread.is-single .magazine-gutter {
-  display: none;
-}
-
-/* ---------------------------------------------------------
-     PAGE SHADOWS
-     --------------------------------------------------------- */
-
-.magazine-page-left {
-  box-shadow: inset -10px 0 18px rgba(0, 0, 0, 0.045);
-}
-
-.magazine-page-right {
-  box-shadow: inset 10px 0 18px rgba(0, 0, 0, 0.045);
-}
-
-/* ---------------------------------------------------------
-     CONTROLS
-     --------------------------------------------------------- */
-
-.magazine-controls {
-  width: min(92vw, 1100px);
-
-  max-width: 100%;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  margin-top: 16px;
-
-  box-sizing: border-box;
-}
-
-.magazine-controls-left {
-  display: flex;
-  align-items: center;
-
-  gap: 8px;
-}
-
-.magazine-button {
-  width: 38px;
-  height: 30px;
-
-  border: 1px solid var(--line);
-
-  background: transparent;
-
-  color: var(--fg);
-
-  font: 9px "DM Mono", monospace;
-
-  cursor: none;
-
-  transition: background 0.25s ease, color 0.25s ease;
-}
-
-.magazine-button:hover {
-  background: var(--fg);
-
-  color: var(--bg);
-}
-
-.magazine-button:disabled {
-  opacity: 0.25;
-
-  pointer-events: none;
-}
-
-.magazine-counter {
-  min-width: 80px;
-
-  text-align: center;
-
-  font: 9px "DM Mono", monospace;
-
-  color: var(--dim);
-}
-
-.magazine-hint {
-  margin-top: 8px;
-
-  font: 8px "DM Mono", monospace;
-
-  color: var(--dim);
-
-  opacity: 0.7;
-
-  text-align: center;
-}
-
-/* ---------------------------------------------------------
-     LOADING
-     --------------------------------------------------------- */
 
 .magazine-loading {
   position: absolute;
@@ -1705,31 +1576,307 @@ NO BORRES EL CSS ORIGINAL
   z-index: 50;
 
   display: flex;
+
   align-items: center;
+
   justify-content: center;
 
   background: var(--bg);
 
-  font: 9px "DM Mono", monospace;
+  font: 9px "DM Mono";
+
+  transition: opacity 0.35s ease;
 }
 
 .magazine-loading.is-hidden {
   opacity: 0;
 
   pointer-events: none;
-
-  transition: opacity 0.35s ease;
 }
 
-/* ---------------------------------------------------------
-     MOBILE
-     --------------------------------------------------------- */
+.magazine-empty {
+  min-height: 55vh;
 
-@media (max-width: 700px) {
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 12px;
+
+  text-align: center;
+
+  color: var(--dim);
+
+  font: 9px "DM Mono";
+}
+
+.magazine-empty strong {
+  color: var(--fg);
+
+  font: 500 clamp(45px, 8vw, 100px) "Space Grotesk";
+
+  letter-spacing: -0.08em;
+}
+
+.magazine-controls {
+  width: 100%;
+
+  margin-top: 18px;
+
+  display: flex;
+
+  justify-content: center;
+}
+
+.magazine-controls-left {
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+}
+
+.magazine-button {
+  width: 35px;
+  height: 35px;
+
+  display: grid;
+
+  place-items: center;
+
+  border: 1px solid var(--line);
+
+  border-radius: 50%;
+
+  background: transparent;
+
+  color: var(--fg);
+
+  font: 11px "DM Mono";
+
+  cursor: none;
+}
+
+.magazine-button:disabled {
+  opacity: 0.25;
+}
+
+.magazine-counter {
+  min-width: 65px;
+
+  text-align: center;
+
+  font: 9px "DM Mono";
+}
+
+/* =========================================================
+   MAGNETIC HOVER
+========================================================= */
+
+.magnetic {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 900px) {
+  .header-mid {
+    display: none;
+  }
+
+  .header {
+    grid-template-columns: 1fr auto;
+  }
+
+  .hero-title {
+    font-size: clamp(68px, 16vw, 150px);
+  }
+
+  .orbit {
+    width: 190px;
+
+    right: 3%;
+    top: 10%;
+  }
+
+  .manifesto-grid,
+  .work-intro,
+  .about-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .project {
+    width: 75vw;
+  }
+
+  .modal-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .modal-copy {
+    position: static;
+  }
+}
+
+@media (max-width: 600px) {
+  body {
+    cursor: auto;
+  }
+
+  .cursor,
+  .cursor-label {
+    display: none;
+  }
+
+  section {
+    padding: 80px 14px;
+  }
+
+  .header {
+    padding: 0 14px;
+  }
+
+  .head-btn span {
+    display: none;
+  }
+
+  .hero {
+    padding-top: 120px;
+  }
+
+  .hero-stage {
+    min-height: 52vh;
+  }
+
+  .hero-title {
+    font-size: 19vw;
+  }
+
+  .orbit {
+    width: 145px;
+
+    right: 0;
+    top: 0;
+  }
+
+  .hero-foot {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .hero-foot p {
+    width: 100%;
+  }
+
+  .manifesto-grid {
+    margin-top: 80px;
+  }
+
+  .manifesto-grid h2 {
+    font-size: 17vw;
+  }
+
+  .work-intro {
+    margin-top: 75px;
+  }
+
+  .work-intro h2 {
+    font-size: 18vw;
+  }
+
+  .project-track {
+    margin-top: 70px;
+
+    gap: 18px;
+  }
+
+  .project {
+    width: 84vw;
+  }
+
+  .caption {
+    flex-direction: column;
+
+    gap: 5px;
+  }
+
+  .interlude p {
+    font-size: 9vw;
+  }
+
+  .about-grid {
+    margin-top: 80px;
+  }
+
+  .about-grid h2 {
+    font-size: 17vw;
+  }
+
+  .about-copy .lead {
+    font-size: 19px;
+  }
+
+  .marquee {
+    width: calc(100% + 28px);
+
+    margin: 80px -14px -80px;
+  }
+
+  .contact-link {
+    font-size: 19vw;
+  }
+
+  .contact-details,
+  footer {
+    flex-direction: column;
+
+    gap: 12px;
+  }
+
+  .menu-layer {
+    padding: 100px 14px 20px;
+  }
+
+  .menu-close {
+    right: 14px;
+  }
+
+  .menu-links a {
+    font-size: 18vw;
+  }
+
+  .modal {
+    padding: 80px 14px 40px;
+  }
+
+  .modal-copy h2 {
+    font-size: 19vw;
+  }
+
+  .modal-index {
+    left: 14px;
+  }
+
+  #closeModal {
+    right: 14px;
+  }
+
   .magazine-stage {
-    width: 94vw;
+    min-height: 55vh;
+  }
 
-    height: 62vh;
+  .magazine-spread {
+    min-height: 50vh;
+  }
+
+  .magazine-page {
+    max-height: 58vh;
   }
 
   .magazine-spread.is-double .magazine-page {
@@ -1737,185 +1884,7 @@ NO BORRES EL CSS ORIGINAL
     max-width: 50%;
   }
 
-  .magazine-controls {
-    width: 94vw;
+  .halfway-heading h2 {
+    font-size: 18vw;
   }
-}
-/* =========================================================
-    CONTACT DETAILS
-    ========================================================= */
-
-.contact-details {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 22px;
-  margin-top: 30px;
-  font: 9px "DM Mono";
-}
-
-.contact-details a,
-.contact-email {
-  display: inline-block;
-}
-
-.contact-details a {
-  border-bottom: 1px solid var(--line);
-  padding-bottom: 3px;
-}
-
-.contact-details a:hover {
-  border-color: var(--fg);
-}
-
-/* =========================================================
-    MENU CLOSE
-    ========================================================= */
-
-.menu-close {
-  position: absolute;
-  top: 25px;
-  right: 26px;
-  z-index: 3;
-
-  border: 1px solid currentColor;
-  background: transparent;
-  color: inherit;
-
-  padding: 8px 11px;
-
-  font: 9px "DM Mono";
-
-  cursor: none;
-
-  transition: background 0.3s ease, color 0.3s ease;
-}
-
-.menu-close:hover {
-  background: var(--bg);
-  color: var(--fg);
-}
-
-/* =========================================================
-    MENU OPEN STATE
-    ========================================================= */
-
-.menu-layer {
-  visibility: hidden;
-  pointer-events: none;
-  clip-path: inset(0 0 100% 0);
-}
-
-.menu-layer.is-open {
-  visibility: visible;
-  pointer-events: auto;
-}
-
-/* =========================================================
-    TOOLS MARQUEE
-    ========================================================= */
-
-.marquee {
-  position: relative;
-  overflow: hidden;
-  white-space: nowrap;
-  padding: 15px 0;
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
-}
-
-.marquee-track {
-  display: flex;
-  width: max-content;
-  align-items: center;
-  will-change: transform;
-}
-
-.marquee-track span {
-  flex: none;
-  display: block;
-  padding-right: 45px;
-  font: 10px "DM Mono";
-}
-
-/* =========================================================
-    MOBILE
-    ========================================================= */
-
-@media (max-width: 800px) {
-  .magazine-stage {
-    height: 65vh;
-    min-height: 420px;
-  }
-
-  .magazine-empty {
-    width: 82%;
-  }
-
-  .magazine-controls {
-    gap: 10px;
-  }
-
-  .magazine-controls-left,
-  .magazine-controls-right {
-    gap: 4px;
-  }
-
-  .magazine-button {
-    min-width: 34px;
-    padding: 0 7px;
-  }
-
-  .magazine-hint {
-    font-size: 7px;
-  }
-
-  .contact-details {
-    margin-top: 25px;
-    gap: 14px;
-  }
-
-  .menu-close {
-    right: 14px;
-    top: 18px;
-  }
-}
-
-/* =========================================================
-    REDUCED MOTION
-    ========================================================= */
-
-@media (prefers-reduced-motion: reduce) {
-  .marquee-track {
-    transform: none !important;
-  }
-
-  .magazine-page {
-    transition: none !important;
-  }
-}
-
-/* =========================================================
-TOOLS — CONTINUOUS MARQUEE
-========================================================= */
-
-.tools-marquee {
-  width: 100%;
-  max-width: 100%;
-  overflow: hidden;
-  position: relative;
-}
-
-.marquee-track {
-  display: flex;
-  width: max-content;
-  flex-wrap: nowrap;
-  align-items: center;
-  gap: 0;
-  will-change: transform;
-}
-
-.marquee-track > * {
-  flex: 0 0 auto;
-  white-space: nowrap;
 }

@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <meta
       name="description"
@@ -24,18 +23,21 @@
   </head>
 
   <body>
-    <!-- PRELOADER -->
-    <div class="preloader">
+    <!-- =====================================================
+       PRELOADER
+  ====================================================== -->
+
+    <div class="preloader" id="preloader">
       <div class="pre-top">
         <span>EMMA / VISUAL DESIGN</span>
         <span>2026</span>
       </div>
 
       <div class="pre-core">
-        <div class="pre-num">00</div>
+        <div class="pre-num" id="preNum">00</div>
 
         <div class="pre-bar">
-          <i></i>
+          <i id="preBar"></i>
         </div>
 
         <div class="pre-status">BUILDING A SMALL UNIVERSE</div>
@@ -47,37 +49,65 @@
       </div>
     </div>
 
-    <!-- AMBIENT CANVAS -->
+    <!-- =====================================================
+       BACKGROUND
+  ====================================================== -->
+
     <canvas id="field"></canvas>
 
     <div class="grain"></div>
 
-    <!-- CUSTOM CURSOR -->
+    <!-- =====================================================
+       CURSOR
+  ====================================================== -->
+
     <div class="cursor">
       <i></i>
     </div>
 
     <div class="cursor-label">OPEN</div>
 
-    <!-- HEADER -->
+    <!-- =====================================================
+       HEADER
+  ====================================================== -->
+
     <header class="header">
       <a href="#home" class="logo magnetic"> E<span></span>A </a>
 
       <div class="header-mid">
-        <span>PORTFOLIO / 01—26</span>
-        <span>● AVAILABLE</span>
+        <span> PORTFOLIO / 01—26 </span>
+
+        <span class="availability">
+          <i></i>
+          <span data-i18n="available"> AVAILABLE </span>
+        </span>
       </div>
 
       <div class="header-actions">
-        <button class="head-btn magnetic" id="theme">
+        <button
+          class="head-btn magnetic"
+          id="theme"
+          type="button"
+          aria-label="Change theme"
+        >
           ◐ <span>MODE</span>
         </button>
 
-        <button class="head-btn magnetic" id="lang">ES / EN</button>
+        <button
+          class="head-btn magnetic language-switch"
+          id="lang"
+          type="button"
+          aria-label="Change language"
+        >
+          <span data-lang="es">ES</span>
+          <b>/</b>
+          <span data-lang="en">EN</span>
+        </button>
 
         <button
           class="menu-btn magnetic"
           id="menu"
+          type="button"
           aria-label="Open menu"
           aria-expanded="false"
         >
@@ -87,19 +117,29 @@
       </div>
     </header>
 
+    <!-- =====================================================
+       MAIN
+  ====================================================== -->
+
     <main>
-      <!-- HERO -->
+      <!-- ===================================================
+         HERO
+    ==================================================== -->
+
       <section id="home" class="hero">
         <div class="meta">
-          <span>01 — INTRO</span>
-          <span>GRAPHIC DESIGNER / 2026</span>
+          <span> 01 — INTRO </span>
+
+          <span> GRAPHIC DESIGNER / 2026 </span>
         </div>
 
         <div class="hero-stage">
           <h1 class="hero-title">
-            <span>MAKE</span>
+            <span> MAKE </span>
+
             <span class="serif"> things </span>
-            <span>MATTER.</span>
+
+            <span> MATTER. </span>
           </h1>
 
           <div class="orbit">
@@ -108,11 +148,11 @@
                 <path
                   id="orbitPath"
                   d="
-              M140 140
-              m-105 0
-              a105 105 0 1 1 210 0
-              a105 105 0 1 1 -210 0
-            "
+                  M140 140
+                  m-105 0
+                  a105 105 0 1 1 210 0
+                  a105 105 0 1 1 -210 0
+                "
                 />
               </defs>
 
@@ -141,11 +181,15 @@
         </div>
       </section>
 
-      <!-- MANIFESTO -->
+      <!-- ===================================================
+         MANIFESTO
+    ==================================================== -->
+
       <section class="manifesto">
         <div class="section-label">
-          <span>02 — POINT OF VIEW</span>
-          <span>EMMA / 01</span>
+          <span> 02 — POINT OF VIEW </span>
+
+          <span> EMMA / 01 </span>
         </div>
 
         <div class="manifesto-grid">
@@ -170,11 +214,15 @@
         </div>
       </section>
 
-      <!-- WORK -->
+      <!-- ===================================================
+         WORK
+    ==================================================== -->
+
       <section id="work" class="work">
         <div class="section-label">
-          <span>03 — SELECTED WORK</span>
-          <span>DRAG / SCROLL</span>
+          <span> 03 — SELECTED WORK </span>
+
+          <span> DRAG / SCROLL </span>
         </div>
 
         <div class="work-intro">
@@ -191,7 +239,8 @@
         </div>
 
         <div class="project-track">
-          <!-- PROJECT 01 — L'ÉCLAT -->
+          <!-- PROJECT 01 -->
+
           <article class="project" data-id="0">
             <div class="project-no">01</div>
 
@@ -205,11 +254,13 @@
 
             <div class="caption">
               <b> HALFWAY </b>
+
               <span> EDITORIAL / ART DIRECTION </span>
             </div>
           </article>
 
           <!-- PROJECT 02 -->
+
           <article class="project" data-id="1">
             <div class="project-no">02</div>
 
@@ -225,11 +276,13 @@
 
             <div class="caption">
               <b> 24 FRAMES </b>
+
               <span> MOTION / CAMPAIGN </span>
             </div>
           </article>
 
           <!-- PROJECT 03 -->
+
           <article class="project" data-id="2">
             <div class="project-no">03</div>
 
@@ -249,11 +302,13 @@
 
             <div class="caption">
               <b> ODD OBJECTS </b>
+
               <span> EDITORIAL / PACKAGING </span>
             </div>
           </article>
 
           <!-- PROJECT 04 -->
+
           <article class="project" data-id="3">
             <div class="project-no">04</div>
 
@@ -273,6 +328,7 @@
 
             <div class="caption">
               <b> STATIC FM </b>
+
               <span> DIGITAL / ART DIRECTION </span>
             </div>
           </article>
@@ -283,7 +339,10 @@
         </div>
       </section>
 
-      <!-- INTERLUDE -->
+      <!-- ===================================================
+         INTERLUDE
+    ==================================================== -->
+
       <section class="interlude">
         <div class="interlude-star">∞</div>
 
@@ -294,11 +353,15 @@
         </p>
       </section>
 
-      <!-- ABOUT -->
+      <!-- ===================================================
+         ABOUT
+    ==================================================== -->
+
       <section id="about" class="about">
         <div class="section-label">
-          <span>04 — ABOUT</span>
-          <span>HUMAN / PROCESS</span>
+          <span> 04 — ABOUT </span>
+
+          <span> HUMAN / PROCESS </span>
         </div>
 
         <div class="about-grid">
@@ -325,41 +388,37 @@
             </p>
 
             <div class="chips">
-              <span>BRAND</span>
-              <span>EDITORIAL</span>
-              <span>MOTION</span>
-              <span>DIGITAL</span>
-              <span>TYPE</span>
-              <span>ART DIRECTION</span>
+              <span> BRAND </span>
+
+              <span> EDITORIAL </span>
+
+              <span> MOTION </span>
+
+              <span> DIGITAL </span>
+
+              <span> TYPE </span>
+
+              <span> ART DIRECTION </span>
             </div>
           </div>
         </div>
 
         <!-- TOOLS -->
-        <div class="marquee">
-          <div class="marquee-track">
-            <span>ADOBE CC</span>
-            <span>FIGMA</span>
-            <span>AFTER EFFECTS</span>
-            <span>BLENDER</span>
-            <span>GSAP</span>
-            <span>CREATIVE CODING</span>
 
-            <span>ADOBE CC</span>
-            <span>FIGMA</span>
-            <span>AFTER EFFECTS</span>
-            <span>BLENDER</span>
-            <span>GSAP</span>
-            <span>CREATIVE CODING</span>
-          </div>
+        <div class="marquee">
+          <div class="marquee-track"></div>
         </div>
       </section>
 
-      <!-- CONTACT -->
+      <!-- ===================================================
+         CONTACT
+    ==================================================== -->
+
       <section id="contact" class="contact">
         <div class="section-label">
-          <span>05 — CONTACT</span>
-          <span>OPEN CHANNEL</span>
+          <span> 05 — CONTACT </span>
+
+          <span> OPEN CHANNEL </span>
         </div>
 
         <div class="contact-core">
@@ -378,7 +437,7 @@
           </p>
 
           <div class="contact-details">
-            <span class="contact-email">hello@EMMA.design</span>
+            <span class="contact-email"> hello@EMMA.design </span>
 
             <a
               href="https://www.linkedin.com/"
@@ -400,14 +459,19 @@
       </section>
     </main>
 
-    <!-- PROJECT MODAL -->
-    <div class="modal" id="modal">
-      <button id="closeModal" aria-label="Close project">CLOSE ×</button>
+    <!-- =====================================================
+       PROJECT MODAL
+  ====================================================== -->
 
-      <div class="modal-index">01</div>
+    <div class="modal" id="modal" aria-hidden="true">
+      <button id="closeModal" type="button" aria-label="Close project">
+        CLOSE ×
+      </button>
+
+      <div class="modal-index" id="modalIndex">01</div>
 
       <div class="modal-grid">
-        <div id="modalVisual"></div>
+        <div id="modalVisual" class="modal-visual"></div>
 
         <div class="modal-copy">
           <span id="modalCat"></span>
@@ -421,38 +485,47 @@
       </div>
     </div>
 
-    <!-- MENU -->
+    <!-- =====================================================
+       MENU
+  ====================================================== -->
+
     <div class="menu-layer" id="menuLayer" aria-hidden="true">
       <button
         class="menu-close magnetic"
         id="menuClose"
+        type="button"
         aria-label="Close menu"
       >
         CLOSE ×
       </button>
 
       <div class="menu-links">
-        <a href="#work">WORK</a>
-        <a href="#about">ABOUT</a>
-        <a href="#contact">CONTACT</a>
+        <a href="#work"> WORK </a>
+
+        <a href="#about"> ABOUT </a>
+
+        <a href="#contact"> CONTACT </a>
       </div>
 
       <div class="menu-bottom">
-        <span>EMMA®</span>
-        <span>ES / EN / 2026</span>
+        <span> EMMA® </span>
+
+        <span> ES / EN / 2026 </span>
       </div>
     </div>
 
-    <!-- GSAP -->
+    <!-- =====================================================
+       LIBRARIES
+  ====================================================== -->
+
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollToPlugin.min.js"></script>
 
-    <!-- PDF.JS -->
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs"
-      type="module"
-    ></script>
+    <!-- PDF.JS GLOBAL BUILD -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.js"></script>
 
     <script src="script.js"></script>
   </body>
