@@ -78,13 +78,11 @@ button {
 #field {
   position: fixed;
   inset: 0;
-
   width: 100%;
   height: 100%;
-
   z-index: -2;
-
   opacity: 0.45;
+  pointer-events: none; /* <--- AÑADIR ESTA LÍNEA */
 }
 
 /* =========================================================
@@ -94,15 +92,10 @@ button {
 .grain {
   position: fixed;
   inset: -50%;
-
   z-index: 1000;
-
-  pointer-events: none;
-
+  pointer-events: none; /* <--- ASEGURAR QUE ESTÉ PRESENTE */
   opacity: 0.045;
-
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-
+  background-image: url("data:image/svg+xml,...");
   animation: grain 0.18s steps(2) infinite;
 }
 
@@ -538,46 +531,39 @@ section {
 
   pointer-events: none;
 }
-
 .hero-stage {
   position: relative;
-
   min-height: 55vh;
-
   display: flex;
-
   align-items: center;
-  justify-content: flex-start;
+  justify-content: flex-start; /* Alinea el bloque completo a la izquierda */
 }
 
 .hero-title {
   position: relative;
-
   z-index: 2;
-
   margin: 0;
-
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-
+  align-items: flex-start; /* Alinea las tres líneas de texto a la izquierda entre sí */
   font-size: clamp(76px, 14vw, 220px);
-
   line-height: 0.75;
-
   letter-spacing: -0.085em;
-
   font-weight: 600;
-
   text-align: left;
 }
 
 .hero-title .serif {
   font-family: "Instrument Serif", serif;
-
   font-style: italic;
-
   font-weight: 400;
+}
+
+.hero-title span {
+  display: block;
+  clip-path: inset(
+    0 0 0 0
+  ); /* Recorta estrictamente lo que se sale del borde de la línea */
 }
 
 .orbit {
@@ -2034,33 +2020,6 @@ footer {
 ========================================================= */
 
 /* Restore original hero composition */
-.hero-stage {
-  position: relative;
-  min-height: 55vh;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start; /* Alinea el bloque completo a la izquierda */
-}
-
-.hero-title {
-  position: relative;
-  z-index: 2;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start; /* Alinea las tres líneas de texto a la izquierda entre sí */
-  font-size: clamp(76px, 14vw, 220px);
-  line-height: 0.75;
-  letter-spacing: -0.085em;
-  font-weight: 600;
-  text-align: left;
-}
-
-.hero-title .serif {
-  font-family: "Instrument Serif", serif;
-  font-style: italic;
-  font-weight: 400;
-}
 
 /* Central coloured asterisk */
 .orbit b {
@@ -2170,4 +2129,19 @@ footer {
   .marquee-item {
     font-size: 48px;
   }
+}
+
+.header {
+  z-index: 3000 !important;
+}
+
+.menu-btn,
+.head-btn {
+  pointer-events: auto !important;
+  cursor: pointer;
+}
+
+.project {
+  pointer-events: auto !important;
+  z-index: 10;
 }
