@@ -2145,3 +2145,15 @@ footer {
   pointer-events: auto !important;
   z-index: 10;
 }
+
+body.modal-open .cursor {
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: block !important;
+  pointer-events: none !important;
+}
+
+body.modal-open .cursor-label {
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
