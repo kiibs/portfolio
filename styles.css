@@ -1,3 +1,8 @@
+/* =========================================================
+   EMMA PORTFOLIO
+   MAIN STYLES
+========================================================= */
+
 :root {
   --bg: #f7f3eb;
   --fg: #101010;
@@ -20,6 +25,10 @@
   --line: rgba(241, 238, 230, 0.18);
 }
 
+/* =========================================================
+   RESET
+========================================================= */
+
 * {
   box-sizing: border-box;
 }
@@ -32,9 +41,13 @@ body {
   margin: 0;
   background: var(--bg);
   color: var(--fg);
+
   font-family: "Space Grotesk", sans-serif;
+
   overflow-x: hidden;
+
   cursor: none;
+
   transition: background 0.5s ease, color 0.5s ease;
 }
 
@@ -65,9 +78,12 @@ button {
 #field {
   position: fixed;
   inset: 0;
+
   width: 100%;
   height: 100%;
+
   z-index: -2;
+
   opacity: 0.45;
 }
 
@@ -78,8 +94,11 @@ button {
 .grain {
   position: fixed;
   inset: -50%;
+
   z-index: 1000;
+
   pointer-events: none;
+
   opacity: 0.045;
 
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
@@ -99,11 +118,16 @@ button {
 
 .cursor {
   position: fixed;
+
   width: 11px;
   height: 11px;
+
   border-radius: 50%;
+
   z-index: 3000;
+
   pointer-events: none;
+
   transform: translate(-50%, -50%);
 
   background: linear-gradient(
@@ -127,6 +151,7 @@ button {
 
 .cursor::before {
   content: "";
+
   position: absolute;
 
   width: 42px;
@@ -207,10 +232,15 @@ button {
 
 .cursor-label {
   position: fixed;
+
   z-index: 2999;
+
   pointer-events: none;
+
   font: 9px "DM Mono";
+
   opacity: 0;
+
   transform: translate(18px, 18px);
 }
 
@@ -221,6 +251,7 @@ button {
 .preloader {
   position: fixed;
   inset: 0;
+
   z-index: 5000;
 
   background: #111;
@@ -237,6 +268,7 @@ button {
 .pre-bottom {
   display: flex;
   justify-content: space-between;
+
   font: 9px "DM Mono";
 }
 
@@ -247,19 +279,24 @@ button {
 
 .pre-num {
   font-size: clamp(110px, 25vw, 360px);
+
   line-height: 0.7;
+
   letter-spacing: -0.09em;
 }
 
 .pre-bar {
   height: 2px;
+
   background: #333;
 }
 
 .pre-bar i {
   display: block;
+
   width: 0;
   height: 100%;
+
   background: #eeeae2;
 }
 
@@ -296,19 +333,25 @@ button {
 
 .logo {
   font-size: 22px;
+
   font-weight: 700;
+
   letter-spacing: -0.1em;
 }
 
 .logo span {
   color: var(--pink);
+
   font-size: 12px;
 }
 
 .header-mid {
   display: flex;
+
   gap: 22px;
+
   color: var(--dim);
+
   font: 9px "DM Mono";
 }
 
@@ -316,6 +359,7 @@ button {
   justify-self: end;
 
   display: flex;
+
   gap: 6px;
 }
 
@@ -341,6 +385,7 @@ button {
   padding: 0;
 
   display: grid;
+
   place-content: center;
 
   gap: 4px;
@@ -348,8 +393,10 @@ button {
 
 .menu-btn i {
   display: block;
+
   width: 11px;
   height: 1px;
+
   background: currentColor;
 
   transition: transform 0.35s ease, opacity 0.35s ease;
@@ -369,8 +416,11 @@ body.menu-open .menu-btn i:last-child {
 
 .availability {
   display: inline-flex;
+
   align-items: center;
+
   gap: 7px;
+
   color: var(--available);
 }
 
@@ -404,7 +454,7 @@ body.menu-open .menu-btn i:last-child {
    LANGUAGE
 ========================================================= */
 
-.language-switch {
+.lang-switch {
   display: inline-flex;
 
   align-items: center;
@@ -413,17 +463,19 @@ body.menu-open .menu-btn i:last-child {
   gap: 5px;
 }
 
-.language-switch span {
+.lang-switch span {
   transition: color 0.25s ease, opacity 0.25s ease;
 }
 
-.language-switch b {
-  font-weight: 400;
-  opacity: 0.4;
+.lang-switch span.active {
+  color: #e33;
+  font-weight: 500;
 }
 
-.language-switch span.is-active {
-  color: var(--selected);
+.lang-switch b {
+  color: var(--dim);
+
+  font-weight: 400;
 }
 
 /* =========================================================
@@ -437,11 +489,13 @@ section {
 .meta,
 .section-label {
   display: flex;
+
   justify-content: space-between;
 
   font: 9px "DM Mono";
 
   position: relative;
+
   z-index: 2;
 }
 
@@ -456,6 +510,7 @@ section {
 
   display: flex;
   flex-direction: column;
+
   justify-content: space-between;
 
   position: relative;
@@ -490,12 +545,14 @@ section {
   min-height: 55vh;
 
   display: flex;
+
   align-items: center;
   justify-content: center;
 }
 
 .hero-title {
   position: relative;
+
   z-index: 2;
 
   margin: 0;
@@ -516,7 +573,9 @@ section {
 
 .hero-title .serif {
   font-family: "Instrument Serif", serif;
+
   font-style: italic;
+
   font-weight: 400;
 }
 
@@ -524,12 +583,14 @@ section {
   position: absolute;
 
   width: min(42vw, 280px);
+
   aspect-ratio: 1;
 
   right: 8%;
   top: 4%;
 
   display: grid;
+
   place-items: center;
 
   pointer-events: none;
@@ -552,6 +613,7 @@ section {
 
 .orbit b {
   position: absolute;
+
   font-size: 30px;
 
   animation: orbitCounter 12s linear infinite;
@@ -571,12 +633,15 @@ section {
 
 .hero-foot {
   display: flex;
+
   align-items: end;
+
   justify-content: space-between;
 
   gap: 40px;
 
   position: relative;
+
   z-index: 2;
 }
 
@@ -586,12 +651,15 @@ section {
   margin: 0;
 
   font-size: 14px;
+
   line-height: 1.45;
 }
 
 .scroll-cue {
   display: flex;
+
   align-items: center;
+
   gap: 12px;
 
   font: 9px "DM Mono";
@@ -633,11 +701,13 @@ section {
 
 .manifesto-grid h2 em {
   font-family: "Instrument Serif", serif;
+
   font-weight: 400;
 }
 
 .manifesto-side {
   display: flex;
+
   flex-direction: column;
 
   justify-content: space-between;
@@ -653,6 +723,7 @@ section {
   margin: 0;
 
   font-size: 17px;
+
   line-height: 1.35;
 }
 
@@ -673,7 +744,9 @@ section {
 
   display: grid;
 
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns:
+    1fr
+    1fr;
 
   gap: 60px;
 }
@@ -690,6 +763,7 @@ section {
 
 .work-intro h2 em {
   font-family: "Instrument Serif", serif;
+
   font-weight: 400;
 }
 
@@ -715,6 +789,8 @@ section {
   width: max-content;
 
   margin-top: 100px;
+
+  touch-action: pan-y;
 }
 
 .project {
@@ -758,7 +834,9 @@ section {
   font: 8px "DM Mono";
 }
 
-/* PROJECT A */
+/* =========================================================
+   PROJECT A
+========================================================= */
 
 .art-a {
   background: #ff70d9;
@@ -787,6 +865,7 @@ section {
   position: absolute;
 
   width: 45%;
+
   aspect-ratio: 1;
 
   border-radius: 50%;
@@ -799,7 +878,9 @@ section {
   mix-blend-mode: difference;
 }
 
-/* PROJECT B */
+/* =========================================================
+   PROJECT B
+========================================================= */
 
 .art-b {
   background: #d8ff32;
@@ -811,6 +892,7 @@ section {
   position: absolute;
 
   width: 70%;
+
   aspect-ratio: 1;
 
   border: 1px solid #101010;
@@ -845,7 +927,9 @@ section {
   font: 10px "DM Mono";
 }
 
-/* PROJECT C */
+/* =========================================================
+   PROJECT C
+========================================================= */
 
 .art-c {
   background: #5b63ff;
@@ -864,6 +948,7 @@ section {
   top: 18%;
 
   display: grid;
+
   place-items: center;
 
   font-size: clamp(100px, 18vw, 250px);
@@ -890,7 +975,9 @@ section {
   }
 }
 
-/* PROJECT D */
+/* =========================================================
+   PROJECT D
+========================================================= */
 
 .art-d {
   background: #101010;
@@ -1018,6 +1105,7 @@ section {
 
 .interlude em {
   font-family: "Instrument Serif", serif;
+
   font-weight: 400;
 }
 
@@ -1053,6 +1141,7 @@ section {
 
 .about-grid h2 em {
   font-family: "Instrument Serif", serif;
+
   font-weight: 400;
 }
 
@@ -1103,22 +1192,48 @@ section {
 }
 
 /* =========================================================
+   TOOLS LINE
+========================================================= */
+
+.tools-line {
+  width: 100%;
+
+  margin-top: 115px;
+  margin-bottom: 0;
+
+  padding-bottom: 12px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  border-bottom: 1px solid var(--line);
+
+  font: 9px "DM Mono";
+
+  color: var(--dim);
+}
+
+/* =========================================================
    MARQUEE
 ========================================================= */
 
 .marquee {
   width: calc(100% + 52px);
 
-  margin: 120px -26px -100px;
+  margin: 0 -26px -100px;
 
   overflow: hidden;
 
   white-space: nowrap;
 
-  border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
 
-  padding: 15px 0;
+  padding: 17px 0;
+
+  position: relative;
 }
 
 .marquee-track {
@@ -1133,14 +1248,36 @@ section {
   will-change: transform;
 }
 
-.marquee-track span {
+.marquee-group {
+  display: flex;
+
+  align-items: center;
+
   flex: 0 0 auto;
 
-  padding-right: 45px;
+  width: max-content;
+}
+
+.marquee-track span {
+  display: inline-flex;
+
+  align-items: center;
+
+  flex: 0 0 auto;
+
+  padding: 0 28px;
 
   font: 10px "DM Mono";
 
   white-space: nowrap;
+}
+
+.marquee-track span::after {
+  content: "✦";
+
+  margin-left: 28px;
+
+  color: var(--dim);
 }
 
 /* =========================================================
@@ -1224,6 +1361,10 @@ footer {
 
   inset: 0;
 
+  background: var(--fg);
+
+  color: var(--bg);
+
   z-index: 2000;
 
   display: flex;
@@ -1234,17 +1375,17 @@ footer {
 
   padding: 110px 26px 25px;
 
-  background: var(--fg);
-
-  color: var(--bg);
-
   visibility: hidden;
 
   pointer-events: none;
 
   clip-path: inset(0 0 100% 0);
 
-  overflow: hidden;
+  /*
+   * IMPORTANT:
+   * No display:none here.
+   * GSAP controls visibility and clip-path.
+   */
 }
 
 .menu-layer.is-open {
@@ -1355,6 +1496,7 @@ footer {
 
 .modal-visual {
   width: 100%;
+
   min-width: 0;
 }
 
@@ -1449,7 +1591,7 @@ footer {
 }
 
 /* =========================================================
-   HALFWAY TITLE + DESCRIPTION
+   HALFWAY
 ========================================================= */
 
 .halfway-heading {
@@ -1480,6 +1622,8 @@ footer {
   margin-top: 25px;
 
   max-width: 720px;
+
+  padding-top: 5px;
 }
 
 .halfway-description p {
@@ -1534,8 +1678,6 @@ footer {
   align-items: center;
 
   justify-content: center;
-
-  gap: 0;
 }
 
 .magazine-page {
@@ -1554,18 +1696,6 @@ footer {
   background: white;
 
   box-shadow: 0 25px 70px rgba(0, 0, 0, 0.13);
-}
-
-.magazine-spread.is-double {
-  gap: 0;
-}
-
-.magazine-spread.is-double .magazine-page {
-  width: 50%;
-
-  max-width: 50%;
-
-  max-height: 68vh;
 }
 
 .magazine-loading {
@@ -1622,6 +1752,12 @@ footer {
   letter-spacing: -0.08em;
 }
 
+.magazine-empty small {
+  color: var(--dim);
+
+  font: 8px "DM Mono";
+}
+
 .magazine-controls {
   width: 100%;
 
@@ -1674,7 +1810,7 @@ footer {
 }
 
 /* =========================================================
-   MAGNETIC HOVER
+   MAGNETIC
 ========================================================= */
 
 .magnetic {
@@ -1691,7 +1827,9 @@ footer {
   }
 
   .header {
-    grid-template-columns: 1fr auto;
+    grid-template-columns:
+      1fr
+      auto;
   }
 
   .hero-title {
@@ -1743,7 +1881,7 @@ footer {
   }
 
   .head-btn span {
-    display: none;
+    display: inline;
   }
 
   .hero {
@@ -1767,6 +1905,7 @@ footer {
 
   .hero-foot {
     align-items: flex-start;
+
     flex-direction: column;
   }
 
@@ -1822,10 +1961,21 @@ footer {
     font-size: 19px;
   }
 
+  .tools-line {
+    margin-top: 80px;
+
+    gap: 20px;
+
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
   .marquee {
     width: calc(100% + 28px);
 
-    margin: 80px -14px -80px;
+    margin: 0 -14px -80px;
+
+    padding: 14px 0;
   }
 
   .contact-link {
@@ -1877,11 +2027,6 @@ footer {
 
   .magazine-page {
     max-height: 58vh;
-  }
-
-  .magazine-spread.is-double .magazine-page {
-    width: 50%;
-    max-width: 50%;
   }
 
   .halfway-heading h2 {

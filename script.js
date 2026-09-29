@@ -3,11 +3,11 @@
    MAIN JAVASCRIPT
 ========================================================= */
 
-/* =========================================================
-   SAFETY
-========================================================= */
-
 document.addEventListener("DOMContentLoaded", () => {
+  /* =======================================================
+     GSAP
+  ======================================================= */
+
   gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
   /* =======================================================
@@ -15,19 +15,14 @@ document.addEventListener("DOMContentLoaded", () => {
   ======================================================= */
 
   let lang = localStorage.getItem("EMMA-lang") || "en";
-
   let theme = localStorage.getItem("EMMA-theme") || "light";
 
   let menuOpen = false;
-
   let currentProject = null;
 
   let pdfDocument = null;
-
   let pdfPage = 1;
-
   let pdfTotalPages = 0;
-
   let pdfRendering = false;
 
   /* =======================================================
@@ -172,7 +167,6 @@ document.addEventListener("DOMContentLoaded", () => {
     document.documentElement.dataset.theme = theme;
 
     localStorage.setItem("EMMA-lang", lang);
-
     localStorage.setItem("EMMA-theme", theme);
 
     document.querySelectorAll("[data-i18n]").forEach((element) => {
@@ -183,9 +177,24 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
+    /* ACTIVE LANGUAGE IN RED */
+
     document.querySelectorAll("[data-lang]").forEach((element) => {
-      element.classList.toggle("is-active", element.dataset.lang === lang);
+      element.classList.toggle("active", element.dataset.lang === lang);
     });
+
+    /* UPDATE PROJECT MODAL IF OPEN */
+
+    if (currentProject !== null && modal && modal.style.display === "block") {
+      const data = projects[currentProject];
+
+      if (data) {
+        const description =
+          typeof data.text === "object" ? data.text[lang] : data.text;
+
+        modalText.textContent = description;
+      }
+    }
   }
 
   /* =======================================================
@@ -217,13 +226,11 @@ document.addEventListener("DOMContentLoaded", () => {
   ======================================================= */
 
   const menuButton = document.getElementById("menu");
-
   const menuLayer = document.getElementById("menuLayer");
-
   const menuClose = document.getElementById("menuClose");
 
   function openMenu() {
-    if (menuOpen) {
+    if (menuOpen || !menuLayer) {
       return;
     }
 
@@ -233,14 +240,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
     menuButton?.setAttribute("aria-expanded", "true");
 
-    menuLayer?.setAttribute("aria-hidden", "false");
+    menuButton?.setAttribute("aria-label", "Close menu");
+
+    menuLayer.setAttribute("aria-hidden", "false");
 
     gsap.killTweensOf(menuLayer);
+    gsap.killTweensOf(".menu-links a");
+
+    /* IMPORTANT:
+       The menu is made interactive BEFORE animation.
+    */
 
     gsap.set(menuLayer, {
       visibility: "visible",
       pointerEvents: "auto",
+      display: "flex",
       clipPath: "inset(0 0 100% 0)",
+    });
+
+    gsap.set(".menu-links a", {
+      y: 70,
+      opacity: 0,
     });
 
     gsap.to(menuLayer, {
@@ -251,31 +271,22 @@ document.addEventListener("DOMContentLoaded", () => {
       ease: "power4.inOut",
     });
 
-    gsap.fromTo(
-      ".menu-links a",
+    gsap.to(".menu-links a", {
+      y: 0,
+      opacity: 1,
 
-      {
-        y: 80,
-        opacity: 0,
-      },
+      duration: 0.65,
 
-      {
-        y: 0,
-        opacity: 1,
+      stagger: 0.08,
 
-        duration: 0.65,
+      delay: 0.18,
 
-        stagger: 0.08,
-
-        delay: 0.12,
-
-        ease: "power4.out",
-      }
-    );
+      ease: "power4.out",
+    });
   }
 
   function closeMenu() {
-    if (!menuOpen) {
+    if (!menuOpen || !menuLayer) {
       return;
     }
 
@@ -285,7 +296,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     menuButton?.setAttribute("aria-expanded", "false");
 
-    menuLayer?.setAttribute("aria-hidden", "true");
+    menuButton?.setAttribute("aria-label", "Open menu");
+
+    menuLayer.setAttribute("aria-hidden", "true");
 
     gsap.killTweensOf(menuLayer);
 
@@ -298,9 +311,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
       onComplete: () => {
         if (!menuOpen) {
-          menuLayer.style.visibility = "hidden";
-
-          menuLayer.style.pointerEvents = "none";
+          gsap.set(menuLayer, {
+            visibility: "hidden",
+            pointerEvents: "none",
+          });
         }
       },
     });
@@ -373,31 +387,50 @@ document.addEventListener("DOMContentLoaded", () => {
 
     track.innerHTML = "";
 
-    function addSequence() {
-      tools.forEach((tool) => {
-        const span = document.createElement("span");
+    /*
+     * We create two identical groups.
+     * Each group is made wide enough to cover
+     * the viewport several times.
+     */
 
-        span.textContent = tool;
+    const groupA = document.createElement("div");
 
-        track.appendChild(span);
-      });
+    const groupB = document.createElement("div");
+
+    groupA.className = "marquee-group";
+
+    groupB.className = "marquee-group";
+
+    function fillGroup(group) {
+      let safety = 0;
+
+      do {
+        tools.forEach((tool) => {
+          const span = document.createElement("span");
+
+          span.textContent = tool;
+
+          group.appendChild(span);
+        });
+
+        safety++;
+      } while (group.scrollWidth < window.innerWidth * 1.5 && safety < 10);
     }
 
-    addSequence();
+    fillGroup(groupA);
 
-    while (track.scrollWidth < window.innerWidth * 2.5) {
-      addSequence();
-    }
+    groupB.innerHTML = groupA.innerHTML;
 
-    const original = Array.from(track.children);
+    track.appendChild(groupA);
+    track.appendChild(groupB);
 
-    original.forEach((item) => {
-      track.appendChild(item.cloneNode(true));
-    });
+    /*
+     * Force layout calculation.
+     */
 
-    const loopWidth = track.scrollWidth / 2;
+    const loopWidth = groupA.getBoundingClientRect().width;
 
-    const pixelsPerSecond = 45;
+    const pixelsPerSecond = 55;
 
     const duration = loopWidth / pixelsPerSecond;
 
@@ -457,9 +490,7 @@ document.addEventListener("DOMContentLoaded", () => {
           id="magazineEmpty"
         >
           <strong>HALFWAY</strong>
-          <span>
-            PDF LOADING
-          </span>
+          <span>PDF LOADING</span>
         </div>
 
       </div>
@@ -519,9 +550,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (empty) {
         empty.innerHTML = `
           <strong>PDF ERROR</strong>
-          <span>
-            PDF.JS COULD NOT BE LOADED
-          </span>
+          <span>PDF.JS COULD NOT BE LOADED</span>
         `;
       }
 
@@ -530,16 +559,11 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    /*
-     * IMPORTANT:
-     * This path is case-sensitive on GitHub Pages.
-     */
-
     const pdfPath = "assets/halfway-MAG.pdf";
 
     try {
       pdfLib.GlobalWorkerOptions.workerSrc =
-        "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.js";
+        "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
 
       const loadingTask = pdfLib.getDocument(pdfPath);
 
@@ -560,9 +584,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (empty) {
         empty.innerHTML = `
 
-          <strong>
-            HALFWAY
-          </strong>
+          <strong>HALFWAY</strong>
 
           <span>
             PDF COULD NOT BE LOADED
@@ -594,13 +616,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       const page = await pdfDocument.getPage(pageNumber);
-
-      /*
-       * Render single page.
-       * This is deliberately kept simple
-       * and reliable instead of trying to
-       * render a spread that can overflow.
-       */
 
       const baseViewport = page.getViewport({
         scale: 1,
@@ -721,7 +736,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =======================================================
-     PROJECT MODALS
+     PROJECT MODAL
   ======================================================= */
 
   const modal = document.getElementById("modal");
@@ -806,9 +821,9 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     );
 
-    /*
-     * HALFWAY
-     */
+    /* =====================================================
+       HALFWAY
+    ====================================================== */
 
     if (data.magazine) {
       modalVisual.className = "modal-visual";
@@ -834,12 +849,6 @@ document.addEventListener("DOMContentLoaded", () => {
       const viewer = await createMagazineViewer();
 
       modalVisual.appendChild(viewer);
-
-      /*
-       * The modal is already visible.
-       * Give the browser two frames
-       * before measuring PDF dimensions.
-       */
 
       await new Promise((resolve) => {
         requestAnimationFrame(() => {
@@ -868,9 +877,9 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    /*
-     * OTHER PROJECTS
-     */
+    /* =====================================================
+       OTHER PROJECTS
+    ====================================================== */
 
     const originalProject = document.querySelector(
       `.project[data-id="${index}"]`
@@ -925,6 +934,8 @@ document.addEventListener("DOMContentLoaded", () => {
         pdfPage = 1;
 
         pdfTotalPages = 0;
+
+        currentProject = null;
       },
     });
   }
@@ -1005,6 +1016,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.querySelectorAll("a,button,.project").forEach((element) => {
     element.addEventListener("mouseenter", () => {
+      if (!cursor) {
+        return;
+      }
+
       gsap.to(cursor, {
         scale: 1.35,
         duration: 0.2,
@@ -1012,6 +1027,10 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     element.addEventListener("mouseleave", () => {
+      if (!cursor) {
+        return;
+      }
+
       gsap.to(cursor, {
         scale: 1,
         duration: 0.2,
@@ -1020,7 +1039,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /* =======================================================
-     MAGNETIC ELEMENTS
+     MAGNETIC
   ======================================================= */
 
   document.querySelectorAll(".magnetic").forEach((element) => {
@@ -1049,6 +1068,7 @@ document.addEventListener("DOMContentLoaded", () => {
     element.addEventListener("mouseleave", () => {
       gsap.to(element, {
         x: 0,
+
         y: 0,
 
         duration: 0.5,
@@ -1075,22 +1095,17 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    canvas.width = window.innerWidth * window.devicePixelRatio;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
 
-    canvas.height = window.innerHeight * window.devicePixelRatio;
+    canvas.width = window.innerWidth * dpr;
+
+    canvas.height = window.innerHeight * dpr;
 
     canvas.style.width = `${window.innerWidth}px`;
 
     canvas.style.height = `${window.innerHeight}px`;
 
-    ctx.setTransform(
-      window.devicePixelRatio,
-      0,
-      0,
-      window.devicePixelRatio,
-      0,
-      0
-    );
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
 
   function createParticles() {
@@ -1155,14 +1170,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   window.addEventListener("resize", () => {
     resizeCanvas();
-
     createParticles();
   });
 
   resizeCanvas();
-
   createParticles();
-
   drawParticles();
 
   /* =======================================================
@@ -1171,7 +1183,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   gsap.utils.toArray("section").forEach((section) => {
     const elements = section.querySelectorAll(
-      ".section-label,.work-intro,.manifesto-grid,.about-grid,.contact-core"
+      ".section-label,.work-intro,.manifesto-grid,.about-grid,.contact-core,.tools-line"
     );
 
     if (!elements.length) {
@@ -1224,7 +1236,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =======================================================
-     HORIZONTAL WORK DRAG / WHEEL
+     HORIZONTAL WORK DRAG
   ======================================================= */
 
   if (projectTrack) {
@@ -1239,7 +1251,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       startX = event.clientX;
 
-      startScroll = window.scrollX;
+      startScroll = projectTrack.scrollLeft;
 
       projectTrack.setPointerCapture(event.pointerId);
     });
@@ -1255,6 +1267,10 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     projectTrack.addEventListener("pointerup", () => {
+      dragging = false;
+    });
+
+    projectTrack.addEventListener("pointercancel", () => {
       dragging = false;
     });
   }
@@ -1293,11 +1309,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const firstVisit = sessionStorage.getItem("EMMA-visited");
-
-    /*
-     * Loader only on the first
-     * visit of the browser session.
-     */
 
     if (firstVisit) {
       preloader.style.display = "none";
