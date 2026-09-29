@@ -82,112 +82,170 @@ function applySettings() {
 applySettings();
 
 /* =========================================================
-PRELOADER
-========================================================= */
+   PRELOADER — GITHUB PAGES SAFE
+   ========================================================= */
 
 const loader = document.querySelector(".preloader");
 
-function removeLoader() {
-  if (!loader) {
+function startPortfolio() {
+  /*
+       Evita ejecutar la intro dos veces.
+     */
+  if (window.__portfolioStarted) return;
+
+  window.__portfolioStarted = true;
+
+  if (loader && loader.isConnected) {
+    gsap.killTweensOf(loader);
+    gsap.killTweensOf(".pre-core > *");
+    gsap.killTweensOf(".pre-bar i");
+
+    gsap.to(".pre-core > *", {
+      y: -30,
+      opacity: 0,
+      stagger: 0.04,
+      duration: 0.35,
+      ease: "power2.in",
+    });
+
+    gsap.to(loader, {
+      yPercent: -100,
+      duration: 0.75,
+      delay: 0.15,
+      ease: "expo.inOut",
+
+      onComplete: () => {
+        if (loader.isConnected) {
+          loader.remove();
+        }
+
+        try {
+          sessionStorage.setItem("EMMA-loader", "1");
+        } catch (error) {
+          console.warn("SessionStorage unavailable:", error);
+        }
+
+        introAnimation();
+      },
+    });
+  } else {
     introAnimation();
-    return;
   }
-
-  gsap.killTweensOf(loader);
-  gsap.killTweensOf(".pre-core > *");
-  gsap.killTweensOf(".pre-bar i");
-
-  gsap.to(".pre-core > *", {
-    y: -30,
-    opacity: 0,
-    stagger: 0.04,
-    duration: 0.4,
-    ease: "power2.in",
-  });
-
-  gsap.to(loader, {
-    yPercent: -100,
-    duration: 0.8,
-    delay: 0.25,
-    ease: "expo.inOut",
-
-    onComplete: () => {
-      loader.remove();
-
-      sessionStorage.setItem("EMMA-loader", "1");
-
-      introAnimation();
-    },
-  });
 }
 
 /*
-   GitHub Pages / production safety.
+   =========================================================
+   FAILSAFE
+   
+   Si algo de otro bloque del JS falla, el portfolio
+   NO puede quedarse permanentemente detrás del loader.
+   
+   Después de 4 segundos lo retiramos igualmente.
+   =========================================================
+   */
 
-   If something fails elsewhere in the JS,
-   we don't want the preloader to remain
-   permanently covering the website.
-*/
+const loaderFailsafe = setTimeout(() => {
+  console.warn("Portfolio loader failsafe triggered.");
 
-let loaderFallback = setTimeout(() => {
-  console.warn("Loader fallback triggered.");
+  if (loader && loader.isConnected) {
+    gsap.killTweensOf(loader);
 
-  removeLoader();
-}, 4500);
+    gsap.set(loader, {
+      yPercent: -100,
+    });
+
+    loader.remove();
+  }
+
+  if (!window.__portfolioStarted) {
+    window.__portfolioStarted = true;
+
+    introAnimation();
+  }
+}, 4000);
 
 /*
-   First visit
-*/
+   =========================================================
+   FIRST VISIT
+   =========================================================
+   */
 
-if (loader && !sessionStorage.getItem("EMMA-loader")) {
+let hasSeenLoader = false;
+
+try {
+  hasSeenLoader = sessionStorage.getItem("EMMA-loader") === "1";
+} catch (error) {
+  hasSeenLoader = false;
+}
+
+/*
+   =========================================================
+   RETURNING VISITOR
+   =========================================================
+   */
+
+if (hasSeenLoader) {
+  clearTimeout(loaderFailsafe);
+
+  if (loader && loader.isConnected) {
+    loader.remove();
+  }
+
+  introAnimation();
+
+  /*
+   =========================================================
+   FIRST VISIT
+   =========================================================
+   */
+} else {
   const counter = {
     v: 0,
   };
 
+  /*
+     NUMBER
+     */
+
   gsap.to(counter, {
     v: 100,
 
-    duration: 1.8,
+    duration: 1.7,
 
     ease: "power3.inOut",
 
     onUpdate: () => {
       const number = document.querySelector(".pre-num");
 
-      if (number) {
-        number.textContent = String(Math.round(counter.v)).padStart(2, "0");
-      }
+      if (!number) return;
+
+      number.textContent = String(Math.round(counter.v)).padStart(2, "0");
     },
   });
+
+  /*
+     BAR
+     */
 
   gsap.to(".pre-bar i", {
     width: "100%",
 
-    duration: 1.8,
+    duration: 1.7,
 
     ease: "power3.inOut",
   });
 
-  gsap.delayedCall(1.9, () => {
-    clearTimeout(loaderFallback);
-
-    removeLoader();
-  });
-} else {
   /*
-     Returning visit.
+     EXIT
+     */
 
-     Remove immediately.
-  */
+  gsap.delayedCall(1.8, () => {
+    clearTimeout(loaderFailsafe);
 
-  clearTimeout(loaderFallback);
-
-  if (loader) {
-    loader.remove();
-  }
-
-  introAnimation();
+    startPortfolio();
+  });
 }
+
 /* =========================================================
 HERO INTRO
 ========================================================= */
