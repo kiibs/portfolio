@@ -48,7 +48,7 @@ const translations = {
     sectionWork: "03 — SELECTED WORK",
     dragScroll: "DRAG / SCROLL",
     project0Category: "EDITORIAL / ART DIRECTION",
-    project1Category: "MOTION / CAMPAIGN",
+    project1Category: "3D MODELING",
     project2Category: "EDITORIAL / PACKAGING",
     project3Category: "DIGITAL / ART DIRECTION",
 
@@ -114,7 +114,7 @@ const translations = {
     sectionWork: "03 — TRABAJOS SELECCIONADOS",
     dragScroll: "ARRASTRA / DESLIZA",
     project0Category: "EDITORIAL / DIRECCIÓN DE ARTE",
-    project1Category: "MOTION / CAMPAÑA",
+    project1Category: "MODELADO 3D",
     project2Category: "EDITORIAL / PACKAGING",
     project3Category: "DIGITAL / DIRECCIÓN DE ARTE",
 
@@ -195,6 +195,13 @@ const projects = [
     tags: ["MOTION", "CAMPAIGN", "ART DIRECTION", "AFTER EFFECTS"],
 
     visual: "art-b",
+
+    images: [
+      "assets/imgs/3D/byw_cerca.png",
+      "assets/imgs/3D/byw_lejos.png",
+      "assets/imgs/3D/color_cerca.png",
+      "assets/imgs/3D/color_lejos.png",
+    ],
   },
 
   {
@@ -1001,6 +1008,27 @@ function renderProject(index) {
    */
   if (index === 0) {
     renderHalfway(modalVisual, project);
+    return;
+  }
+
+  if (index === 1) {
+    const gallery = document.createElement("div");
+    gallery.className = "project-gallery";
+
+    gallery.innerHTML = project.images
+      .map(
+        (image, i) => `
+          <img
+            src="${image}"
+            alt="${project.title} — image ${i + 1}"
+            loading="${i === 0 ? "eager" : "lazy"}"
+          />
+        `
+      )
+      .join("");
+
+    modalVisual.appendChild(gallery);
+
     return;
   }
 
