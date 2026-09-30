@@ -712,7 +712,7 @@ function setupHorizontalWork() {
     scrollTrigger: {
       trigger: workSection,
 
-      start: "top top",
+      start: "top -30%",
 
       end: () => `+=${Math.max(900, getDistance() * 1.15)}`,
 
@@ -1377,7 +1377,7 @@ function setupMarquee() {
 
   gsap.to(marqueeTrack, {
     x: -halfWidth,
-    duration: 24,
+    duration: 34,
     ease: "none",
     repeat: -1,
   });
