@@ -603,7 +603,7 @@ function setupHorizontalWork() {
   const isMobile = window.innerWidth < 1024;
 
   if (isMobile) {
-    setupMobileProjectDrag();
+    gsap.set(projectTrack, { clearProps: "transform" });
     return;
   }
 
