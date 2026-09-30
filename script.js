@@ -30,6 +30,28 @@ const translations = {
   en: {
     available: "AVAILABLE",
 
+    navWork: "WORK",
+    navAbout: "ABOUT",
+    navContact: "CONTACT",
+
+    workTitle: "Selected<br><em>signals.</em>",
+
+    contactTitle: "LET'S TALK<sup>↗</sup>",
+
+    sectionIntro: "01 — INTRO",
+    designerYear: "GRAPHIC DESIGNER / 2026",
+
+    scroll: "SCROLL",
+
+    sectionPointOfView: "02 — POINT OF VIEW",
+
+    sectionWork: "03 — SELECTED WORK",
+    dragScroll: "DRAG / SCROLL",
+
+    heroMake: "MAKE",
+    heroThings: "THINGS",
+    heroMatter: "MATTER",
+
     intro:
       "Recently graduated graphic designer building visual identities, campaigns and digital worlds with a soft spot for strange ideas.",
 
@@ -61,8 +83,30 @@ const translations = {
   es: {
     available: "DISPONIBLE",
 
+    navWork: "TRABAJO",
+    navAbout: "SOBRE MÍ",
+    navContact: "CONTACTO",
+
+    workTitle: "Selección<br><em>visual.</em>",
+
+    contactTitle: "HABLEMOS<sup>↗</sup>",
+
+    sectionIntro: "01 — INTRO",
+    designerYear: "DISEÑADORA GRÁFICA / 2026",
+
+    scroll: "DESLIZA",
+
+    sectionPointOfView: "02 — PUNTO DE VISTA",
+
+    sectionWork: "03 — TRABAJOS SELECCIONADOS",
+    dragScroll: "ARRASTRA / DESLIZA",
+
+    heroMake: "HAZ",
+    heroThings: "QUE",
+    heroMatter: "IMPORTE",
+
     intro:
-      "Diseñadora gráfica recién graduada que crea identidades visuales, campañas y mundos digitales con debilidad por las ideas extrañas.",
+      "Recién graduada en diseño gráfico deseando crear identidades, visuales y mundos digitales, con debilidad por las ideas extrañas",
 
     manifesto: "EL BUEN DISEÑO<br><em>DEBERÍA SENTIRSE</em><br>VIVO.",
 
@@ -547,8 +591,6 @@ menuButton?.addEventListener("click", () => {
     openMenu();
   }
 });
-
-menuClose?.addEventListener("click", closeMenu);
 
 document.querySelectorAll(".menu-links a").forEach((link) => {
   link.addEventListener("click", () => {

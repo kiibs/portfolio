@@ -127,15 +127,15 @@
 
       <section id="home" class="hero">
         <div class="meta">
-          <span>01 — INTRO</span>
-          <span>GRAPHIC DESIGNER / 2026</span>
+          <span data-i18n="sectionIntro">01 — INTRO</span>
+          <span data-i18n="designerYear">GRAPHIC DESIGNER / 2026</span>
         </div>
 
         <div class="hero-stage">
           <h1 class="hero-title">
-            <span>MAKE</span>
-            <span class="serif">things</span>
-            <span>MATTER.</span>
+            <span data-i18n="heroMake">MAKE</span>
+            <span class="serif" data-i18n="heroThings">things</span>
+            <span data-i18n="heroMatter">MATTER.</span>
           </h1>
 
           <div class="orbit">
@@ -168,7 +168,9 @@
             campaigns and digital worlds with a soft spot for strange ideas.
           </p>
 
-          <span class="scroll-cue"> SCROLL <b>↓</b> </span>
+          <span class="scroll-cue">
+            <span data-i18n="scroll">SCROLL</span> <b>↓</b>
+          </span>
         </div>
       </section>
 
@@ -178,7 +180,7 @@
 
       <section class="manifesto">
         <div class="section-label">
-          <span>02 — POINT OF VIEW</span>
+          <span data-i18n="sectionPointOfView">02 — POINT OF VIEW</span>
           <span>EMMA / 01</span>
         </div>
 
@@ -210,12 +212,12 @@
 
       <section id="work" class="work">
         <div class="section-label">
-          <span>03 — SELECTED WORK</span>
-          <span>DRAG / SCROLL</span>
+          <span data-i18n="sectionWork">03 — SELECTED WORK</span>
+          <span data-i18n="dragScroll">DRAG / SCROLL</span>
         </div>
 
         <div class="work-intro">
-          <h2>
+          <h2 data-i18n="workTitle">
             Selected
             <br />
             <em>signals.</em>
@@ -397,7 +399,11 @@
             HAVE A GOOD BRIEF?
           </span>
 
-          <a href="mailto:hello@EMMA.design" class="contact-link magnetic">
+          <a
+            href="mailto:hello@EMMA.design"
+            class="contact-link magnetic"
+            data-i18n="contactTitle"
+          >
             LET'S TALK
             <sup>↗</sup>
           </a>
@@ -459,17 +465,10 @@
   ====================================================== -->
 
     <div class="menu-layer" id="menuLayer" aria-hidden="true">
-      <button
-        class="menu-close magnetic"
-        id="menuClose"
-        type="button"
-        aria-label="Close menu"
-      ></button>
-
       <div class="menu-links">
-        <a href="#work">WORK</a>
-        <a href="#about">ABOUT</a>
-        <a href="#contact">CONTACT</a>
+        <a href="#work" data-i18n="navWork">WORK</a>
+        <a href="#about" data-i18n="navAbout">ABOUT</a>
+        <a href="#contact" data-i18n="navContact">CONTACT</a>
       </div>
 
       <div class="menu-bottom">
