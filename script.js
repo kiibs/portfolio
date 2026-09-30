@@ -589,20 +589,31 @@ function setupSectionAnimations() {
 /* =========================================================
    HORIZONTAL WORK SHOWCASE
 ========================================================= */
+
 function setupMobileProjectDrag() {
   if (!projectTrack) return;
 
+  if (projectTrack.dataset.dragReady === "true") return;
+  projectTrack.dataset.dragReady = "true";
+
   let isDragging = false;
   let startX = 0;
-  let currentX = 0;
   let startTransform = 0;
+  let currentTransform = 0;
+
+  const getBounds = () => {
+    const max = 0;
+    const min = -(projectTrack.scrollWidth - window.innerWidth + 32);
+
+    return { min, max };
+  };
 
   projectTrack.addEventListener("pointerdown", (event) => {
     if (event.pointerType === "mouse") return;
 
     isDragging = true;
     startX = event.clientX;
-    startTransform = currentX;
+    startTransform = currentTransform;
 
     projectTrack.setPointerCapture(event.pointerId);
     projectTrack.classList.add("is-dragging");
@@ -611,20 +622,24 @@ function setupMobileProjectDrag() {
   projectTrack.addEventListener("pointermove", (event) => {
     if (!isDragging) return;
 
-    const distance = event.clientX - startX;
-    currentX = startTransform + distance;
+    const distance = (event.clientX - startX) * 1.25;
 
-    const maxDrag =
-      projectTrack.parentElement.offsetWidth - projectTrack.scrollWidth;
+    let nextX = startTransform + distance;
 
-    currentX = Math.min(0, Math.max(maxDrag, currentX));
+    const { min, max } = getBounds();
+
+    nextX = Math.max(min, Math.min(max, nextX));
+
+    currentTransform = nextX;
 
     gsap.set(projectTrack, {
-      x: currentX,
+      x: currentTransform,
     });
   });
 
   const stopDragging = () => {
+    if (!isDragging) return;
+
     isDragging = false;
     projectTrack.classList.remove("is-dragging");
   };
@@ -646,7 +661,6 @@ function setupHorizontalWork() {
   const isMobile = window.innerWidth < 1024;
 
   if (isMobile) {
-    gsap.set(projectTrack, { clearProps: "transform" });
     setupMobileProjectDrag();
     return;
   }
