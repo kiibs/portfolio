@@ -310,7 +310,7 @@ button {
 
   width: 100%;
 
-  z-index: 3000;
+  z-index: 2000;
 
   padding: 0 26px;
 
@@ -1132,6 +1132,20 @@ section {
   margin-top: 110px;
 }
 
+.about-intro {
+  display: flex;
+  align-items: flex-start;
+  gap: 28px;
+}
+
+.about-photo {
+  width: auto;
+  height: 300px;
+  object-fit: cover;
+  flex: 0 0 auto;
+  display: block;
+}
+
 .about-grid h2 {
   margin: 25px 0 0;
 
@@ -1820,6 +1834,28 @@ footer {
 
   .about-grid h2 {
     font-size: 17vw;
+  }
+  .about-intro {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    column-gap: 20px;
+    row-gap: 30px;
+    align-items: start;
+  }
+
+  .about-photo {
+    width: auto;
+    height: 250px;
+    object-fit: cover;
+  }
+
+  .about-intro > div {
+    min-width: 0;
+  }
+
+  .about-intro h2 {
+    grid-column: 1 / -1;
+    margin-top: 0;
   }
 
   .about-copy .lead {

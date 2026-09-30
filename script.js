@@ -37,7 +37,7 @@ const translations = {
     sectionWork: "03 — SELECTED WORK",
     dragScroll: "DRAG / SCROLL",
     project0Category: "EDITORIAL / ART DIRECTION",
-    project1Category: "MOTION / CAMPAIGN",
+    project1Category: "3D MODELING",
     project2Category: "EDITORIAL / PACKAGING",
     project3Category: "DIGITAL / ART DIRECTION",
     sectionAbout: "04 — ABOUT",
@@ -55,7 +55,7 @@ const translations = {
     manifestoSide:
       "Not decoration. Not noise. A clear idea, pushed until it develops a pulse.",
     workLead:
-      "Four fictional studies. Real design thinking. Built to show how I move from concept to visual system.",
+      "A selection of projects that brings together a part of what I do.",
     interlude:
       "The portfolio is not a container for the work.<br><em>It is the first piece of work.</em>",
     aboutTitle: "Designer,<br><em>curious human.</em>",
@@ -66,6 +66,8 @@ const translations = {
     contactEyebrow: "HAVE A GOOD BRIEF?",
     contactText:
       "Available for junior roles, internships and selected freelance projects.",
+    orbitText:
+      "* IDENTITY · EDITORIAL · MOTION · DIGITAL · BRANDING · PHOTOGRAPHY · ILLUSTRATION *",
   },
 
   es: {
@@ -82,7 +84,7 @@ const translations = {
     sectionWork: "03 — TRABAJOS SELECCIONADOS",
     dragScroll: "ARRASTRA / DESLIZA",
     project0Category: "EDITORIAL / DIRECCIÓN DE ARTE",
-    project1Category: "MOTION / CAMPAÑA",
+    project1Category: "MODELADO 3D",
     project2Category: "EDITORIAL / PACKAGING",
     project3Category: "DIGITAL / DIRECCIÓN DE ARTE",
     sectionAbout: "04 — SOBRE MÍ",
@@ -98,9 +100,8 @@ const translations = {
       "Recién graduada en diseño gráfico deseando crear identidades, visuales y mundos digitales, con debilidad por las ideas extrañas",
     manifesto: "EL BUEN DISEÑO<br><em>DEBERÍA SENTIRSE</em><br>VIVO.",
     manifestoSide:
-      "No decoración. No ruido. Una idea clara, llevada hasta desarrollar su propio pulso.",
-    workLead:
-      "Cuatro estudios ficticios. Diseño real. Una muestra de cómo paso del concepto a un sistema visual.",
+      "Sin decoración. Sin ruido. Una idea clara, llevada hasta desarrollar su propio pulso.",
+    workLead: "Una selección de proyectos que reúne una parte de lo que hago.",
     interlude:
       "El portfolio no es un contenedor para el trabajo.<br><em>Es la primera pieza de trabajo.</em>",
     aboutTitle: "Diseñadora,<br><em>persona curiosa.</em>",
@@ -111,6 +112,8 @@ const translations = {
     contactEyebrow: "¿TIENES UN BUEN BRIEF?",
     contactText:
       "Disponible para puestos junior, prácticas y proyectos freelance seleccionados.",
+    orbitText:
+      " * IDENTIDAD · EDITORIAL · MOTION · DIGITAL · BRANDING · FOTOGRAFÍA · ILUSTRACIÓN *",
   },
 };
 
@@ -124,8 +127,8 @@ const projects = [
     title: "HALFWAY",
     category: "EDITORIAL / ART DIRECTION",
     description: {
-      en: "An experimental editorial system exploring the uncomfortable space between two decisions. Halfway turns hesitation into a visual language built around rhythm, contrast and unexpected interruptions.",
-      es: "Un sistema editorial experimental que explora ese espacio incómodo entre dos decisiones. Halfway convierte la duda en un lenguaje visual basado en ritmo, contraste e interrupciones inesperadas.",
+      en: "An editorial design project exploring the concept of unfinished ideas, stories and possibilities through a conceptual magazine. The publication combines research, art direction, editorial design and visual storytelling, bringing together topics ranging from unfinished artworks and abandoned inventions to scientific theories, dreams and unexplained phenomena. Developed as a team project, the magazine was collaboratively researched, conceptualized and designed, resulting in a cohesive visual identity built around the idea of leaving things open to interpretation.",
+      es: "Proyecto de diseño editorial que explora el concepto de las ideas, historias y posibilidades inacabadas a través de una revista conceptual. La publicación combina investigación, dirección de arte, diseño editorial y narrativa visual, abordando temas que van desde obras de arte inacabadas e inventos abandonados hasta teorías científicas, sueños y fenómenos inexplicados. Desarrollado como trabajo en equipo, el proyecto fue investigado, conceptualizado y diseñado de forma colaborativa, creando una identidad visual cohesionada en torno a la idea de dejar espacio para la interpretación.",
     },
     tags: ["EDITORIAL", "ART DIRECTION", "TYPOGRAPHY", "INDESIGN"],
     visual: "art-a",
@@ -136,9 +139,9 @@ const projects = [
     title: "WINDOW DISPLAY",
     category: "3D MODELING",
     description: {
-      en: "A motion campaign built around repetition, rhythm and controlled visual distortion. The identity changes frame by frame while remaining recognisable as one system.",
+      en: "A 3D window display concept for Miniso’s Sanrio collection, developed around a soft and playful Christmas aesthetic. I modelled all visual elements from scratch, including the Sanrio characters, props and custom balloon typography. The window display structure was provided as a base by the professor. The project combines 3D modelling, materials, lighting and colour to create a cohesive and inviting retail environment.",
 
-      es: "Una campaña de motion basada en la repetición, el ritmo y la distorsión visual controlada. La identidad cambia frame a frame sin dejar de pertenecer al mismo sistema.",
+      es: "Concepto de escaparate 3D para la colección de Sanrio de Miniso, desarrollado en torno a una estética navideña suave y lúdica. Modelé desde cero todos los elementos visuales, incluyendo los personajes de Sanrio, los props y la tipografía personalizada con efecto de globos. La estructura del escaparate fue proporcionada por la profesora como base del proyecto. El proyecto combina modelado 3D, materiales, iluminación y color para crear un espacio comercial cohesivo y atractivo.",
     },
 
     tags: ["3D", "CINEMA4D"],
