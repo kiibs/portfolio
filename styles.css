@@ -778,7 +778,7 @@ section {
 
   margin-top: 100px;
 
-  touch-action: pan-y;
+  touch-action: pan-x pan-y;
 }
 
 .project {
@@ -2447,5 +2447,36 @@ body.menu-open .menu-close {
   .pdf-controls button {
     width: 34px;
     height: 34px;
+  }
+}
+/* =========================================================
+   TABLET + MOBILE — NATIVE PROJECT SCROLL
+   Desktop remains untouched
+========================================================= */
+
+@media (max-width: 1024px) {
+  .project-track {
+    width: 100%;
+    max-width: 100%;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    touch-action: pan-x pan-y;
+    -webkit-overflow-scrolling: touch;
+
+    scrollbar-width: none;
+
+    overscroll-behavior-x: contain;
+
+    will-change: auto;
+  }
+
+  .project-track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .project {
+    flex: 0 0 auto;
   }
 }

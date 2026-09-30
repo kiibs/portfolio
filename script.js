@@ -47,10 +47,23 @@ const translations = {
 
     sectionWork: "03 — SELECTED WORK",
     dragScroll: "DRAG / SCROLL",
+    project0Category: "EDITORIAL / ART DIRECTION",
+    project1Category: "MOTION / CAMPAIGN",
+    project2Category: "EDITORIAL / PACKAGING",
+    project3Category: "DIGITAL / ART DIRECTION",
+
+    sectionAbout: "04 — ABOUT",
+    humanProcess: "HUMAN / PROCESS",
+
+    sectionContact: "05 — CONTACT",
+    openChannel: "OPEN CHANNEL",
 
     heroMake: "MAKE",
     heroThings: "THINGS",
     heroMatter: "MATTER",
+
+    toolsWorkflow: "TOOLS / SOFTWARE / WORKFLOW",
+    continuousSystem: "CONTINUOUS SYSTEM / 2026",
 
     intro:
       "Recently graduated graphic designer building visual identities, campaigns and digital worlds with a soft spot for strange ideas.",
@@ -100,10 +113,23 @@ const translations = {
 
     sectionWork: "03 — TRABAJOS SELECCIONADOS",
     dragScroll: "ARRASTRA / DESLIZA",
+    project0Category: "EDITORIAL / DIRECCIÓN DE ARTE",
+    project1Category: "MOTION / CAMPAÑA",
+    project2Category: "EDITORIAL / PACKAGING",
+    project3Category: "DIGITAL / DIRECCIÓN DE ARTE",
+
+    sectionAbout: "04 — SOBRE MÍ",
+    humanProcess: "HUMANO / PROCESO",
+
+    sectionContact: "05 — CONTACTO",
+    openChannel: "CANAL ABIERTO",
 
     heroMake: "HAZ",
     heroThings: "QUE",
     heroMatter: "IMPORTE",
+
+    toolsWorkflow: "HERRAMIENTAS / SOFTWARE / FLUJO DE TRABAJO",
+    continuousSystem: "SISTEMA CONTINUO / 2026",
 
     intro:
       "Recién graduada en diseño gráfico deseando crear identidades, visuales y mundos digitales, con debilidad por las ideas extrañas",
@@ -728,7 +754,7 @@ function setupHorizontalWork() {
 
   if (!workSection) return;
 
-  const isMobile = window.innerWidth < 768;
+  const isMobile = window.innerWidth < 1024;
 
   /*
    * On mobile, keep the native horizontal behaviour.
