@@ -780,7 +780,12 @@ section {
 
   margin-top: 100px;
 
-  touch-action: pan-x pan-y;
+  touch-action: pan-y;
+  cursor: grab;
+}
+
+.project-track.is-dragging {
+  cursor: grabbing;
 }
 
 .project {

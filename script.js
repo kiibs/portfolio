@@ -589,6 +589,49 @@ function setupSectionAnimations() {
 /* =========================================================
    HORIZONTAL WORK SHOWCASE
 ========================================================= */
+function setupMobileProjectDrag() {
+  if (!projectTrack) return;
+
+  let isDragging = false;
+  let startX = 0;
+  let currentX = 0;
+  let startTransform = 0;
+
+  projectTrack.addEventListener("pointerdown", (event) => {
+    if (event.pointerType === "mouse") return;
+
+    isDragging = true;
+    startX = event.clientX;
+    startTransform = currentX;
+
+    projectTrack.setPointerCapture(event.pointerId);
+    projectTrack.classList.add("is-dragging");
+  });
+
+  projectTrack.addEventListener("pointermove", (event) => {
+    if (!isDragging) return;
+
+    const distance = event.clientX - startX;
+    currentX = startTransform + distance;
+
+    const maxDrag =
+      projectTrack.parentElement.offsetWidth - projectTrack.scrollWidth;
+
+    currentX = Math.min(0, Math.max(maxDrag, currentX));
+
+    gsap.set(projectTrack, {
+      x: currentX,
+    });
+  });
+
+  const stopDragging = () => {
+    isDragging = false;
+    projectTrack.classList.remove("is-dragging");
+  };
+
+  projectTrack.addEventListener("pointerup", stopDragging);
+  projectTrack.addEventListener("pointercancel", stopDragging);
+}
 
 function setupHorizontalWork() {
   if (!projectTrack) return;
@@ -604,6 +647,7 @@ function setupHorizontalWork() {
 
   if (isMobile) {
     gsap.set(projectTrack, { clearProps: "transform" });
+    setupMobileProjectDrag();
     return;
   }
 
