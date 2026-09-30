@@ -780,14 +780,7 @@ section {
 
   margin-top: 100px;
 
-  touch-action: pan-y;
-  cursor: grab;
-  user-select: none;
-  -webkit-user-select: none;
-}
-
-.project-track.is-dragging {
-  cursor: grabbing;
+  touch-action: pan-x pan-y;
 }
 
 .project {
@@ -2127,18 +2120,8 @@ body.menu-open .menu-close {
 
 @media (max-width: 767px) {
   .project-track {
-    width: 100%;
-    max-width: 100%;
-    overflow-x: auto;
-    overflow-y: hidden;
-    touch-action: pan-x pan-y;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    overscroll-behavior-x: contain;
-  }
-
-  .project-track::-webkit-scrollbar {
-    display: none;
+    width: max-content;
+    overflow: visible;
   }
 
   .project {
