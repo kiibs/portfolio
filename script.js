@@ -590,64 +590,6 @@ function setupSectionAnimations() {
    HORIZONTAL WORK SHOWCASE
 ========================================================= */
 
-function setupMobileProjectDrag() {
-  if (!projectTrack) return;
-
-  if (projectTrack.dataset.dragReady === "true") return;
-  projectTrack.dataset.dragReady = "true";
-
-  let isDragging = false;
-  let startX = 0;
-  let startTransform = 0;
-  let currentTransform = 0;
-
-  const getBounds = () => {
-    const max = 0;
-    const min = -(projectTrack.scrollWidth - window.innerWidth + 32);
-
-    return { min, max };
-  };
-
-  projectTrack.addEventListener("pointerdown", (event) => {
-    if (event.pointerType === "mouse") return;
-
-    isDragging = true;
-    startX = event.clientX;
-    startTransform = currentTransform;
-
-    projectTrack.setPointerCapture(event.pointerId);
-    projectTrack.classList.add("is-dragging");
-  });
-
-  projectTrack.addEventListener("pointermove", (event) => {
-    if (!isDragging) return;
-
-    const distance = (event.clientX - startX) * 1.25;
-
-    let nextX = startTransform + distance;
-
-    const { min, max } = getBounds();
-
-    nextX = Math.max(min, Math.min(max, nextX));
-
-    currentTransform = nextX;
-
-    gsap.set(projectTrack, {
-      x: currentTransform,
-    });
-  });
-
-  const stopDragging = () => {
-    if (!isDragging) return;
-
-    isDragging = false;
-    projectTrack.classList.remove("is-dragging");
-  };
-
-  projectTrack.addEventListener("pointerup", stopDragging);
-  projectTrack.addEventListener("pointercancel", stopDragging);
-}
-
 function setupHorizontalWork() {
   if (!projectTrack) return;
 
