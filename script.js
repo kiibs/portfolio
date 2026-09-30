@@ -184,15 +184,15 @@ const projects = [
 
   {
     number: "02",
-    title: "24 FRAMES",
-    category: "MOTION / CAMPAIGN",
+    title: "WINDOW DISPLAY",
+    category: "3D MODELING",
     description: {
       en: "A motion campaign built around repetition, rhythm and controlled visual distortion. The identity changes frame by frame while remaining recognisable as one system.",
 
       es: "Una campaña de motion basada en la repetición, el ritmo y la distorsión visual controlada. La identidad cambia frame a frame sin dejar de pertenecer al mismo sistema.",
     },
 
-    tags: ["MOTION", "CAMPAIGN", "ART DIRECTION", "AFTER EFFECTS"],
+    tags: ["3D", "CINEMA4D"],
 
     visual: "art-b",
 
