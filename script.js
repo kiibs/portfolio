@@ -188,7 +188,7 @@ const projects = [
   },
   {
     number: "05",
-    title: "BOTANICAL NOTES",
+    title: "BOTA NICAL NOTES",
     category: "DIGITAL / PACKAGING / 3D",
     description: {
       en: "A packaging system created for Cata la Lata, a competition by ANFACO-CECOPESCA focused on promoting the culture and consumption of Spanish seafood preserves.\n\nThe project reimagines the packaging of three varieties: mussels in escabeche, sardines in olive oil and tuna in olive oil.\n\nEach variety was given its own visual identity while sharing a common system of colour, composition and graphic elements.\n\nThe result is a collection designed to work as a family, but with enough personality for each can to stand on its own.",
@@ -198,7 +198,11 @@ const projects = [
     tags: ["DIGITAL", "PACKAGING"],
     visual: "art-e",
 
-    images: ["assets/imgs/café/Product_Shot", "assets/imgs/café/Product_Shot1"],
+    images: [
+      "assets/imgs/café/Product_Shot.png",
+      "assets/imgs/café/Product_Shot1.png",
+      "assets/imgs/café/Product_Shot2.png",
+    ],
   },
 ];
 
