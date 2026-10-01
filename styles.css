@@ -2405,6 +2405,7 @@ body.menu-open .menu-close {
   .orbit {
     width: clamp(360px, 26vw, 560px);
     height: clamp(360px, 26vw, 560px);
+    overflow: visible;
   }
 
   .orbit text {
