@@ -191,9 +191,9 @@ const projects = [
     title: "BOTA NICAL NOTES",
     category: "DIGITAL / PACKAGING / 3D",
     description: {
-      en: "A packaging system created for Cata la Lata, a competition by ANFACO-CECOPESCA focused on promoting the culture and consumption of Spanish seafood preserves.\n\nThe project reimagines the packaging of three varieties: mussels in escabeche, sardines in olive oil and tuna in olive oil.\n\nEach variety was given its own visual identity while sharing a common system of colour, composition and graphic elements.\n\nThe result is a collection designed to work as a family, but with enough personality for each can to stand on its own.",
+      en: "A digital design project developed in Adobe Illustrator, reimagining Nescafé through a new botanical-inspired coffee line. Each blend combines coffee with distinctive notes such as pistachio and cardamom, creating a unique visual identity for each flavour. \n\n Packaging mockups were modelled in Cinema 4D using the products’ real-world dimensions.",
 
-      es: "Un sistema de packaging creado para Cata la Lata, un concurso de ANFACO-CECOPESCA centrado en promover la cultura y el consumo de conservas de pescado y marisco.\n\nEl proyecto reinterpreta el packaging de tres variedades: mejillones en escabeche, sardinillas en aceite de oliva y atún claro en aceite de oliva.\n\nCada variedad desarrolla su propia identidad visual, manteniendo un sistema común de color, composición y elementos gráficos.\n\nEl resultado es una colección pensada para funcionar como una familia, pero con suficiente personalidad para que cada lata pueda destacar por sí misma.",
+      es: "Proyecto de diseño digital desarrollado en Adobe Illustrator, a partir de la reinterpretación de Nescafé como una nueva línea de café de inspiración botánica. Cada variedad combina el café con notas como pistacho, cardamomo y otras especias, creando una identidad visual propia para cada sabor. \n\n Los mockups de packaging fueron realizados en Cinema 4D utilizando las medidas reales de los productos.",
     },
     tags: ["DIGITAL", "PACKAGING"],
     visual: "art-e",
