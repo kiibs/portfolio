@@ -160,8 +160,8 @@ const projects = [
     title: "CATA LALATA",
     category: "ILLUSTRATION / PACKAGING",
     description: {
-      en: "A playful editorial and packaging study for objects that refuse to behave normally. The project mixes tactile forms, oversized typography and deliberately awkward compositions.",
-      es: "Un estudio editorial y de packaging para objetos que se niegan a comportarse de forma normal. El proyecto mezcla formas táctiles, tipografía sobredimensionada y composiciones deliberadamente extrañas.",
+      en: "A packaging system created for Cata la Lata, a competition by ANFACO-CECOPESCA focused on promoting the culture and consumption of Spanish seafood preserves. The project reimagines the packaging of three varieties — mussels in escabeche, sardines in olive oil and tuna in olive oil — through a playful illustrated language. Each variety was given its own visual identity while sharing a common system of colour, composition and graphic elements. The result is a collection designed to work as a family, but with enough personality for each can to stand on its own.",
+      es: "Un sistema de packaging creado para Cata la Lata, un concurso de ANFACO-CECOPESCA centrado en promover la cultura y el consumo de conservas de pescado y marisco. El proyecto reinterpreta el packaging de tres variedades — mejillones en escabeche, sardinillas en aceite de oliva y atún claro en aceite de oliva — a través de un lenguaje ilustrado y lúdico. Cada variedad desarrolla su propia identidad visual, manteniendo un sistema común de color, composición y elementos gráficos. El resultado es una colección pensada para funcionar como una familia, pero con suficiente personalidad para que cada lata pueda destacar por sí misma.",
     },
     tags: ["PACKAGING", "EDITORIAL", "TYPE", "ART DIRECTION"],
     visual: "art-c",
@@ -182,6 +182,8 @@ const projects = [
     },
     tags: ["DIGITAL", "IDENTITY", "ART DIRECTION", "UI"],
     visual: "art-d",
+
+    video: "assets/videos/video_channel_musica.mp4",
   },
 ];
 
@@ -796,23 +798,115 @@ function renderProject(index) {
     return;
   }
 
-  if (index === 1) {
+  if (project.images?.length || project.video) {
     const gallery = document.createElement("div");
     gallery.className = "project-gallery";
-    gallery.innerHTML = project.images
-      .map(
-        (image, i) => `
-          <img
-            src="${image}"
-            alt="${project.title} - image ${i + 1}"
-            loading="${i === 0 ? "eager" : "lazy"}"
-          />
-        `
-      )
-      .join("");
+
+    gallery.innerHTML = `
+      ${
+        project.images
+          ?.map(
+            (image, i) => `
+              <img
+                src="${image}"
+                alt="${project.title} - image ${i + 1}"
+                loading="${i === 0 ? "eager" : "lazy"}"
+              />
+            `
+          )
+          .join("") || ""
+      }
+  
+      ${
+        project.video
+          ? `
+          <div class="video-wrapper">
+          <video
+            src="${project.video}"
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="metadata"
+          ></video>
+        
+          <button
+            class="video-play"
+            type="button"
+            aria-label="Pausar vídeo"
+          >
+            ❚❚
+          </button>
+        
+          <button
+            class="video-sound"
+            type="button"
+            aria-label="Activar sonido"
+            aria-pressed="false"
+          >
+            🔇
+          </button>
+        </div>
+          `
+          : ""
+      }
+    `;
+
     modalVisual.appendChild(gallery);
+
+    // BOTÓN DE SONIDO
+    const video = gallery.querySelector("video");
+    const soundButton = gallery.querySelector(".video-sound");
+    const playButton = gallery.querySelector(".video-play");
+
+    if (video) {
+      // PLAY / PAUSE
+      if (playButton) {
+        playButton.addEventListener("click", (event) => {
+          event.stopPropagation();
+
+          if (video.paused) {
+            video.play();
+            playButton.textContent = "❚❚";
+            playButton.setAttribute("aria-label", "Pausar vídeo");
+          } else {
+            video.pause();
+            playButton.textContent = "▶";
+            playButton.setAttribute("aria-label", "Reproducir vídeo");
+          }
+        });
+      }
+
+      // SONIDO
+      if (soundButton) {
+        soundButton.addEventListener("click", (event) => {
+          event.stopPropagation();
+
+          video.muted = !video.muted;
+
+          soundButton.textContent = video.muted ? "🔇" : "🔊";
+
+          soundButton.setAttribute(
+            "aria-label",
+            video.muted ? "Activar sonido" : "Desactivar sonido"
+          );
+
+          soundButton.setAttribute("aria-pressed", String(!video.muted));
+        });
+      }
+    }
     return;
   }
+
+  video.addEventListener("click", () => {
+    if (video.paused) {
+      video.play();
+      playButton.textContent = "❚❚";
+    } else {
+      video.pause();
+      playButton.textContent = "▶";
+    }
+  });
 
   const visual = document.createElement("div");
   visual.className = `modal-art ${project.visual}`;
