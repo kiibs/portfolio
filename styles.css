@@ -2339,63 +2339,404 @@ body.menu-open .menu-close {
    ========================================================= */
 
 @media (min-width: 2560px) {
-  /* HERO */
-  .hero-title {
-    font-size: 11.458vw;
-  }
+  /* =========================
+       GLOBAL
+       ========================= */
 
-  /* MANIFESTO */
-  .manifesto-grid h2 {
-    font-size: 8.333vw;
-  }
-
-  /* WORK */
-  .work-intro h2 {
-    font-size: 8.333vw;
-  }
-
-  /* PROJECT CARDS */
-  .project {
-    width: 35.417vw;
-  }
-
-  /* ABOUT */
-  .about-grid h2 {
-    font-size: 7.813vw;
-  }
-
-  /* CONTACT */
-  .contact-link {
-    font-size: 10.938vw;
-  }
-
-  /* MENU */
-  .menu-links a {
-    font-size: 8.854vw;
-  }
-
-  /* MODAL */
-  .modal-copy h2 {
-    font-size: 7.813vw;
-  }
-
-  /* ORBIT */
-  .orbit {
-    width: 14.583vw;
-  }
-
-  /* GENERAL SPACING */
   section {
-    padding: 5.208vw 1.354vw;
+    padding: 7vw 2.2vw;
   }
 
-  .about-grid {
-    gap: 5.208vw;
-    margin-top: 5.729vw;
+  .meta,
+  .section-label {
+    font-size: 12px;
+  }
+
+  .mono {
+    font-size: 12px;
+  }
+
+  /* =========================
+       HEADER
+       ========================= */
+
+  .header {
+    height: 92px;
+    padding: 0 2.2vw;
+  }
+
+  .logo {
+    font-size: 30px;
+  }
+
+  .logo span {
+    font-size: 16px;
+  }
+
+  .header-mid {
+    gap: 32px;
+    font-size: 12px;
+  }
+
+  .header-actions {
+    gap: 10px;
+  }
+
+  .head-btn,
+  .menu-btn {
+    padding: 11px 15px;
+    font-size: 12px;
+  }
+
+  .menu-btn {
+    width: 52px;
+    height: 40px;
+  }
+
+  .menu-btn i {
+    width: 15px;
+    height: 1.5px;
+  }
+
+  /* =========================
+       HERO
+       ========================= */
+
+  .hero {
+    padding-top: 190px;
+  }
+
+  .hero-stage {
+    min-height: 60vh;
+  }
+
+  .hero-title {
+    font-size: 14vw;
+  }
+
+  .orbit {
+    width: 20vw;
+    right: 7%;
+    top: 4%;
+  }
+
+  .orbit text {
+    font-size: 12px;
+  }
+
+  .orbit b {
+    font-size: 44px;
+  }
+
+  .hero-foot {
+    gap: 70px;
+  }
+
+  .hero-foot p {
+    width: min(700px, 55vw);
+    font-size: 20px;
+    line-height: 1.45;
+  }
+
+  .scroll-cue {
+    gap: 18px;
+    font-size: 12px;
+  }
+
+  .scroll-cue b {
+    font-size: 20px;
+  }
+
+  /* =========================
+       MANIFESTO
+       ========================= */
+
+  .manifesto-grid {
+    gap: 100px;
+    margin-top: 160px;
+  }
+
+  .manifesto-grid h2 {
+    font-size: 11vw;
+  }
+
+  .manifesto-side {
+    gap: 50px;
+  }
+
+  .star {
+    font-size: 90px;
+  }
+
+  .manifesto-side p {
+    font-size: 21px;
+  }
+
+  /* =========================
+       WORK
+       ========================= */
+
+  .work-intro {
+    margin-top: 140px;
+    gap: 100px;
+  }
+
+  .work-intro h2 {
+    font-size: 11vw;
+  }
+
+  .work-intro p {
+    max-width: 600px;
+    font-size: 19px;
   }
 
   .project-track {
-    gap: 1.458vw;
-    margin-top: 5.208vw;
+    gap: 45px;
+    margin-top: 140px;
+  }
+
+  .project {
+    width: 42vw;
+  }
+
+  .project-no {
+    margin-bottom: 18px;
+    font-size: 12px;
+  }
+
+  .art > span {
+    left: 28px;
+    bottom: 28px;
+    font-size: 11px;
+  }
+
+  .caption {
+    padding-top: 20px;
+    gap: 30px;
+  }
+
+  .caption b,
+  .caption span {
+    font-size: 12px;
+  }
+
+  .progress {
+    margin-top: 80px;
+  }
+
+  /* =========================
+       PROJECT ART
+       ========================= */
+
+  .stamp {
+    font-size: 10vw;
+  }
+
+  .big24 {
+    font-size: 23vw;
+  }
+
+  .object {
+    font-size: 20vw;
+  }
+
+  .obj-type {
+    left: 28px;
+    top: 28px;
+    font-size: 12px;
+  }
+
+  .static {
+    font-size: 12vw;
+  }
+
+  .fm {
+    font-size: 16vw;
+  }
+
+  .dial {
+    font-size: 70px;
+  }
+
+  .frame {
+    font-size: 13px;
+  }
+
+  /* =========================
+       INTERLUDE
+       ========================= */
+
+  .interlude-star {
+    font-size: 160px;
+    margin-bottom: 60px;
+  }
+
+  .interlude p {
+    font-size: 22px;
+  }
+
+  /* =========================
+       ABOUT
+       ========================= */
+
+  .about-grid {
+    gap: 7vw;
+    margin-top: 7vw;
+  }
+
+  .about-grid h2 {
+    font-size: 10vw;
+  }
+
+  .about-copy .lead {
+    font-size: 24px;
+  }
+
+  /* =========================
+       CONTACT
+       ========================= */
+
+  .contact-link {
+    font-size: 14vw;
+  }
+
+  /* =========================
+       MENU
+       ========================= */
+
+  .menu-layer {
+    padding: 150px 2.2vw 35px;
+  }
+
+  .menu-links a {
+    font-size: 11vw;
+  }
+
+  .menu-bottom {
+    font-size: 12px;
+  }
+
+  /* =========================
+       MODAL
+       ========================= */
+
+  .modal {
+    padding: 120px 2.2vw 70px;
+  }
+
+  .modal-grid {
+    gap: 80px;
+  }
+
+  .modal-copy {
+    top: 120px;
+  }
+
+  .modal-copy > span {
+    font-size: 12px;
+  }
+
+  .modal-copy h2 {
+    font-size: 10vw;
+    margin: 18px 0 30px;
+  }
+
+  .modal-copy p {
+    max-width: 600px;
+    font-size: 19px;
+  }
+
+  #modalTags {
+    gap: 8px;
+    margin-top: 35px;
+  }
+
+  #modalTags span {
+    padding: 10px 15px;
+    font-size: 11px;
+  }
+
+  #closeModal {
+    top: 32px;
+    right: 2.2vw;
+    padding: 11px 16px;
+    font-size: 12px;
+  }
+
+  .modal-index {
+    top: 38px;
+    left: 2.2vw;
+    font-size: 12px;
+  }
+
+  /* =========================
+       HALFWAY
+       ========================= */
+
+  .halfway-heading {
+    margin-bottom: 35px;
+  }
+
+  .halfway-heading span {
+    margin-bottom: 14px;
+    font-size: 12px;
+  }
+
+  .halfway-heading h2 {
+    font-size: 10vw;
+  }
+
+  .halfway-description {
+    margin-top: 35px;
+    max-width: 1000px;
+  }
+
+  .halfway-description p {
+    font-size: 19px;
+  }
+
+  /* =========================
+       PDF
+       ========================= */
+
+  .pdf-stage {
+    height: min(78vh, 1200px);
+    min-height: 750px;
+  }
+
+  .pdf-controls {
+    margin-top: 25px;
+    gap: 20px;
+  }
+
+  .pdf-controls button {
+    width: 48px;
+    height: 48px;
+    font-size: 14px;
+  }
+
+  /* =========================
+       VIDEO
+       ========================= */
+
+  .video-wrapper video {
+    max-height: 78vh;
+  }
+
+  .video-controls {
+    gap: 12px;
+    margin-top: 18px;
+  }
+
+  .video-play,
+  .video-sound {
+    width: 44px;
+    height: 44px;
+    font-size: 12px;
+  }
+
+  .video-sound svg {
+    width: 18px;
+    height: 18px;
   }
 }
