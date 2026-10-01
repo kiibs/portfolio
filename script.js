@@ -38,7 +38,7 @@ const translations = {
     dragScroll: "DRAG / SCROLL",
     project0Category: "EDITORIAL / ART DIRECTION",
     project1Category: "3D MODELING",
-    project2Category: "EDITORIAL / PACKAGING",
+    project2Category: "ILLUSTRATION / PACKAGING",
     project3Category: "DIGITAL / ART DIRECTION",
     sectionAbout: "04 — ABOUT",
     humanProcess: "HUMAN / PROCESS",
@@ -85,7 +85,7 @@ const translations = {
     dragScroll: "ARRASTRA / DESLIZA",
     project0Category: "EDITORIAL / DIRECCIÓN DE ARTE",
     project1Category: "MODELADO 3D",
-    project2Category: "EDITORIAL / PACKAGING",
+    project2Category: "ILUSTRACIÓN / PACKAGING",
     project3Category: "DIGITAL / DIRECCIÓN DE ARTE",
     sectionAbout: "04 — SOBRE MÍ",
     humanProcess: "HUMANO / PROCESO",
@@ -157,14 +157,20 @@ const projects = [
   },
   {
     number: "03",
-    title: "ODD OBJECTS",
-    category: "EDITORIAL / PACKAGING",
+    title: "CATA LALATA",
+    category: "ILLUSTRATION / PACKAGING",
     description: {
       en: "A playful editorial and packaging study for objects that refuse to behave normally. The project mixes tactile forms, oversized typography and deliberately awkward compositions.",
       es: "Un estudio editorial y de packaging para objetos que se niegan a comportarse de forma normal. El proyecto mezcla formas táctiles, tipografía sobredimensionada y composiciones deliberadamente extrañas.",
     },
     tags: ["PACKAGING", "EDITORIAL", "TYPE", "ART DIRECTION"],
     visual: "art-c",
+
+    images: [
+      "assets/imgs/catalalata/catalalata-atún.png",
+      "assets/imgs/catalalata/catalalata-mejillones.png",
+      "assets/imgs/catalalata/catalalata-sardinillas.png",
+    ],
   },
   {
     number: "04",
@@ -824,7 +830,6 @@ function renderProject(index) {
     visual.innerHTML = `
       <div class="object">◒</div>
       <div class="obj-type">OBJECTS<br>WITH<br>ATTITUDE</div>
-      <span>ODD / EDITORIAL</span>
     `;
   }
 
