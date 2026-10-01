@@ -39,7 +39,7 @@ const translations = {
     project0Category: "EDITORIAL / ART DIRECTION",
     project1Category: "3D MODELING",
     project2Category: "ILLUSTRATION / PACKAGING",
-    project3Category: "DIGITAL / ART DIRECTION",
+    project3Category: "3D ANIMATION / ART DIRECTION",
     sectionAbout: "04 — ABOUT",
     humanProcess: "HUMAN / PROCESS",
     sectionContact: "05 — CONTACT",
@@ -86,7 +86,7 @@ const translations = {
     project0Category: "EDITORIAL / DIRECCIÓN DE ARTE",
     project1Category: "MODELADO 3D",
     project2Category: "ILUSTRACIÓN / PACKAGING",
-    project3Category: "DIGITAL / DIRECCIÓN DE ARTE",
+    project3Category: "ANIMACIÓN 3D / DIRECCIÓN DE ARTE",
     sectionAbout: "04 — SOBRE MÍ",
     humanProcess: "HUMANO / PROCESO",
     sectionContact: "05 — CONTACTO",
@@ -127,8 +127,8 @@ const projects = [
     title: "HALFWAY",
     category: "EDITORIAL / ART DIRECTION",
     description: {
-      en: "An editorial design project exploring the concept of unfinished ideas, stories and possibilities through a conceptual magazine. The publication combines research, art direction, editorial design and visual storytelling, bringing together topics ranging from unfinished artworks and abandoned inventions to scientific theories, dreams and unexplained phenomena. Developed as a team project, the magazine was collaboratively researched, conceptualized and designed, resulting in a cohesive visual identity built around the idea of leaving things open to interpretation.",
-      es: "Proyecto de diseño editorial que explora el concepto de las ideas, historias y posibilidades inacabadas a través de una revista conceptual. La publicación combina investigación, dirección de arte, diseño editorial y narrativa visual, abordando temas que van desde obras de arte inacabadas e inventos abandonados hasta teorías científicas, sueños y fenómenos inexplicados. Desarrollado como trabajo en equipo, el proyecto fue investigado, conceptualizado y diseñado de forma colaborativa, creando una identidad visual cohesionada en torno a la idea de dejar espacio para la interpretación.",
+      en: "An editorial design project exploring the concept of unfinished ideas, stories and possibilities through a conceptual magazine. \n\n The publication combines research, art direction, editorial design and visual storytelling, bringing together topics ranging from unfinished artworks and abandoned inventions to scientific theories, dreams and unexplained phenomena.  \n\n Developed as a team project, the magazine was collaboratively researched, conceptualized and designed, resulting in a cohesive visual identity built around the idea of leaving things open to interpretation.",
+      es: "Proyecto de diseño editorial que explora el concepto de las ideas, historias y posibilidades inacabadas a través de una revista conceptual. \n\n La publicación combina investigación, dirección de arte, diseño editorial y narrativa visual, abordando temas que van desde obras de arte inacabadas e inventos abandonados hasta teorías científicas, sueños y fenómenos inexplicados.  \n\n Desarrollado como trabajo en equipo, el proyecto fue investigado, conceptualizado y diseñado de forma colaborativa, creando una identidad visual cohesionada en torno a la idea de dejar espacio para la interpretación.",
     },
     tags: ["EDITORIAL", "ART DIRECTION", "TYPOGRAPHY", "INDESIGN"],
     visual: "art-a",
@@ -139,9 +139,9 @@ const projects = [
     title: "WINDOW DISPLAY",
     category: "3D MODELING",
     description: {
-      en: "A 3D window display concept for Miniso’s Sanrio collection, developed around a soft and playful Christmas aesthetic. I modelled all visual elements from scratch, including the Sanrio characters, props and custom balloon typography. The window display structure was provided as a base by the professor. The project combines 3D modelling, materials, lighting and colour to create a cohesive and inviting retail environment.",
+      en: "A 3D window display concept for Miniso’s Sanrio collection, developed around a soft and playful Christmas aesthetic. \n\n I modelled all visual elements from scratch, including the Sanrio characters, props and custom balloon typography. The window display structure was provided as a base by the professor. \n\n The project combines 3D modelling, materials, lighting and colour to create a cohesive and inviting retail environment.",
 
-      es: "Concepto de escaparate 3D para la colección de Sanrio de Miniso, desarrollado en torno a una estética navideña suave y lúdica. Modelé desde cero todos los elementos visuales, incluyendo los personajes de Sanrio, los props y la tipografía personalizada con efecto de globos. La estructura del escaparate fue proporcionada por la profesora como base del proyecto. El proyecto combina modelado 3D, materiales, iluminación y color para crear un espacio comercial cohesivo y atractivo.",
+      es: "Concepto de escaparate 3D para la colección de Sanrio de Miniso, desarrollado en torno a una estética navideña suave y lúdica. \n\n Modelé desde cero todos los elementos visuales, incluyendo los personajes de Sanrio, los props y la tipografía personalizada con efecto de globos. La estructura del escaparate fue proporcionada por la profesora como base del proyecto. \n\n El proyecto combina modelado 3D, materiales, iluminación y color para crear un espacio comercial cohesivo y atractivo.",
     },
 
     tags: ["3D", "CINEMA4D"],
@@ -160,10 +160,11 @@ const projects = [
     title: "CATA LALATA",
     category: "ILLUSTRATION / PACKAGING",
     description: {
-      en: "A packaging system created for Cata la Lata, a competition by ANFACO-CECOPESCA focused on promoting the culture and consumption of Spanish seafood preserves. The project reimagines the packaging of three varieties — mussels in escabeche, sardines in olive oil and tuna in olive oil — through a playful illustrated language. Each variety was given its own visual identity while sharing a common system of colour, composition and graphic elements. The result is a collection designed to work as a family, but with enough personality for each can to stand on its own.",
-      es: "Un sistema de packaging creado para Cata la Lata, un concurso de ANFACO-CECOPESCA centrado en promover la cultura y el consumo de conservas de pescado y marisco. El proyecto reinterpreta el packaging de tres variedades — mejillones en escabeche, sardinillas en aceite de oliva y atún claro en aceite de oliva — a través de un lenguaje ilustrado y lúdico. Cada variedad desarrolla su propia identidad visual, manteniendo un sistema común de color, composición y elementos gráficos. El resultado es una colección pensada para funcionar como una familia, pero con suficiente personalidad para que cada lata pueda destacar por sí misma.",
+      en: "A packaging system created for Cata la Lata, a competition by ANFACO-CECOPESCA focused on promoting the culture and consumption of Spanish seafood preserves.\n\nThe project reimagines the packaging of three varieties: mussels in escabeche, sardines in olive oil and tuna in olive oil.\n\nEach variety was given its own visual identity while sharing a common system of colour, composition and graphic elements.\n\nThe result is a collection designed to work as a family, but with enough personality for each can to stand on its own.",
+
+      es: "Un sistema de packaging creado para Cata la Lata, un concurso de ANFACO-CECOPESCA centrado en promover la cultura y el consumo de conservas de pescado y marisco.\n\nEl proyecto reinterpreta el packaging de tres variedades: mejillones en escabeche, sardinillas en aceite de oliva y atún claro en aceite de oliva.\n\nCada variedad desarrolla su propia identidad visual, manteniendo un sistema común de color, composición y elementos gráficos.\n\nEl resultado es una colección pensada para funcionar como una familia, pero con suficiente personalidad para que cada lata pueda destacar por sí misma.",
     },
-    tags: ["PACKAGING", "EDITORIAL", "TYPE", "ART DIRECTION"],
+    tags: ["ILLUSTRATION", "PACKAGING"],
     visual: "art-c",
 
     images: [
@@ -174,16 +175,30 @@ const projects = [
   },
   {
     number: "04",
-    title: "STATIC FM",
-    category: "DIGITAL / ART DIRECTION",
+    title: "PERFUME AD",
+    category: "3D ANIMATION / ART DIRECTION",
     description: {
-      en: "A digital identity inspired by radio interference, analogue equipment and visual noise. Static FM turns imperfection into a recognisable graphic system.",
-      es: "Una identidad digital inspirada en interferencias de radio, equipos analógicos y ruido visual. Static FM convierte la imperfección en un sistema gráfico reconocible.",
+      en: "A 3D animation and art direction study inspired by the visual language of luxury perfume advertising. \n\n The piece explores elegance and sophistication through a minimal composition, using a perfume bottle as its central element. Smooth camera movements, carefully controlled lighting and refined material treatment work together to create a sense of calm, exclusivity and luxury. \n\n The project grew from research into high-end fragrance campaigns and explores how light, movement and composition can transform a product into a visual experience.",
+      es: "Un estudio de dirección de arte y animación 3D inspirado en el lenguaje visual de la publicidad de perfumería de lujo. \n\n La pieza explora la elegancia y la sofisticación a través de una composición minimalista, utilizando un frasco de perfume como elemento central. Los movimientos de cámara suaves, la iluminación cuidadosamente controlada y el tratamiento de los materiales buscan crear una atmósfera refinada y transmitir una sensación de calma, exclusividad y lujo. \n\n El proyecto nace de la investigación de campañas de perfumería de alta gama y explora cómo la luz, el movimiento y la composición pueden transformar un producto en una experiencia visual.",
     },
-    tags: ["DIGITAL", "IDENTITY", "ART DIRECTION", "UI"],
+    tags: ["CINEMA4D", "VIDEO EDITING", "ART DIRECTION"],
     visual: "art-d",
 
     video: "assets/videos/video_channel_musica.mp4",
+  },
+  {
+    number: "05",
+    title: "BOTANICAL NOTES",
+    category: "DIGITAL / PACKAGING / 3D",
+    description: {
+      en: "A packaging system created for Cata la Lata, a competition by ANFACO-CECOPESCA focused on promoting the culture and consumption of Spanish seafood preserves.\n\nThe project reimagines the packaging of three varieties: mussels in escabeche, sardines in olive oil and tuna in olive oil.\n\nEach variety was given its own visual identity while sharing a common system of colour, composition and graphic elements.\n\nThe result is a collection designed to work as a family, but with enough personality for each can to stand on its own.",
+
+      es: "Un sistema de packaging creado para Cata la Lata, un concurso de ANFACO-CECOPESCA centrado en promover la cultura y el consumo de conservas de pescado y marisco.\n\nEl proyecto reinterpreta el packaging de tres variedades: mejillones en escabeche, sardinillas en aceite de oliva y atún claro en aceite de oliva.\n\nCada variedad desarrolla su propia identidad visual, manteniendo un sistema común de color, composición y elementos gráficos.\n\nEl resultado es una colección pensada para funcionar como una familia, pero con suficiente personalidad para que cada lata pueda destacar por sí misma.",
+    },
+    tags: ["DIGITAL", "PACKAGING"],
+    visual: "art-e",
+
+    images: ["assets/imgs/café/Product_Shot", "assets/imgs/café/Product_Shot1"],
   },
 ];
 
@@ -830,22 +845,39 @@ function renderProject(index) {
             preload="metadata"
           ></video>
         
-          <button
-            class="video-play"
-            type="button"
-            aria-label="Pausar vídeo"
-          >
-            ❚❚
-          </button>
+          <div class="video-controls">
+            <button
+              class="video-play"
+              type="button"
+              aria-label="Pausar vídeo"
+            >
+              ❚❚
+            </button>
         
-          <button
-            class="video-sound"
-            type="button"
-            aria-label="Activar sonido"
-            aria-pressed="false"
-          >
-            🔇
-          </button>
+            <button
+              class="video-sound"
+              type="button"
+              aria-label="Activar sonido"
+              aria-pressed="false"
+            >
+              <span class="volume-icon volume-off">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M4 9v6h4l5 4V5L8 9H4z"></path>
+                  <path d="M17 9l4 6"></path>
+                  <path d="M21 9l-4 6"></path>
+                </svg>
+              </span>
+        
+              <span class="volume-icon volume-on">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M4 9v6h4l5 4V5L8 9H4z"></path>
+                  <path d="M17 9a5 5 0 0 1 0 6"></path>
+                  <path d="M19.5 6.5a9 9 0 0 1 0 11"></path>
+                </svg>
+              </span>
+            </button>
+          </div>
+        </div>
         </div>
           `
           : ""
@@ -877,6 +909,25 @@ function renderProject(index) {
         });
       }
 
+      // CLICK DIRECTAMENTE SOBRE EL VÍDEO
+      video.addEventListener("click", () => {
+        if (video.paused) {
+          video.play();
+
+          if (playButton) {
+            playButton.textContent = "❚❚";
+            playButton.setAttribute("aria-label", "Pausar vídeo");
+          }
+        } else {
+          video.pause();
+
+          if (playButton) {
+            playButton.textContent = "▶";
+            playButton.setAttribute("aria-label", "Reproducir vídeo");
+          }
+        }
+      });
+
       // SONIDO
       if (soundButton) {
         soundButton.addEventListener("click", (event) => {
@@ -884,29 +935,19 @@ function renderProject(index) {
 
           video.muted = !video.muted;
 
-          soundButton.textContent = video.muted ? "🔇" : "🔊";
-
           soundButton.setAttribute(
             "aria-label",
             video.muted ? "Activar sonido" : "Desactivar sonido"
           );
 
           soundButton.setAttribute("aria-pressed", String(!video.muted));
+
+          soundButton.classList.toggle("is-muted", video.muted);
         });
       }
     }
     return;
   }
-
-  video.addEventListener("click", () => {
-    if (video.paused) {
-      video.play();
-      playButton.textContent = "❚❚";
-    } else {
-      video.pause();
-      playButton.textContent = "▶";
-    }
-  });
 
   const visual = document.createElement("div");
   visual.className = `modal-art ${project.visual}`;

@@ -1063,6 +1063,54 @@ section {
 }
 
 /* =========================================================
+   PROJECT e
+========================================================= */
+
+.art-e {
+  background: #5b63ff;
+
+  color: #f7f3eb;
+}
+
+.object {
+  position: absolute;
+
+  width: 48%;
+
+  aspect-ratio: 1;
+
+  left: 25%;
+  top: 18%;
+
+  display: grid;
+
+  place-items: center;
+
+  font-size: clamp(100px, 18vw, 250px);
+
+  border: 1px solid rgba(255, 255, 255, 0.5);
+
+  border-radius: 50%;
+
+  animation: objectFloat 5s ease-in-out infinite;
+}
+
+.obj-type {
+  position: absolute;
+
+  left: 20px;
+  top: 20px;
+
+  font: 10px "DM Mono";
+}
+
+@keyframes objectFloat {
+  50% {
+    transform: translateY(-15px) rotate(8deg);
+  }
+}
+
+/* =========================================================
    INTERLUDE
 ========================================================= */
 
@@ -1516,8 +1564,8 @@ footer {
   display: grid;
 
   grid-template-columns:
-    minmax(0, 1.6fr)
-    minmax(0, 0.9fr);
+    minmax(0, 1.5fr)
+    minmax(0, 1fr);
 
   gap: 50px;
 
@@ -1574,7 +1622,7 @@ footer {
 .modal-copy p {
   width: 100%;
   max-width: 420px;
-
+  white-space: pre-line;
   margin: 0;
 
   font-size: 15px;
@@ -2050,74 +2098,115 @@ footer {
   background: #fff;
 }
 
-/* =========================
+/* =========================================================
    PROJECT VIDEO
-   ========================= */
+   ========================================================= */
 
 .video-wrapper {
-  position: relative;
   width: 100%;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 }
 
 .video-wrapper video {
   display: block;
   width: auto;
   max-width: 100%;
-  max-height: 65vh;
+  max-height: 72vh;
   height: auto;
+  cursor: pointer;
 }
 
-/* BOTONES DEL VÍDEO */
+/* =========================================================
+     VIDEO CONTROLS
+     ========================================================= */
+
+.video-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  margin-top: 12px;
+}
+
+/* Ambos botones */
 
 .video-play,
 .video-sound {
-  position: absolute;
-
-  bottom: 14px;
-
-  width: 38px;
-  height: 38px;
+  width: 34px;
+  height: 34px;
 
   padding: 0;
 
-  border: 0;
+  border: 1px solid var(--line);
   border-radius: 50%;
 
-  background: rgba(0, 0, 0, 0.65);
-  color: white;
+  background: var(--bg);
+  color: var(--fg);
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  font-size: 14px;
+  font-family: "DM Mono";
+  font-size: 10px;
   line-height: 1;
 
   cursor: pointer;
 
-  z-index: 10;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease,
+    transform 0.2s ease;
 
   -webkit-tap-highlight-color: transparent;
 }
 
-/* PLAY / PAUSE — izquierda */
+/* Icono de volumen */
 
-.video-play {
-  left: 14px;
+.video-sound svg {
+  width: 15px;
+  height: 15px;
+
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
-/* SONIDO — derecha */
+/* Estado inicial: sonido apagado */
 
-.video-sound {
-  right: 14px;
+.volume-on {
+  display: none;
 }
+
+.volume-off {
+  display: block;
+}
+
+/* Cuando hay sonido */
+
+.video-sound:not(.is-muted) .volume-off {
+  display: none;
+}
+
+.video-sound:not(.is-muted) .volume-on {
+  display: block;
+}
+
+/* Hover */
 
 .video-play:hover,
 .video-sound:hover {
-  background: rgba(0, 0, 0, 0.8);
+  background: var(--fg);
+  color: var(--bg);
+  border-color: var(--fg);
+
+  transform: scale(1.06);
 }
+
+/* Click */
 
 .video-play:active,
 .video-sound:active {
@@ -2210,6 +2299,11 @@ body.menu-open .menu-close {
 
   .project {
     width: min(82vw, 520px);
+  }
+
+  .video-wrapper video {
+    max-height: 76svh;
+    max-width: 100%;
   }
 
   .hero-title {
